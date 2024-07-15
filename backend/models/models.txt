@@ -1,0 +1,15 @@
+task props:
+tasName:string,
+taskId:uuid,
+priority:[high,low,neutral],
+completed:[true, false],
+date time : string,
+
+
+
+universal props:
+xp:int,
+level:int
+completedTasks:int,
+totalTasks:int,
+failedTasks:int
