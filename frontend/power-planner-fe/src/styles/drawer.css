@@ -1,0 +1,12 @@
+
+
+.add-task-modal{
+    width: 108%;
+    border: 1px solid red;
+    margin-left: 15px;
+}
+
+#add-task-input{
+    padding: 5px;
+    border-radius: 5px;
+}
