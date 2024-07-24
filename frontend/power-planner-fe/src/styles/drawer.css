@@ -1,12 +1,23 @@
-
-
-.add-task-modal{
+.add-task-modal {
     width: 108%;
     border: 1px solid red;
     margin-left: 15px;
 }
 
-#add-task-input{
+#add-task-input {
     padding: 5px;
     border-radius: 5px;
+}
+
+.task-category-div select {
+    margin-top: 24px;
+    border: 1px solid black;
+}
+
+#add-task-input {
+    border: 1px solid black;
+}
+
+#task-date {
+    border: 1px solid black;
 }
