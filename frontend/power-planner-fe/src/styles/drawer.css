@@ -1,7 +1,9 @@
 .add-task-modal {
-    width: 108%;
-    border: 1px solid red;
-    margin-left: 15px;
+    width: 100%;
+    /* border: 1px solid red; */
+    /* margin-left: 15px; */
+    height: 60vh;
+
 }
 
 #add-task-input {
@@ -20,4 +22,9 @@
 
 #task-date {
     border: 1px solid black;
+}
+
+#save-cancel-task{
+    position: absolute;
+    bottom: 15px;
 }
