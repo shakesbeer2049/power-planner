@@ -1,10 +1,16 @@
 import "../styles/drawer.css";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import Select from "react-select";
+import { weekDays } from "../utils/weekdays";
 
 const Drawer = () => {
+  // Add Task Handler
   const addTaskHandler = () => {
     console.log("add tasks");
   };
 
+  // Route to tasks
   const routeToTasks = (taskCategory) => {};
 
   return (
@@ -49,13 +55,29 @@ const Drawer = () => {
                     placeholder="Add a Task"
                   />
                   {/* Task Attributes */}
-                  <div className="task-category">
-                    <select name="task-category" id="task-category" className="border-black-500">
+                  <div className="task-category-div">
+                    {/* choose category */}
+                    <select
+                      name="task-category"
+                      id="task-category"
+                      className="border-black-500"
+                    >
                       <option>Category</option>
                       <option>Health</option>
                       <option>Wealth</option>
                       <option>Knowledge</option>
                     </select>
+
+                    {/* date selection */}
+                    {/* <Calendar /> */}
+                    <input type="date" name="task-date" id="task-date" />
+
+                    <Select
+                      options={weekDays}
+                      isMulti
+                      placeholder="Repeats on"
+                      style={{ "z-index": 5 }}
+                    />
                   </div>
                   <div className="modal-action">
                     <form method="dialog">
