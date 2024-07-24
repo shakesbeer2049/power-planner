@@ -1,17 +1,45 @@
 import "../styles/drawer.css";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
 import Select from "react-select";
 import { weekDays } from "../utils/weekdays";
-
+import { useState } from "react";
 const Drawer = () => {
+
+  const [taskCategory, setTaskCategory] = useState("");
+  const [taskRepeatsOn, setTaskRepeatsOn] = useState(null);
+  const [taskName, setTaskName] = useState("");
+
+//handle task input
+const handleTaskInput = (e) => {
+  setTaskName(e.target.value);
+}
+
   // Add Task Handler
   const addTaskHandler = () => {
     console.log("add tasks");
+    const repeatsOn = taskRepeatsOn?.map(repeat => repeat.value);
+
+    let taskObj = {
+      taskName : taskName,
+      taskCategory:taskCategory,
+      taskRepeatsOn : repeatsOn
+    }
+
+    console.log(taskObj)
   };
+
+  // task repeats on handler
+  const taskRepeatsOnHandler = (e) => {
+    setTaskRepeatsOn(e);
+  }
 
   // Route to tasks
   const routeToTasks = (taskCategory) => {};
+
+  // Handle Task Category
+  const taskCategoryHandler = (e) => {
+    // console.log(e.target.value)
+    setTaskCategory(e.target.value)
+  }
 
   return (
     <>
@@ -46,13 +74,14 @@ const Drawer = () => {
               </button>
               <dialog id="my_modal_1" className="modal">
                 <div className="modal-box add-task-modal">
-                  <h3 className="font-bold text-lg">Add Task</h3>
+                  <h3 className="font-bold text-xl text-center">Add Task</h3>
                   {/* Task input */}
                   <input
                     type="text"
                     name="add-task-input"
                     id="add-task-input"
                     placeholder="Add a Task"
+                    onChange={handleTaskInput}
                   />
                   {/* Task Attributes */}
                   <div className="task-category-div">
@@ -60,7 +89,8 @@ const Drawer = () => {
                     <select
                       name="task-category"
                       id="task-category"
-                      className="border-black-500"
+                      className="border-black-500 mb-3"
+                      onChange={taskCategoryHandler}
                     >
                       <option>Category</option>
                       <option>Health</option>
@@ -69,18 +99,21 @@ const Drawer = () => {
                     </select>
 
                     {/* date selection */}
-                    {/* <Calendar /> */}
-                    <input type="date" name="task-date" id="task-date" />
+                    {/* <input type="date" name="task-date" id="task-date" /> */}
 
                     <Select
                       options={weekDays}
                       isMulti
+                      closeMenuOnSelect = {false}
+                      hideSelectedOptions = {false}
+                      allowSelectAll = {true}
                       placeholder="Repeats on"
                       style={{ "z-index": 5 }}
+                      onChange={taskRepeatsOnHandler}
                     />
                   </div>
                   <div className="modal-action">
-                    <form method="dialog">
+                    <form method="dialog" id="save-cancel-task">
                       {/* if there is a button in form, it will close the modal */}
                       <span className="btn btn-primary text-white mr-5">
                         Save
