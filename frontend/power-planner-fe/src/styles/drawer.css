@@ -24,7 +24,21 @@
     border: 1px solid black;
 }
 
-#save-cancel-task{
+#save-cancel-task {
     position: absolute;
     bottom: 15px;
+}
+
+#side-menu-toggle {
+    position: absolute;
+    left: 11px;
+    top: 13px;
+    font-size: 51px;
+
+}
+
+.xp-bar {
+    position: absolute;
+    right: 11px;
+    top: 13px;
 }

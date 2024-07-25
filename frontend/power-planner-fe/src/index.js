@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import "./styles/index.css";
 import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import DailyTasks from "./components/DailyTasks";
+import TasksToday from "./components/TasksToday";
 import WeeklyTasks from "./components/WeeklyTasks";
 const router = createBrowserRouter([
   {
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/daily",
-    element: <DailyTasks />,
+    element: <TasksToday />,
   },
   {
     path: "/weekly",
