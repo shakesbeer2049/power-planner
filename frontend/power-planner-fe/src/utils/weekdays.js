@@ -7,3 +7,17 @@ export const weekDays = [
   { value: "Saturday", label: "Sat" },
   { value: "Sunday", label: "Sun" },
 ];
+
+export const getToday = () => {
+  const dayOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const today = dayOfWeek[new Date().getDay()];
+  return today;
+};

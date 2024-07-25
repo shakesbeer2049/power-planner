@@ -1,0 +1,78 @@
+{
+    "tasks": [
+        {
+            "id": "12345",
+            "taskName": "Go to gym",
+            "category": "health",
+            "repeatsOn": [
+                "Monday",
+                "Wednesday"
+            ]
+        },
+        {
+            "id": "12445",
+            "taskName": "Study DSA",
+            "category": "knowledge",
+            "repeatsOn": [
+                "Monday",
+                "Tuesday"
+            ]
+        },
+        {
+            "id": "12355",
+            "taskName": "Work on project",
+            "category": "wealth",
+            "repeatsOn": [
+                "Thursday",
+                "Friday"
+            ]
+        },
+        {
+            "id": "dkcAG_3MdralyVE1wl3Fc",
+            "taskName": "Buy a new Car",
+            "taskCategory": "Wealth"
+        },
+        {
+            "id": "O30Sv9ssgFJnk2NB5nJ_n",
+            "taskName": "Buy a new Car",
+            "taskCategory": "Wealth"
+        },
+        {
+            "id": "obLj70kf5PTFf0wv4OJzP",
+            "taskName": "Buy a new Car",
+            "taskCategory": "Wealth",
+            "repeatsOn": [
+                "Tuesday",
+                "Thursday"
+            ]
+        },
+        {
+            "id": "dB40zrc1FoIGHfzY8bYoo",
+            "taskName": "Buy a new Car",
+            "taskCategory": "Wealth",
+            "repeatsOn": [
+                "Tuesday",
+                "Wednesday"
+            ]
+        },
+        {
+            "id": "ygxXfOTHCDWtQJ8r2DJRU",
+            "taskName": "Buy a new Car",
+            "taskCategory": "Wealth",
+            "repeatsOn": [
+                "Tuesday",
+                "Wednesday",
+                "Thursday"
+            ]
+        },
+        {
+            "id": "frOBLID0xSPCSCeGBSqVa",
+            "taskName": "Work on problem solving skills",
+            "taskCategory": "Wealth",
+            "repeatsOn": [
+                "Tuesday",
+                "Wednesday"
+            ]
+        }
+    ]
+}
