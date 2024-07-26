@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getToday } from "../utils/weekdays";
 import "../styles/tasksToday.css";
-const TasksToday = ({ taskList }) => {
+const TasksToday = ({ taskList, weekDay }) => {
   const [tasksToday, setTasksToday] = useState({
     health: [],
     wealth: [],
@@ -9,10 +9,8 @@ const TasksToday = ({ taskList }) => {
   });
 
   const makeTaskList = () => {
-    const today = getToday();
-    console.log("today", today);
     const tasksToday = taskList.filter((task) =>
-      task?.taskRepeatsOn?.includes(today)
+      task?.taskRepeatsOn?.includes(weekDay)
     );
     const healthTasks = tasksToday.filter(
       (task) => task?.taskCategory == "health"
@@ -42,7 +40,7 @@ const TasksToday = ({ taskList }) => {
 
   return (
     <div className="tasks-today text-left mt-16 ml-8">
-      <h1 className="text-3xl font-bold text-center">FOCUS ON TODAY</h1>
+      <h1 className="text-3xl font-bold text-center">{weekDay}</h1>
 
       <h2 className="text-2xl font-bold">Health</h2>
       <div className="tasks">

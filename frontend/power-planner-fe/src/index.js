@@ -16,7 +16,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/weekly",
-    element: <WeeklyTasks />,
+    element: <WeeklyTasks taskList={taskList} />,
   },
 ]);
 
