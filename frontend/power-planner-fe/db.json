@@ -1,77 +1,480 @@
 {
     "tasks": [
         {
-            "id": "12345",
-            "taskName": "Go to gym",
-            "category": "health",
-            "repeatsOn": [
-                "Monday",
-                "Wednesday"
-            ]
-        },
-        {
-            "id": "12445",
-            "taskName": "Study DSA",
-            "category": "knowledge",
-            "repeatsOn": [
-                "Monday",
-                "Tuesday"
-            ]
-        },
-        {
-            "id": "12355",
-            "taskName": "Work on project",
-            "category": "wealth",
-            "repeatsOn": [
-                "Thursday",
-                "Friday"
-            ]
-        },
-        {
-            "id": "dkcAG_3MdralyVE1wl3Fc",
-            "taskName": "Buy a new Car",
-            "taskCategory": "Wealth"
-        },
-        {
-            "id": "O30Sv9ssgFJnk2NB5nJ_n",
-            "taskName": "Buy a new Car",
-            "taskCategory": "Wealth"
-        },
-        {
-            "id": "obLj70kf5PTFf0wv4OJzP",
-            "taskName": "Buy a new Car",
-            "taskCategory": "Wealth",
-            "repeatsOn": [
-                "Tuesday",
+            "id": 12439,
+            "taskName": "faucibus cursus urna ut tellus nulla ut",
+            "isCompleted": false,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
                 "Thursday"
             ]
         },
         {
-            "id": "dB40zrc1FoIGHfzY8bYoo",
-            "taskName": "Buy a new Car",
-            "taskCategory": "Wealth",
-            "repeatsOn": [
+            "id": 12427,
+            "taskName": "ut rhoncus aliquet",
+            "isCompleted": true,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
+                "Sunday"
+            ]
+        },
+        {
+            "id": 12383,
+            "taskName": "lobortis convallis tortor risus dapibus augue",
+            "isCompleted": false,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
                 "Tuesday",
+                "Friday"
+            ]
+        },
+        {
+            "id": 12438,
+            "taskName": "orci vehicula condimentum curabitur in libero",
+            "isCompleted": false,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Sunday",
+                "Monday"
+            ]
+        },
+        {
+            "id": 12400,
+            "taskName": "aenean auctor gravida sem praesent",
+            "isCompleted": true,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Wednesday",
+                "Sunday"
+            ]
+        },
+        {
+            "id": 12409,
+            "taskName": "platea dictumst morbi vestibulum velit id",
+            "isCompleted": true,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Monday"
+            ]
+        },
+        {
+            "id": 12366,
+            "taskName": "justo morbi ut odio cras",
+            "isCompleted": true,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Wednesday",
+                "Saturday"
+            ]
+        },
+        {
+            "id": 12444,
+            "taskName": "ridiculus mus vivamus vestibulum sagittis sapien cum",
+            "isCompleted": true,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
+                "Sunday",
+                "Monday"
+            ]
+        },
+        {
+            "id": 12407,
+            "taskName": "bibendum felis sed interdum",
+            "isCompleted": false,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Saturday",
+                "Tuesday"
+            ]
+        },
+        {
+            "id": 12379,
+            "taskName": "ultrices phasellus id",
+            "isCompleted": false,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Sunday",
                 "Wednesday"
             ]
         },
         {
-            "id": "ygxXfOTHCDWtQJ8r2DJRU",
-            "taskName": "Buy a new Car",
-            "taskCategory": "Wealth",
-            "repeatsOn": [
-                "Tuesday",
+            "id": 12379,
+            "taskName": "natoque penatibus et magnis dis parturient",
+            "isCompleted": true,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Thursday",
+                "Sunday"
+            ]
+        },
+        {
+            "id": 12405,
+            "taskName": "nisl ut volutpat sapien",
+            "isCompleted": true,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Friday"
+            ]
+        },
+        {
+            "id": 12388,
+            "taskName": "nisi nam ultrices libero non mattis pulvinar",
+            "isCompleted": false,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Saturday"
+            ]
+        },
+        {
+            "id": 12384,
+            "taskName": "mattis nibh ligula nec sem",
+            "isCompleted": false,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
+                "Wednesday",
+                "Monday"
+            ]
+        },
+        {
+            "id": 12416,
+            "taskName": "magna at nunc commodo",
+            "isCompleted": true,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Monday"
+            ]
+        },
+        {
+            "id": 12394,
+            "taskName": "porttitor pede justo eu massa donec dapibus",
+            "isCompleted": false,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Sunday"
+            ]
+        },
+        {
+            "id": 12377,
+            "taskName": "lacus morbi quis tortor id nulla ultrices",
+            "isCompleted": true,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Saturday",
+                "Tuesday"
+            ]
+        },
+        {
+            "id": 12399,
+            "taskName": "vel enim sit amet nunc viverra",
+            "isCompleted": true,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Saturday"
+            ]
+        },
+        {
+            "id": 12368,
+            "taskName": "neque aenean auctor gravida sem praesent id",
+            "isCompleted": false,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Sunday",
+                "Monday"
+            ]
+        },
+        {
+            "id": 12441,
+            "taskName": "ullamcorper purus sit",
+            "isCompleted": false,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Saturday",
+                "Thursday"
+            ]
+        },
+        {
+            "id": 12403,
+            "taskName": "primis in faucibus orci luctus et ultrices",
+            "isCompleted": false,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
+                "Monday",
+                "Saturday"
+            ]
+        },
+        {
+            "id": 12364,
+            "taskName": "ac est lacinia nisi venenatis",
+            "isCompleted": true,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Wednesday",
+                "Friday"
+            ]
+        },
+        {
+            "id": 12346,
+            "taskName": "nam tristique tortor eu pede",
+            "isCompleted": true,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Thursday"
+            ]
+        },
+        {
+            "id": 12362,
+            "taskName": "lacinia sapien quis libero nullam sit",
+            "isCompleted": false,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Sunday"
+            ]
+        },
+        {
+            "id": 12391,
+            "taskName": "bibendum felis sed interdum",
+            "isCompleted": true,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Wednesday"
+            ]
+        },
+        {
+            "id": 12365,
+            "taskName": "nec nisi volutpat eleifend donec ut",
+            "isCompleted": true,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Monday"
+            ]
+        },
+        {
+            "id": 12365,
+            "taskName": "convallis nulla neque",
+            "isCompleted": false,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Saturday"
+            ]
+        },
+        {
+            "id": 12438,
+            "taskName": "in blandit ultrices enim lorem",
+            "isCompleted": false,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
+                "Tuesday"
+            ]
+        },
+        {
+            "id": 12404,
+            "taskName": "convallis eget eleifend luctus",
+            "isCompleted": true,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
+                "Wednesday"
+            ]
+        },
+        {
+            "id": 12424,
+            "taskName": "pretium quis lectus suspendisse potenti in",
+            "isCompleted": true,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Wednesday",
+                "Tuesday"
+            ]
+        },
+        {
+            "id": 12389,
+            "taskName": "tortor risus dapibus augue vel accumsan tellus",
+            "isCompleted": false,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Friday",
+                "Wednesday"
+            ]
+        },
+        {
+            "id": 12349,
+            "taskName": "imperdiet nullam orci",
+            "isCompleted": false,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
                 "Wednesday",
                 "Thursday"
             ]
         },
         {
-            "id": "frOBLID0xSPCSCeGBSqVa",
-            "taskName": "Work on problem solving skills",
-            "taskCategory": "Wealth",
-            "repeatsOn": [
-                "Tuesday",
+            "id": 12444,
+            "taskName": "tellus nulla ut erat id",
+            "isCompleted": true,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
+                "Thursday",
                 "Wednesday"
+            ]
+        },
+        {
+            "id": 12366,
+            "taskName": "curabitur at ipsum ac tellus",
+            "isCompleted": false,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
+                "Tuesday"
+            ]
+        },
+        {
+            "id": 12370,
+            "taskName": "aliquam non mauris",
+            "isCompleted": false,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Wednesday",
+                "Saturday"
+            ]
+        },
+        {
+            "id": 12430,
+            "taskName": "tellus nulla ut erat id mauris vulputate",
+            "isCompleted": false,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Saturday"
+            ]
+        },
+        {
+            "id": 12414,
+            "taskName": "ut nunc vestibulum ante ipsum primis in",
+            "isCompleted": false,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Wednesday",
+                "Friday"
+            ]
+        },
+        {
+            "id": 12362,
+            "taskName": "tincidunt eu felis fusce posuere",
+            "isCompleted": true,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Thursday",
+                "Saturday"
+            ]
+        },
+        {
+            "id": 12393,
+            "taskName": "vestibulum proin eu mi",
+            "isCompleted": false,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Friday",
+                "Thursday"
+            ]
+        },
+        {
+            "id": 12383,
+            "taskName": "scelerisque quam turpis adipiscing",
+            "isCompleted": true,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Monday"
+            ]
+        },
+        {
+            "id": 12437,
+            "taskName": "ac leo pellentesque ultrices",
+            "isCompleted": false,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
+                "Saturday"
+            ]
+        },
+        {
+            "id": 12422,
+            "taskName": "erat id mauris vulputate elementum nullam",
+            "isCompleted": true,
+            "taskCategory": "knowledge",
+            "taskRepeatsOn": [
+                "Wednesday",
+                "Friday"
+            ]
+        },
+        {
+            "id": 12444,
+            "taskName": "proin leo odio",
+            "isCompleted": true,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Sunday",
+                "Monday"
+            ]
+        },
+        {
+            "id": 12439,
+            "taskName": "amet turpis elementum ligula vehicula",
+            "isCompleted": false,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
+                "Wednesday"
+            ]
+        },
+        {
+            "id": 12379,
+            "taskName": "tristique in tempus sit amet sem fusce",
+            "isCompleted": true,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Thursday",
+                "Monday"
+            ]
+        },
+        {
+            "id": 12389,
+            "taskName": "ridiculus mus etiam vel augue",
+            "isCompleted": false,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Monday"
+            ]
+        },
+        {
+            "id": 12357,
+            "taskName": "nulla sed vel enim",
+            "isCompleted": true,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
+                "Wednesday"
+            ]
+        },
+        {
+            "id": 12426,
+            "taskName": "lobortis est phasellus sit amet erat",
+            "isCompleted": true,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
+                "Saturday"
+            ]
+        },
+        {
+            "id": 12372,
+            "taskName": "magnis dis parturient",
+            "isCompleted": true,
+            "taskCategory": "wealth",
+            "taskRepeatsOn": [
+                "Saturday",
+                "Tuesday"
+            ]
+        },
+        {
+            "id": 12411,
+            "taskName": "libero nam dui proin leo",
+            "isCompleted": true,
+            "taskCategory": "health",
+            "taskRepeatsOn": [
+                "Thursday",
+                "Sunday"
             ]
         }
     ]

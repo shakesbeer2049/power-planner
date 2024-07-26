@@ -166,7 +166,7 @@ const Drawer = () => {
               </dialog>
             </li>
             <li onClick={() => routeToTasks("weekly")}>
-              <a>Weekly</a>
+              <a href={`/weekly`}>Weekly</a>
             </li>
             <li onClick={() => routeToTasks("monthly")}>
               <a>Monthly</a>
