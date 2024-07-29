@@ -1,7 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getToday } from "../utils/weekdays";
 import "../styles/tasksToday.css";
-const TasksToday = ({ taskList }) => {
+import TaskContext from "../context/TaskContext";
+import * as taskService from "../utils/taskService";
+import { IoTrashBin } from "react-icons/io5";
+import DeleteTaskModal from "./DeleteTaskModal";
+const TasksToday = ({}) => {
+  const { taskList, setTaskList, handleTaskUpdate } = useContext(TaskContext);
   const [tasksToday, setTasksToday] = useState({
     health: [],
     wealth: [],
@@ -10,7 +15,6 @@ const TasksToday = ({ taskList }) => {
 
   const makeTaskList = () => {
     const today = getToday();
-    console.log("today", today);
     const tasksToday = taskList.filter((task) =>
       task?.taskRepeatsOn?.includes(today)
     );
@@ -24,10 +28,6 @@ const TasksToday = ({ taskList }) => {
       (task) => task?.taskCategory == "knowledge"
     );
 
-    console.log("tasksToday", tasksToday);
-    console.log("healthTasks", healthTasks);
-    console.log("wealthTasks", wealthTasks);
-
     setTasksToday({
       health: healthTasks,
       wealth: wealthTasks,
@@ -36,48 +36,92 @@ const TasksToday = ({ taskList }) => {
   };
 
   useEffect(() => {
-    console.log("taskList in useEffect", taskList);
-    if (taskList.length > 0) makeTaskList();
+    // console.log("taskList in useEffect", taskList);
+    if (taskList?.length > 0) makeTaskList();
   }, [taskList]);
 
   return (
     <div className="tasks-today text-left mt-16 ml-8">
       <h1 className="text-3xl font-bold text-center">FOCUS ON TODAY</h1>
 
-      <h2 className="text-2xl font-bold">Health</h2>
+      <h2 className="text-2xl font-bold mb-4">Health</h2>
+
       <div className="tasks">
         {tasksToday.health.map((task) => (
-          <h4 className={task.isCompleted ? "completed" : ""}>
-            {" "}
-            <input type="checkbox" name="task" id="task" /> {task.taskName}
-          </h4>
-        ))}
-      </div>
-      <h2 className="text-2xl font-bold">Knowledge</h2>
-      <div className="tasks">
-        {tasksToday.wealth.map((task) => (
-          <h4 className={task.isCompleted ? "completed" : ""}>
-            {" "}
-            <input type="checkbox" name="task" id="task" /> {task.taskName}
-          </h4>
-        ))}
-      </div>
-
-      <h2 className="text-2xl font-bold">Wealth</h2>
-      <div className="tasks">
-        {tasksToday.knowledge.map((task) => (
-          <h4 className={task.isCompleted ? "completed" : ""}>
-            {" "}
+          <div className="task-h1-input">
+            <DeleteTaskModal task={task} />{" "}
             <input
               type="checkbox"
               checked={task.isCompleted}
+              className="checkbox checkbox-accent"
               name="task"
               id="task"
+              onChange={(e) => {
+                handleTaskUpdate(e, task);
+              }}
             />{" "}
-            {task.taskName}
-          </h4>
+            <h4
+              onClick={(e) => document.getElementById(task.id).showModal()}
+              key={task.id}
+              className={task.isCompleted ? "completed" : ""}
+            >
+              {task.taskName}
+            </h4>
+          </div>
         ))}
       </div>
+      <h2 className="text-2xl font-bold mb-4">Knowledge</h2>
+      <div className="tasks">
+        {tasksToday.wealth.map((task) => (
+          <div className="task-h1-input">
+            <DeleteTaskModal task={task} />{" "}
+            <input
+              type="checkbox"
+              className="checkbox checkbox-accent"
+              checked={task.isCompleted}
+              name="task"
+              // id="task"
+              onChange={(e) => {
+                handleTaskUpdate(e, task);
+              }}
+            />{" "}
+            <h4
+              onClick={(e) => document.getElementById(task.id).showModal()}
+              key={task.id}
+              className={task.isCompleted ? "completed" : ""}
+            >
+              {task.taskName}
+            </h4>
+          </div>
+        ))}
+      </div>
+
+      <h2 className="text-2xl font-bold mb-4">Wealth</h2>
+      <div className="tasks">
+        {tasksToday.knowledge.map((task) => (
+          <div className="task-h1-input">
+            <DeleteTaskModal task={task} />{" "}
+            <input
+              className="checkbox checkbox-accent"
+              type="checkbox"
+              checked={task.isCompleted}
+              name="task"
+              // id="task"
+              onChange={(e) => {
+                handleTaskUpdate(e, task);
+              }}
+            />{" "}
+            <h4
+              onClick={(e) => document.getElementById(task.id).showModal()}
+              key={task.id}
+              className={task.isCompleted ? "completed" : ""}
+            >
+              {task.taskName}
+            </h4>
+          </div>
+        ))}
+      </div>
+      {/* delete task modal */}
     </div>
   );
 };

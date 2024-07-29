@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getToday } from "../utils/weekdays";
 import "../styles/tasksToday.css";
+import { TbMoodEmpty } from "react-icons/tb";
 const TasksToday = ({ taskList, weekDay }) => {
   const [tasksToday, setTasksToday] = useState({
     health: [],
@@ -35,7 +36,7 @@ const TasksToday = ({ taskList, weekDay }) => {
 
   useEffect(() => {
     console.log("taskList in useEffect", taskList);
-    if (taskList.length > 0) makeTaskList();
+    if (taskList?.length > 0) makeTaskList();
   }, [taskList]);
 
   return (
@@ -44,37 +45,58 @@ const TasksToday = ({ taskList, weekDay }) => {
 
       <h2 className="text-2xl font-bold">Health</h2>
       <div className="tasks">
-        {tasksToday.health.map((task) => (
-          <h4 className={task.isCompleted ? "completed" : ""}>
+        {tasksToday.health?.length > 0 ? (
+          tasksToday.health.map((task) => (
+            <h4 className={task.isCompleted ? "completed" : ""}>
+              {" "}
+              <input type="checkbox" name="task" id="task" /> {task.taskName}
+            </h4>
+          ))
+        ) : (
+          <span className="text-center">
             {" "}
-            <input type="checkbox" name="task" id="task" /> {task.taskName}
-          </h4>
-        ))}
+            So Empty! <TbMoodEmpty />{" "}
+          </span>
+        )}
       </div>
       <h2 className="text-2xl font-bold">Knowledge</h2>
       <div className="tasks">
-        {tasksToday.wealth.map((task) => (
-          <h4 className={task.isCompleted ? "completed" : ""}>
+        {tasksToday.wealth?.length > 0 ? (
+          tasksToday.wealth.map((task) => (
+            <h4 className={task.isCompleted ? "completed" : ""}>
+              {" "}
+              <input type="checkbox" name="task" id="task" /> {task.taskName}
+            </h4>
+          ))
+        ) : (
+          <span className="text-center">
             {" "}
-            <input type="checkbox" name="task" id="task" /> {task.taskName}
-          </h4>
-        ))}
+            So Empty! <TbMoodEmpty />{" "}
+          </span>
+        )}
       </div>
 
       <h2 className="text-2xl font-bold">Wealth</h2>
       <div className="tasks">
-        {tasksToday.knowledge.map((task) => (
-          <h4 className={task.isCompleted ? "completed" : ""}>
+        {tasksToday.knowledge?.length > 0 ? (
+          tasksToday.knowledge.map((task) => (
+            <h4 className={task.isCompleted ? "completed" : ""}>
+              {" "}
+              <input
+                type="checkbox"
+                checked={task.isCompleted}
+                name="task"
+                id="task"
+              />{" "}
+              {task.taskName}
+            </h4>
+          ))
+        ) : (
+          <span className="text-center">
             {" "}
-            <input
-              type="checkbox"
-              checked={task.isCompleted}
-              name="task"
-              id="task"
-            />{" "}
-            {task.taskName}
-          </h4>
-        ))}
+            So Empty! <TbMoodEmpty />{" "}
+          </span>
+        )}
       </div>
     </div>
   );
