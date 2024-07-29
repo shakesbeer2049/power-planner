@@ -5,25 +5,13 @@ import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import TasksToday from "./components/TasksToday";
 import WeeklyTasks from "./components/WeeklyTasks";
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/daily",
-    element: <TasksToday />,
-  },
-  {
-    path: "/weekly",
-    element: <WeeklyTasks taskList={taskList} />,
-  },
-]);
+import { TaskProvider } from "./context/TaskContext";
+import Drawer from "./components/Drawer";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <App />
   </React.StrictMode>
 );
 

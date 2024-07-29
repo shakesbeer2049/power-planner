@@ -1,17 +1,44 @@
 import React from "react";
 import "./styles/App.css";
 import SidebarMenu from "./components/SidebarMenu";
-import { Outlet } from "react-router-dom";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Drawer from "./components/Drawer";
+import { TaskProvider } from "./context/TaskContext";
+import WeeklyTasks from "./components/WeeklyTasks";
+import TasksToday from "./components/TasksToday";
 
 function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: (
+        <TaskProvider>
+          <TasksToday />
+        </TaskProvider>
+      ),
+    },
+    {
+      path: "/daily",
+      element: (
+        <TaskProvider>
+          <TasksToday />
+        </TaskProvider>
+      ),
+    },
+    {
+      path: "/weekly",
+      element: (
+        <TaskProvider>
+          <WeeklyTasks />
+        </TaskProvider>
+      ),
+    },
+  ]);
   return (
-    <div>
-      {/* <button class="btn btn-primary">Button</button> */}
-      {/* <SidebarMenu/> */}
+    <>
       <Drawer />
-      <Outlet />
-    </div>
+      <RouterProvider router={router} />
+    </>
   );
 }
 

@@ -1,32 +1,20 @@
 import "../styles/drawer.css";
 import Select from "react-select";
 import { weekDays } from "../utils/weekdays";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import axios from "axios";
 import { AiOutlineMenu } from "react-icons/ai";
 import { SiLevelsdotfyi } from "react-icons/si";
 import TasksToday from "./TasksToday";
+import TaskContext from "../context/TaskContext";
+import * as taskService from "../utils/taskService";
 
 const Drawer = () => {
+  const { taskList } = useContext(TaskContext);
   const [taskCategory, setTaskCategory] = useState("");
   const [taskRepeatsOn, setTaskRepeatsOn] = useState(null);
   const [taskName, setTaskName] = useState("");
-  const [taskList, setTaskList] = useState([]);
-
-  const getTasks = async () => {
-    const taskRes = await axios.get("http://localhost:3000/tasks");
-    console.log("taskRes", taskRes);
-    const taskData = taskRes.data;
-    setTaskList(taskData);
-  };
-
-  useEffect(() => {
-    const callTasks = async () => {
-      await getTasks();
-    };
-    callTasks();
-  }, []);
 
   //handle task input
   const handleTaskInput = (e) => {
@@ -43,10 +31,12 @@ const Drawer = () => {
       taskName: taskName,
       taskCategory: taskCategory,
       taskRepeatsOn: repeatsOn,
+      date: new Date().toISOString(),
+      isCompleted: false,
     };
 
     console.log(taskObj);
-    const res = await axios.post("http://localhost:3000/tasks", taskObj);
+    const res = await taskService.addTask(taskObj);
     console.log("res", res);
   };
 
@@ -129,9 +119,9 @@ const Drawer = () => {
                       onChange={taskCategoryHandler}
                     >
                       <option>Category</option>
-                      <option>Health</option>
-                      <option>Wealth</option>
-                      <option>Knowledge</option>
+                      <option value={"health"}>Health</option>
+                      <option value={"wealth"}>Wealth</option>
+                      <option value={"knowledge"}>Knowledge</option>
                     </select>
 
                     {/* date selection */}
@@ -165,20 +155,22 @@ const Drawer = () => {
                 </div>
               </dialog>
             </li>
-            <li onClick={() => routeToTasks("weekly")}>
+
+            <li>
+              <a href={`/`}>Daily</a>
+            </li>
+            <li>
               <a href={`/weekly`}>Weekly</a>
             </li>
-            <li onClick={() => routeToTasks("monthly")}>
+            <li>
               <a>Monthly</a>
             </li>
-            <li onClick={() => routeToTasks("daily")}>
+            <li>
               <a>Yearly</a>
             </li>
           </ul>
         </div>
       </div>
-
-      <TasksToday taskList={taskList} />
     </>
   );
 };

@@ -1,3 +1,14 @@
 .completed {
     text-decoration: line-through;
 }
+
+
+.task-h1-input {
+    display: flex;
+}
+
+.task-h1-input h4 {
+    margin-left: 5px;
+    margin-bottom: 15px;
+
+}
