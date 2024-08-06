@@ -1,13 +1,13 @@
-const express = require('express');
-const { getDailyTasks, addDailyTask } = require('../controllers/taskController');
+const express = require("express");
+const taskService = require("../controllers/taskController");
 const router = express.Router();
 
-router
-.route('/')
-.get(getDailyTasks)
-.post(addDailyTask)
+router.route("/").get(taskService.getDailyTasks).post(taskService.addDailyTask);
 
 router
-.route('/:id')
+  .route("/:id")
+  .get(taskService.getTask)
+  .put(taskService.updateTask)
+  .delete(taskService.deleteTask);
 
 module.exports = router;
