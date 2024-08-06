@@ -2,9 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import { getToday } from "../utils/weekdays";
 import "../styles/tasksToday.css";
 import TaskContext from "../context/TaskContext";
-import * as taskService from "../utils/taskService";
-import { IoTrashBin } from "react-icons/io5";
 import DeleteTaskModal from "./DeleteTaskModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const TasksToday = ({}) => {
   const { taskList, setTaskList, handleTaskUpdate } = useContext(TaskContext);
   const [tasksToday, setTasksToday] = useState({
@@ -121,7 +122,7 @@ const TasksToday = ({}) => {
           </div>
         ))}
       </div>
-      {/* delete task modal */}
+      <ToastContainer />
     </div>
   );
 };

@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.use("/api/v1/tasks", taskRouter);
 
-mongoose
+(65)
   .connect(
     "mongodb+srv://zubb:mongo123@cluster0.xerl2wa.mongodb.net/power-system"
   )

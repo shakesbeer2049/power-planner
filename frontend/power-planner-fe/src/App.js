@@ -1,6 +1,5 @@
 import React from "react";
 import "./styles/App.css";
-import SidebarMenu from "./components/SidebarMenu";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Drawer from "./components/Drawer";
 import { TaskProvider } from "./context/TaskContext";
@@ -36,7 +35,9 @@ function App() {
   ]);
   return (
     <>
-      <Drawer />
+      <TaskProvider>
+        <Drawer />
+      </TaskProvider>
       <RouterProvider router={router} />
     </>
   );

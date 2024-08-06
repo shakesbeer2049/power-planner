@@ -463,7 +463,7 @@
         "Monday"
       ],
       "date": "2024-07-29T03:26:09.366Z",
-      "isCompleted": false
+      "isCompleted": true
     },
     {
       "id": "q7uTBdk5d5a2ODkUroJrQ",
@@ -496,7 +496,129 @@
         "Monday"
       ],
       "date": "2024-07-29T03:27:12.324Z",
+      "isCompleted": true
+    },
+    {
+      "id": "bbal8vYA6Jxs11iBlKfNN",
+      "taskName": "test asdasd",
+      "taskCategory": "health",
+      "taskRepeatsOn": [
+        "Tuesday"
+      ],
+      "date": "2024-07-29T16:49:37.171Z",
+      "isCompleted": true
+    },
+    {
+      "id": "kfT8onR0fkW3mGKca5tEY",
+      "taskName": "test asdasd",
+      "taskCategory": "health",
+      "taskRepeatsOn": [
+        "Tuesday"
+      ],
+      "date": "2024-07-29T16:57:04.742Z",
       "isCompleted": false
+    },
+    {
+      "id": "EBGmRL3ltktgYcWzRHiIE",
+      "taskName": "test tasked",
+      "taskCategory": "health",
+      "taskRepeatsOn": [
+        "Tuesday"
+      ],
+      "date": "2024-07-29T16:59:25.660Z",
+      "isCompleted": true
+    },
+    {
+      "id": "rB1JaDDKx5LjEttr_5bhg",
+      "taskName": "test tasked",
+      "taskCategory": "health",
+      "taskRepeatsOn": [
+        "Tuesday"
+      ],
+      "date": "2024-07-29T17:04:34.975Z",
+      "isCompleted": false
+    },
+    {
+      "id": "P3G7ErwnP6HcHfSVsDYvG",
+      "taskName": "asdddddasd",
+      "taskCategory": "health",
+      "taskRepeatsOn": [
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "date": "2024-07-29T17:18:48.760Z",
+      "isCompleted": false
+    },
+    {
+      "id": "ov-ijK6E1x5I5VvPD-4W3",
+      "taskName": "test tasked 11",
+      "taskCategory": "health",
+      "taskRepeatsOn": [
+        "Tuesday"
+      ],
+      "date": "2024-07-29T17:19:16.512Z",
+      "isCompleted": false
+    },
+    {
+      "id": "KnNY-UQYi0fBRU2q-MxAc",
+      "taskName": "hello",
+      "taskCategory": "knowledge",
+      "taskRepeatsOn": [
+        "Thursday",
+        "Friday"
+      ],
+      "date": "2024-07-29T17:21:56.709Z",
+      "isCompleted": false
+    },
+    {
+      "id": "Qt8VYf1VmRsazYyhJ4cvN",
+      "taskName": "this is a task",
+      "taskCategory": "wealth",
+      "taskRepeatsOn": [
+        "Tuesday",
+        "Wednesday",
+        "Thursday"
+      ],
+      "date": "2024-07-29T17:30:02.101Z",
+      "isCompleted": false
+    },
+    {
+      "id": "8hvq-MtrzkSgB32GRWhq4",
+      "taskName": "this is a daily task",
+      "taskCategory": "wealth",
+      "taskRepeatsOn": [
+        "Tuesday",
+        "Monday"
+      ],
+      "date": "2024-07-29T17:31:38.905Z",
+      "isCompleted": false
+    },
+    {
+      "0": {
+        "taskName": "bulk test",
+        "taskCategory": "wealth",
+        "taskRepeatsOn": [
+          "Tuesday",
+          "Thursday"
+        ],
+        "date": "2024-08-15T02:30:26Z",
+        "isCompleted": false,
+        "id": "01J3VWV5CEXNN"
+      },
+      "1": {
+        "id": "OSPS7b65cCtZf",
+        "taskName": "Another Bulk Test",
+        "taskCategory": "wealth",
+        "taskRepeatsOn": [
+          "Tuesday",
+          "Monday"
+        ],
+        "date": "2024-07-29T03:26:09.366Z",
+        "isCompleted": false
+      },
+      "id": "829b"
     }
   ]
 }
