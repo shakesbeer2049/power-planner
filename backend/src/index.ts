@@ -28,7 +28,7 @@ const server = http.createServer(app);
 
 mongoose
   .connect(
-    "mongodb+srv://zubb:mongo123@cluster0.xerl2wa.mongodb.net/power-system"
+    "mongodb+srv://test-user:testpwd@cluster0.mutxc.mongodb.net/power-system?retryWrites=true&w=majority"
   )
   .then(() => console.log("connected to DB"))
   .catch((err) => console.log(`error in db :  ${err}`));
