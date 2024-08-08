@@ -42,3 +42,9 @@
     right: 11px;
     top: 13px;
 }
+
+.task-progress {
+    position: absolute;
+    top: 45%;
+    left: 30%;
+}

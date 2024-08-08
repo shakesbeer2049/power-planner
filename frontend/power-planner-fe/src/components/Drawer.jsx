@@ -1,59 +1,9 @@
 import "../styles/drawer.css";
-import Select from "react-select";
-import { weekDays } from "../utils/weekdays";
-import { useContext, useEffect, useState } from "react";
-import { nanoid } from "nanoid";
-import axios from "axios";
 import { AiOutlineMenu } from "react-icons/ai";
-import { SiLevelsdotfyi } from "react-icons/si";
-import TasksToday from "./TasksToday";
-import TaskContext from "../context/TaskContext";
-import * as taskService from "../utils/taskService";
+import TaskProgress from "./TaskProgress";
+import AddTaskModal from "./AddTaskModal";
 
 const Drawer = () => {
-  const { taskList } = useContext(TaskContext);
-  const [taskCategory, setTaskCategory] = useState("");
-  const [taskRepeatsOn, setTaskRepeatsOn] = useState(null);
-  const [taskName, setTaskName] = useState("");
-
-  //handle task input
-  const handleTaskInput = (e) => {
-    setTaskName(e.target.value);
-  };
-
-  // Add Task Handler
-  const addTaskHandler = async () => {
-    console.log("add tasks");
-    const repeatsOn = taskRepeatsOn?.map((repeat) => repeat.value);
-
-    let taskObj = {
-      id: nanoid(),
-      taskName: taskName,
-      taskCategory: taskCategory,
-      taskRepeatsOn: repeatsOn,
-      date: new Date().toISOString(),
-      isCompleted: false,
-    };
-
-    console.log(taskObj);
-    const res = await taskService.addTask(taskObj);
-    console.log("res", res);
-  };
-
-  // task repeats on handler
-  const taskRepeatsOnHandler = (e) => {
-    setTaskRepeatsOn(e);
-  };
-
-  // Route to tasks
-  const routeToTasks = (taskCategory) => {};
-
-  // Handle Task Category
-  const taskCategoryHandler = (e) => {
-    // console.log(e.target.value)
-    setTaskCategory(e.target.value);
-  };
-
   return (
     <>
       <div className="drawer lg:drawer-open">
@@ -88,71 +38,21 @@ const Drawer = () => {
           ></label>
           <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 text-2xl">
             {/* Sidebar content here */}
+            <div className="task-progress">
+              <TaskProgress title={"Today"} />
+            </div>
             <li>
               {/* Open the modal using document.getElementById('ID').showModal() method */}
               <button
                 className="btn"
                 onClick={() =>
-                  document.getElementById("my_modal_1").showModal()
+                  document.getElementById("add_task_modal").showModal()
                 }
               >
                 Add Task
               </button>
-              <dialog id="my_modal_1" className="modal">
-                <div className="modal-box add-task-modal">
-                  <h3 className="font-bold text-xl text-center">Add Task</h3>
-                  {/* Task input */}
-                  <input
-                    type="text"
-                    name="add-task-input"
-                    id="add-task-input"
-                    placeholder="Add a Task"
-                    onChange={handleTaskInput}
-                  />
-                  {/* Task Attributes */}
-                  <div className="task-category-div">
-                    {/* choose category */}
-                    <select
-                      name="task-category"
-                      id="task-category"
-                      className="border-black-500 mb-3"
-                      onChange={taskCategoryHandler}
-                    >
-                      <option>Category</option>
-                      <option value={"health"}>Health</option>
-                      <option value={"wealth"}>Wealth</option>
-                      <option value={"knowledge"}>Knowledge</option>
-                    </select>
-
-                    {/* date selection */}
-                    {/* <input type="date" name="task-date" id="task-date" /> */}
-
-                    <Select
-                      options={weekDays}
-                      isMulti
-                      closeMenuOnSelect={false}
-                      hideSelectedOptions={false}
-                      allowSelectAll={true}
-                      placeholder="Repeats on"
-                      style={{ "z-index": 5 }}
-                      onChange={taskRepeatsOnHandler}
-                    />
-                  </div>
-                  <div className="modal-action">
-                    <form method="dialog" id="save-cancel-task">
-                      {/* if there is a button in form, it will close the modal */}
-                      <span
-                        className="btn btn-primary text-white mr-5"
-                        onClick={addTaskHandler}
-                      >
-                        Save
-                      </span>
-                      <button className="btn btn-error text-white">
-                        Cancel
-                      </button>
-                    </form>
-                  </div>
-                </div>
+              <dialog id="add_task_modal" className="modal">
+                <AddTaskModal />
               </dialog>
             </li>
 

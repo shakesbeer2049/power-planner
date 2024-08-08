@@ -43,14 +43,22 @@ const TasksToday = ({ taskList, weekDay }) => {
     <div className="tasks-today text-left mt-16 ml-8">
       <h1 className="text-3xl font-bold text-center">{weekDay}</h1>
 
-      <h2 className="text-2xl font-bold">Health</h2>
+      <h2 className="text-2xl font-bold mb-4 mt-4">Health</h2>
       <div className="tasks">
         {tasksToday.health?.length > 0 ? (
           tasksToday.health.map((task) => (
-            <h4 className={task.isCompleted ? "completed" : ""}>
+            <div className="task-h1-input">
               {" "}
-              <input type="checkbox" name="task" id="task" /> {task.taskName}
-            </h4>
+              <input
+                type="checkbox"
+                className="checkbox checkbox-accent"
+                name="task"
+                id="task"
+              />{" "}
+              <h4 className={task.isCompleted ? "completed" : ""}>
+                {task.taskName}
+              </h4>
+            </div>
           ))
         ) : (
           <span className="text-center">
@@ -59,14 +67,22 @@ const TasksToday = ({ taskList, weekDay }) => {
           </span>
         )}
       </div>
-      <h2 className="text-2xl font-bold">Knowledge</h2>
+      <h2 className="text-2xl font-bold mb-4 mt-4">Knowledge</h2>
       <div className="tasks">
         {tasksToday.wealth?.length > 0 ? (
           tasksToday.wealth.map((task) => (
-            <h4 className={task.isCompleted ? "completed" : ""}>
+            <div className="task-h1-input">
               {" "}
-              <input type="checkbox" name="task" id="task" /> {task.taskName}
-            </h4>
+              <input
+                className="checkbox checkbox-accent"
+                type="checkbox"
+                name="task"
+                id="task"
+              />{" "}
+              <h4 className={task.isCompleted ? "completed" : ""}>
+                {task.taskName}
+              </h4>
+            </div>
           ))
         ) : (
           <span className="text-center">
@@ -76,20 +92,23 @@ const TasksToday = ({ taskList, weekDay }) => {
         )}
       </div>
 
-      <h2 className="text-2xl font-bold">Wealth</h2>
+      <h2 className="text-2xl font-bold mb-4 mt-4">Wealth</h2>
       <div className="tasks">
         {tasksToday.knowledge?.length > 0 ? (
           tasksToday.knowledge.map((task) => (
-            <h4 className={task.isCompleted ? "completed" : ""}>
+            <div className="task-h1-input">
               {" "}
               <input
                 type="checkbox"
                 checked={task.isCompleted}
                 name="task"
                 id="task"
+                className="checkbox checkbox-accent"
               />{" "}
-              {task.taskName}
-            </h4>
+              <h4 className={task.isCompleted ? "completed" : ""}>
+                {task.taskName}
+              </h4>
+            </div>
           ))
         ) : (
           <span className="text-center">

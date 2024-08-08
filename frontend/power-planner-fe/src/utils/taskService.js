@@ -5,7 +5,7 @@ export const addTask = async (taskDetails) => {
   try {
     console.log("taskDetils", taskDetails);
     const addTaskRes = await axios.post(baseUrl, taskDetails);
-    console.log(addTaskRes);
+    return addTaskRes;
   } catch (error) {
     console.log("error in add tasks", error);
   }
