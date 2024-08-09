@@ -6,6 +6,7 @@ import compression from "compression";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import http from "http";
+import router from "./routes/taskRouter";
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.use(bodyParser.json());
 // const { getDailyTasks } = require("../controllers/taskController");
 // const taskRouter = require("../routes/taskRouter");
 
-// app.use("/api/v1/tasks", taskRouter);
+app.use("/api/v1/tasks", router);
 
 
 const server = http.createServer(app);
