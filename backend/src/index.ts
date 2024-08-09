@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import http from "http";
 import router from "./routes/taskRouter";
+require('dotenv').config();
 
 const app = express();
 
@@ -29,7 +30,7 @@ const server = http.createServer(app);
 
 mongoose
   .connect(
-    "mongodb+srv://test-user:testpwd@cluster0.mutxc.mongodb.net/power-system?retryWrites=true&w=majority"
+    process.env.MONGO_URI_2
   )
   .then(() => console.log("connected to DB"))
   .catch((err) => console.log(`error in db :  ${err}`));
