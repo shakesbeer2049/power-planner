@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction } from "express";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -6,7 +6,9 @@ import compression from "compression";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import http from "http";
-import router from "./routes/taskRouter";
+import taskRouter from "./routes/tasks";
+import AppError from './utils/appError';
+import globalErrorHandler from "./controllers/globalErrorHandler";
 require('dotenv').config();
 
 const app = express();
@@ -20,12 +22,14 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 
-// const { getDailyTasks } = require("../controllers/taskController");
-// const taskRouter = require("../routes/taskRouter");
+app.use("/api/v1/tasks", taskRouter);
 
-app.use("/api/v1/tasks", router);
+app.all('*', (req:express.Request, res:express.Response, next:any) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+} )
 
-
+app.use(globalErrorHandler);
+ 
 const server = http.createServer(app);
 
 mongoose
