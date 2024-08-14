@@ -1,44 +1,55 @@
-const Task = require("../models/taskModel.js");
-const utils = require("../utils/utils.js");
-import express from "express";
+import Task from "../models/Tasks";
+import * as utils from "../utils/helper";
+import express, { NextFunction } from "express";
 import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/appError";
 
-export const getTasks = catchAsync(async (req:express.Request, res:express.Response) => {
-  console.log("get")
-  const tasks = await Task.find();
-  res
-    .status(200)
-    .json({ message: "success", tasks: tasks, count: tasks.length });
-});
+export const getTasks = catchAsync(
+  async (req: express.Request, res: express.Response, next: NextFunction) => {
+    const tasks = await Task.find();
+    res
+      .status(200)
+      .json({ status: "success", data: { tasks }, count: tasks.length });
+  }
+);
 
-export const getTask = catchAsync(async (req:express.Request, res:express.Response) => {
-  const task = await Task.find(req.params.id);
-  res.status(200).json({ message: "success", tasks: task, count: 1 });
-});
+export const getTask = catchAsync(
+  async (req: express.Request, res: express.Response, next: NextFunction) => {
+    const task = await Task.findById(req.params.id);
+    if (!task) return next(new AppError("Task not found", 404));
+    res
+      .status(200)
+      .json({ status: "success", data: { task }, count: task.length });
+  }
+);
 
-export const deleteTask = catchAsync(async (req:express.Request, res:express.Response) => {
-  await Task.findByIdAndDelete(req.params.id);
-  const tasks = await Task.find();
-  res
-    .status(200)
-    .json({ message: "success", tasks: tasks, count: tasks.length });
-  
-});
+export const deleteTask = catchAsync(
+  async (req: express.Request, res: express.Response, next: NextFunction) => {
+    const task = await Task.findByIdAndDelete(req.params.id);
+    if (!task) return next(new AppError("Task not found", 404));
 
-export const updateTask = catchAsync(async (req:express.Request, res:express.Response) => {
-  const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
-  const tasks = await Task.find();
-  res
-    .status(200)
-    .json({ message: "success", tasks: tasks, count: tasks.length });
-});
+    res
+      .status(200)
+      .json({ status: "success", data: {}, message: "Task deleted" });
+  }
+);
 
-export const addTask = catchAsync(async (req:express.Request, res:express.Response) => {
-  console.log("request-data", req.body);
-  req.body.day = utils.getDayOfWeek();
-  const resp = await Task.create(req.body);
-  console.log("task res", resp);
-  return res.status(200).json({ message: "success", status: "Task Added" });
-});
+export const updateTask = catchAsync(
+  async (req: express.Request, res: express.Response, next: NextFunction) => {
+    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    const tasks = await Task.find();
+    res
+      .status(200)
+      .json({ status: "success", data: { tasks }, count: tasks.length });
+  }
+);
+
+export const addTask = catchAsync(
+  async (req: express.Request, res: express.Response, next: NextFunction) => {
+    req.body.day = utils.getDayOfWeek();
+    const resp = await Task.create(req.body);
+    return res.status(200).json({ status: "success", message: "Task Added" });
+  }
+);
