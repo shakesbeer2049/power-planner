@@ -14,7 +14,9 @@ export interface IUser extends Document {
   password: string;
   username: string;
   confirmPassword: string;
+  passwordChangedAt:Date
 
   // Method to verify password
   verifyPassword(enteredPwd: string): Promise<boolean>;
+  changedPasswordAfter(iat:number): Promise<boolean>;
 }

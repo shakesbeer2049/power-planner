@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import AppError from "../utils/appError";
 import User from "../models/Users";
 import { generateJWT } from "../utils/helper";
+const {promisify} = require('util');
 
 export const register = catchAsync(
   async (req: express.Request, res: express.Response) => {
@@ -62,9 +63,10 @@ export const login = catchAsync(
 );
 
 export const protect = catchAsync(
-  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  async(req: express.Request, res: express.Response, next: express.NextFunction) => {
     let token;
 
+    // Check headers
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer")
@@ -72,9 +74,28 @@ export const protect = catchAsync(
       token = req.headers.authorization.split(" ")[1];
     }
 
+    // check token
     if (!token) return next(new AppError("Unauthorized, Access Denied!", 401));
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // verify token
+    const decoded:any = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
     console.log(decoded, "decoded");
+
+    const {id} = decoded;
+
+    // check if user exists
+    const userExists  = await User.findById(id);
+    if(!userExists) return next(new AppError("User does not exist!", 401));
+
+    // compare pwdissued and jwt issued
+    if(userExists.changedPasswordAfter(decoded.iat)){
+      return next(new AppError("Please login again", 401));
+    }
+
+    // Grant Access
+    // req.user = userExists;
+
+    next();
   }
 );
+
