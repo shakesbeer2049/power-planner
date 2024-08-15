@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema<IUser>({
     lowercase: true,
     validate: [validator.isEmail, "Please enter a valid email"],
   },
+  passwordChangedAt: Date
 });
 
 userSchema.pre("save", async function (next) {
@@ -41,6 +42,15 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.verifyPassword = async function (enteredPwd: string) {
   return await bcrypt.compare(enteredPwd, this.password);
 };
+
+userSchema.methods.changedPasswordAfter = function(JTWTimestamp:number){
+  let changedTimestamp:number;
+  if(this.passwordChangedAt){
+    changedTimestamp = this.passwordChangedAt.getTime() / 1000;
+  }
+  console.log(JTWTimestamp, changedTimestamp);
+  return JTWTimestamp < changedTimestamp;
+}
 
 const User = mongoose.model("User", userSchema);
 export default User;
