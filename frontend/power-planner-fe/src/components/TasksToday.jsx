@@ -37,7 +37,7 @@ const TasksToday = ({}) => {
   };
 
   useEffect(() => {
-    // console.log("taskList in useEffect", taskList);
+    console.log("taskList in useEffect", taskList);
     if (taskList?.length > 0) makeTaskList();
   }, [taskList]);
 
@@ -62,8 +62,8 @@ const TasksToday = ({}) => {
               }}
             />{" "}
             <h4
-              onClick={(e) => document.getElementById(task.id).showModal()}
-              key={task.id}
+              onClick={(e) => document.getElementById(task._id).showModal()}
+              key={task._id}
               className={task.isCompleted ? "completed" : ""}
             >
               {task.taskName}
@@ -74,7 +74,7 @@ const TasksToday = ({}) => {
       <h2 className="text-2xl font-bold mb-4">Knowledge</h2>
       <div className="tasks">
         {tasksToday.wealth.map((task) => (
-          <div className="task-h1-input">
+          <div key={task._id} className="task-h1-input">
             <DeleteTaskModal task={task} />{" "}
             <input
               type="checkbox"
@@ -87,8 +87,8 @@ const TasksToday = ({}) => {
               }}
             />{" "}
             <h4
-              onClick={(e) => document.getElementById(task.id).showModal()}
-              key={task.id}
+              onClick={(e) => document.getElementById(task._id).showModal()}
+              key={task._id}
               className={task.isCompleted ? "completed" : ""}
             >
               {task.taskName}
@@ -100,7 +100,7 @@ const TasksToday = ({}) => {
       <h2 className="text-2xl font-bold mb-4">Wealth</h2>
       <div className="tasks">
         {tasksToday.knowledge.map((task) => (
-          <div className="task-h1-input">
+          <div key={task._id} className="task-h1-input">
             <DeleteTaskModal task={task} />{" "}
             <input
               className="checkbox checkbox-accent"
@@ -113,8 +113,8 @@ const TasksToday = ({}) => {
               }}
             />{" "}
             <h4
-              onClick={(e) => document.getElementById(task.id).showModal()}
-              key={task.id}
+              onClick={(e) => document.getElementById(task._id).showModal()}
+              key={task._id}
               className={task.isCompleted ? "completed" : ""}
             >
               {task.taskName}

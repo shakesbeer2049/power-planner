@@ -3,69 +3,71 @@ import { useState, createContext, useEffect } from "react";
 import * as taskService from "../utils/taskService";
 import { toast } from "react-toastify";
 import { getToday } from "../utils/weekdays";
+import useApiCaller from "../hooks/useApiCaller";
+import { calculateDailyProgress } from "../utils/taskCalculations";
+
 const TaskContext = createContext({});
 
 export const TaskProvider = ({ children }) => {
+  const {data:tasks, isError:taskError, isLoading:tasksLoading} = useApiCaller("http://localhost:3003/api/v1/tasks","GET", {});
+
   const [taskList, setTaskList] = useState([]);
-  const [dailyProgressCount, setDailyProgressCount] = useState({
-    totalCount: 0,
-    completedTasks: 0,
-  });
-
-  const getTasks = async () => {
-    const taskRes = await axios.get("http://localhost:3000/tasks");
-    console.log("taskRes", taskRes);
-    const taskData = taskRes.data;
-    setTaskList(taskData);
-    const [dailyTaskCount, completedTasks] = calculateDailyProgress(taskData);
-    setDailyProgressCount({
-      totalCount: dailyTaskCount,
-      completedTasks: completedTasks,
-    });
-
-    console.log("dailyTaskCount", dailyTaskCount);
-  };
-
-  const calculateDailyProgress = (taskData) => {
-    const tasksToday = taskData.filter((task) =>
-      task.taskRepeatsOn.includes(getToday())
-    );
-    const dailyTaskCount = tasksToday.length;
-    const completedTasks = tasksToday.filter((task) => task.isCompleted);
-
-    return [dailyTaskCount, completedTasks.length];
-  };
+  
 
   useEffect(() => {
-    const callTasks = async () => {
-      await getTasks();
-    };
-    callTasks();
-  }, []);
+    if (!tasksLoading && tasks) {
+      // Update the taskList and calculate the dailyProgressCount together
+      setTaskList(tasks.tasks);
+      // const percentCompleted = calculateDailyProgress(tasks.tasks);
+      // setDailyProgressCount(percentCompleted);
+    }
+  }, [tasks, tasksLoading]);
 
   // TASK UPDATE HANDLER
   const handleTaskUpdate = async (e, taskToUpdate) => {
-    console.log("taskToUpdate", taskToUpdate);
-    taskToUpdate = { ...taskToUpdate, isCompleted: e.target.checked };
+    console.log(e.target.checked, taskToUpdate)
+    // Update Task
+    const updatedTask = { ...taskToUpdate, isCompleted: e.target.checked };
+    console.log(updatedTask,"updatedTask")
+    // Update TaskList in UI
     const updatedList = taskList.map((task) =>
-      task.id === taskToUpdate.id ? taskToUpdate : task
+      task._id === updatedTask._id ? updatedTask : task
     );
-    setTaskList(updatedList);
 
-    const taskRes = await taskService.updateTask(taskToUpdate);
-    if (taskRes.status == 200 || taskRes.status == 201) {
-      console.log("updated task sucessfully");
-      if (taskToUpdate.isCompleted)
+    console.log(updatedList,"updatedilist")
+
+    // Update Task on server
+    const taskRes = await taskService.updateTask(updatedTask);
+    
+    console.log(taskRes,"taskRes")
+
+    // If task updated 
+    if (taskRes.status === "success") {
+      // update state
+      setTaskList((prevTaskList) => {
+        const updatedList = prevTaskList.map((task) =>
+          task._id === updatedTask._id ? updatedTask : task
+        );
+        // const percentCompleted = calculateDailyProgress(updatedList);
+        // setDailyProgressCount(percentCompleted);
+        return updatedList;
+      });
+
+      // If task is completed , show toast
+      if (updatedTask.isCompleted)
         toast.success("Well Done, Task Completed.", {
-          autoClose: 3000,
+          autoClose: 1000,
           theme: "dark",
         });
-    } else console.log("failed to update task");
+    } else toast.error("Error in updating task", {
+      autoClose: 1000,
+      theme: "dark",
+    });
   };
 
   return (
     <TaskContext.Provider
-      value={{ taskList, setTaskList, handleTaskUpdate, dailyProgressCount }}
+      value={{ taskList, setTaskList, handleTaskUpdate }}
     >
       {children}
     </TaskContext.Provider>

@@ -36,7 +36,8 @@ export const deleteTask = catchAsync(
 
 export const updateTask = catchAsync(
   async (req: express.Request, res: express.Response, next: NextFunction) => {
-    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
+    console.log(req.body)
+    const updatedTask = await Task.findByIdAndUpdate(req.body._id, req.body, {
       new: true,
     });
     const tasks = await Task.find();

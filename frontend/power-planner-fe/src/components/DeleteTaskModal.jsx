@@ -1,23 +1,26 @@
 import { useContext } from "react";
 import TaskContext from "../context/TaskContext";
 import * as taskService from "../utils/taskService";
+import { toast } from "react-toastify";
+
 
 const DeleteTaskModal = ({ task }) => {
   const { taskList, setTaskList, handleTaskUpdate } = useContext(TaskContext);
   const handleTaskDelete = async (taskToDelete) => {
     console.log("deleted task", taskToDelete);
-    const updatedList = taskList.filter((task) => task.id !== taskToDelete.id);
+    const updatedList = taskList.filter((task) => task._id !== taskToDelete._id);
     setTaskList(updatedList);
     const taskRes = await taskService.deleteTask(taskToDelete);
-    // console.log("delete task res", taskRes);
-    // if (taskRes.status == 200 || taskRes.status == 201) {
-    //   console.log("updated task sucessfully");
-    // } else console.log("failed to update task");
-    // document.getElementById(task.id).close();
+    if(taskRes === "success"){
+      toast.success("Task Deleted!");
+    }else{
+      toast.error("Error! Please try again!")
+    }
+    
   };
   return (
     <>
-      <dialog id={task.id} className="modal">
+      <dialog id={task._id} className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Delete this task!</h3>
           <p className="py-4">Click Delete to confirm or Close to cancel.</p>
