@@ -1,25 +1,26 @@
 import { useContext, useEffect, useState } from "react";
 import TaskContext from "../context/TaskContext";
+import { calculateDailyProgress } from "../utils/taskCalculations";
 
 const TaskProgress = ({ title }) => {
-  const { dailyProgressCount } = useContext(TaskContext);
-  const [completedPercent, setCompletedPercent] = useState(null);
+  const { taskList } = useContext(TaskContext);
+  const [dailyProgressCount, setDailyProgressCount] = useState(0);
+
 
   useEffect(() => {
-    setCompletedPercent(
-      (dailyProgressCount.completedTasks / dailyProgressCount.totalCount) * 100
-    );
-  }, [dailyProgressCount]);
-
+    console.log(taskList, "inside progress calc")
+     const percentCompleted = calculateDailyProgress(taskList);
+        setDailyProgressCount(percentCompleted);
+  }, [taskList]);
   return (
     <>
       <h4 className="mb-2 text-center">{title}</h4>
       <div
         className="radial-progress text-teal-500"
-        style={{ "--value": completedPercent }}
+        style={{ "--value": dailyProgressCount }}
         role="progressbar"
       >
-        {completedPercent}%
+        {dailyProgressCount}%
       </div>
     </>
   );

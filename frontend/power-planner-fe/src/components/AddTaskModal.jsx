@@ -25,11 +25,9 @@ const AddTaskModal = () => {
     const repeatsOn = taskDetails.taskRepeatsOn?.map((repeat) => repeat.value);
 
     let taskObj = {
-      id: nanoid(),
       taskName: taskDetails.taskName,
       taskCategory: taskDetails.taskCategory,
       taskRepeatsOn: repeatsOn,
-      date: new Date().toISOString(),
       isCompleted: false,
     };
 
@@ -41,13 +39,9 @@ const AddTaskModal = () => {
     if (formValid) {
       console.log(taskObj);
       const res = await taskService.addTask(taskObj);
-      setTaskDetails({
-        taskName: "",
-        taskRepeatsOn: [{}],
-        taskCategory: "",
-      });
+      setTaskDetails({...taskDetails, taskName:""});
       toast.success("Task Added.", {
-        autoClose: 3000,
+        autoClose: 1000,
         theme: "dark",
         pauseOnFocusLoss: false,
         closeOnClick: true,
@@ -55,7 +49,7 @@ const AddTaskModal = () => {
       console.log("res", res);
     } else {
       toast.warning("Please fill all the task details!", {
-        autoClose: 3000,
+        autoClose: 1000,
         theme: "dark",
         pauseOnFocusLoss: false,
         closeOnClick: true,
@@ -120,6 +114,7 @@ const AddTaskModal = () => {
             onChange={taskRepeatsOnHandler}
             // closeMenuOnSelect={false}
             blurInputOnSelect={false}
+            value={taskDetails.taskRepeatsOn}
           />
         </div>
         <div className="modal-action">

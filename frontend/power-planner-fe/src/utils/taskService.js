@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = `http://localhost:3000/tasks`;
+const baseUrl = `http://localhost:3003/api/v1/tasks`;
 
 export const addTask = async (taskDetails) => {
   try {
@@ -14,10 +14,10 @@ export const addTask = async (taskDetails) => {
 export const updateTask = async (updatedTaskDetails) => {
   try {
     const updateTaskRes = await axios.put(
-      `${baseUrl}/${updatedTaskDetails.id}`,
+      `${baseUrl}/${updatedTaskDetails._id}`,
       updatedTaskDetails
     );
-    return updateTaskRes;
+    return updateTaskRes.data;
   } catch (error) {
     console.log("error in update tasks", error);
   }
@@ -25,8 +25,9 @@ export const updateTask = async (updatedTaskDetails) => {
 
 export const deleteTask = async (taskDetails) => {
   try {
-    const deleteTaskRes = await axios.delete(`${baseUrl}/${taskDetails.id}`);
+    const deleteTaskRes = await axios.delete(`${baseUrl}/${taskDetails._id}`);
     console.log("deleteTaskRes", deleteTaskRes);
+    return deleteTaskRes.data.status;
   } catch (error) {
     console.log("error in add tasks", error);
   }
