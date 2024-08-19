@@ -1,4 +1,4 @@
-import { getToday } from "./weekdays";
+import { getToday } from "./daysAndDates";
 
 export const calculateDailyProgress = (taskData) => {
   const tasksToday = taskData.filter((task) =>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getToday } from "../utils/weekdays";
+import { getToday } from "../utils/daysAndDates";
 import "../styles/tasksToday.css";
 import { TbMoodEmpty } from "react-icons/tb";
 const TasksToday = ({ taskList, weekDay }) => {

@@ -3,14 +3,14 @@ import TaskContext from "../context/TaskContext";
 import { calculateDailyProgress } from "../utils/taskCalculations";
 
 const TaskProgress = ({ title }) => {
-  const { taskList } = useContext(TaskContext);
+  const { taskList, counter } = useContext(TaskContext);
   const [dailyProgressCount, setDailyProgressCount] = useState(0);
 
   useEffect(() => {
-    console.log(taskList, "inside progress calc");
+    console.log("Rerender in Task Progress Comp")
     const percentCompleted = calculateDailyProgress(taskList);
     setDailyProgressCount(percentCompleted);
-  }, [taskList]);
+  }, [taskList, counter]);
   return (
     <>
       <h4 className="mb-2 text-center">{title}</h4>
