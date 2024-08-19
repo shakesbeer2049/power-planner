@@ -3,20 +3,20 @@ import TaskContext from "../context/TaskContext";
 import * as taskService from "../utils/taskService";
 import { toast } from "react-toastify";
 
-
 const DeleteTaskModal = ({ task }) => {
   const { taskList, setTaskList, handleTaskUpdate } = useContext(TaskContext);
   const handleTaskDelete = async (taskToDelete) => {
-    console.log("deleted task", taskToDelete);
-    const updatedList = taskList.filter((task) => task._id !== taskToDelete._id);
+    // console.log("deleted task", taskToDelete);
+    const updatedList = taskList.filter(
+      (task) => task._id !== taskToDelete._id
+    );
     setTaskList(updatedList);
     const taskRes = await taskService.deleteTask(taskToDelete);
-    if(taskRes === "success"){
+    if (taskRes === "success") {
       toast.success("Task Deleted!");
-    }else{
-      toast.error("Error! Please try again!")
+    } else {
+      toast.error("Error! Please try again!");
     }
-    
   };
   return (
     <>

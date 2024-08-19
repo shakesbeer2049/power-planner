@@ -23,10 +23,6 @@ const TasksToday = ({ taskList, weekDay }) => {
       (task) => task?.taskCategory == "knowledge"
     );
 
-    console.log("tasksToday", tasksToday);
-    console.log("healthTasks", healthTasks);
-    console.log("wealthTasks", wealthTasks);
-
     setTasksToday({
       health: healthTasks,
       wealth: wealthTasks,
@@ -35,7 +31,6 @@ const TasksToday = ({ taskList, weekDay }) => {
   };
 
   useEffect(() => {
-    console.log("taskList in useEffect", taskList);
     if (taskList?.length > 0) makeTaskList();
   }, [taskList]);
 
