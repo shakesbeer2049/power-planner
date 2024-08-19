@@ -19,14 +19,6 @@ function App() {
       ),
     },
     {
-      path: "/daily",
-      element: (
-        <TaskProvider>
-          <TasksToday />
-        </TaskProvider>
-      ),
-    },
-    {
       path: "/weekly",
       element: (
         <TaskProvider>

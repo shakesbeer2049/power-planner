@@ -1,21 +1,23 @@
 import { useContext } from "react";
 import TaskContext from "../context/TaskContext";
 import TasksToday from "./TasksOnDayX";
+import { isDateInCurrentWeek } from "../utils/daysAndDates";
 
 const WeeklyTasks = ({}) => {
   const { taskList } = useContext(TaskContext);
+  const thisWeekTasks = taskList.filter(task => isDateInCurrentWeek(task.date))
   return (
     <>
       <h1 className="text-3xl font-bold text-center mt-14 mb-0">
         Weekly Tasks
       </h1>
-      <TasksToday taskList={taskList} weekDay={"Monday"} />
-      <TasksToday taskList={taskList} weekDay={"Tuesday"} />
-      <TasksToday taskList={taskList} weekDay={"Wednesday"} />
-      <TasksToday taskList={taskList} weekDay={"Thursday"} />
-      <TasksToday taskList={taskList} weekDay={"Friday"} />
-      <TasksToday taskList={taskList} weekDay={"Saturday"} />
-      <TasksToday taskList={taskList} weekDay={"Sunday"} />
+      <TasksToday taskList={thisWeekTasks} weekDay={"Monday"} />
+      <TasksToday taskList={thisWeekTasks} weekDay={"Tuesday"} />
+      <TasksToday taskList={thisWeekTasks} weekDay={"Wednesday"} />
+      <TasksToday taskList={thisWeekTasks} weekDay={"Thursday"} />
+      <TasksToday taskList={thisWeekTasks} weekDay={"Friday"} />
+      <TasksToday taskList={thisWeekTasks} weekDay={"Saturday"} />
+      <TasksToday taskList={thisWeekTasks} weekDay={"Sunday"} />
     </>
   );
 };

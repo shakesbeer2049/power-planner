@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, createContext, useEffect } from "react";
 import * as taskService from "../utils/taskService";
 import { toast } from "react-toastify";
-import { getToday } from "../utils/weekdays";
+import { getToday } from "../utils/daysAndDates";
 import useApiCaller from "../hooks/useApiCaller";
 import { calculateDailyProgress } from "../utils/taskCalculations";
 
@@ -16,11 +16,13 @@ export const TaskProvider = ({ children }) => {
   } = useApiCaller("http://localhost:3003/api/v1/tasks", "GET", {});
 
   const [taskList, setTaskList] = useState([]);
+  const [counter, setCounter] = useState(0);
 
   useEffect(() => {
     if (!tasksLoading && !taskError) {
       setTaskList(tasks.tasks);
     }
+    console.log("Rerender in Context Comp")
   }, [tasksLoading, tasks]);
 
   // TASK UPDATE HANDLER
@@ -38,13 +40,9 @@ export const TaskProvider = ({ children }) => {
     // If task updated
     if (taskRes.status === "success") {
       // update state
-      setTaskList((prevTaskList) => {
-        const updatedList = prevTaskList.map((task) =>
-          task._id === updatedTask._id ? updatedTask : task
-        );
-
-        return updatedList;
-      });
+      setTaskList(updatedList);
+      setCounter(prev => prev+1);
+      console.log("task updated in context");
 
       // If task is completed , show toast
       if (updatedTask.isCompleted)
@@ -60,7 +58,7 @@ export const TaskProvider = ({ children }) => {
   };
 
   return (
-    <TaskContext.Provider value={{ taskList, setTaskList, handleTaskUpdate }}>
+    <TaskContext.Provider value={{ taskList, setTaskList, handleTaskUpdate, counter, setCounter }}>
       {children}
     </TaskContext.Provider>
   );

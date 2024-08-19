@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Select from "react-select";
-import { weekDays } from "../utils/weekdays";
+import { weekDays } from "../utils/daysAndDates";
 import * as taskService from "../utils/taskService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,17 +14,22 @@ const AddTaskModal = () => {
     taskCategory: "",
   });
 
-  const { setTaskList, taskList } = useContext(TaskContext);
+  const { setTaskList, taskList, setCounter, counter } = useContext(TaskContext);
 
   //handle task input
   const handleTaskInput = (e) => {
     setTaskDetails({ ...taskDetails, taskName: e.target.value });
   };
 
+  useEffect(() => {
+    console.log("Rerender in Add Task Modal Comp")
+  }, [taskList])
+
   // Add Task Handler
   const addTaskHandler = async () => {
     const repeatsOn = taskDetails.taskRepeatsOn?.map((repeat) => repeat.value);
 
+    // Task object
     let taskObj = {
       taskName: taskDetails.taskName,
       taskCategory: taskDetails.taskCategory,
@@ -32,6 +37,7 @@ const AddTaskModal = () => {
       isCompleted: false,
     };
 
+    // validate fields
     let formValid = true;
     if (!taskObj.taskName) formValid = false;
     else if (!taskObj.taskCategory) formValid = false;
@@ -39,7 +45,9 @@ const AddTaskModal = () => {
 
     if (formValid) {
       const res = await taskService.addTask(taskObj);
-      setTaskList([...taskList, taskObj]);
+      const newTaskList = [...taskList, taskObj];
+      setTaskList(newTaskList);
+      setCounter(prev => prev+1);
       console.log(res, "task add res");
       setTaskDetails({ ...taskDetails, taskName: "" });
       toast.success("Task Added.", {
@@ -54,6 +62,7 @@ const AddTaskModal = () => {
         theme: "dark",
         pauseOnFocusLoss: false,
         closeOnClick: true,
+        
       });
     }
   };
@@ -63,8 +72,7 @@ const AddTaskModal = () => {
     setTaskDetails({ ...taskDetails, taskRepeatsOn: e });
   };
 
-  // Route to tasks
-  const routeToTasks = (taskCategory) => {};
+
 
   // Handle Task Category
   const taskCategoryHandler = (e) => {
@@ -73,6 +81,7 @@ const AddTaskModal = () => {
   };
   return (
     <>
+    <ToastContainer />
       <div className="modal-box add-task-modal">
         <h3 className="font-bold text-xl text-center mb-4">Add Task</h3>
         {/* Task input */}
@@ -121,16 +130,17 @@ const AddTaskModal = () => {
           <form method="dialog" id="save-cancel-task">
             {/* if there is a button in form, it will close the modal */}
             <span
-              className="btn btn-success text-white mr-5"
+              className="btn btn-primary text-white mr-5"
               onClick={addTaskHandler}
             >
               Save
             </span>
-            <button className="btn btn-error text-white">Cancel</button>
+            <button className="btn btn-error text-white">Close</button>
           </form>
         </div>
+        
       </div>
-      <ToastContainer />
+      
     </>
   );
 };
