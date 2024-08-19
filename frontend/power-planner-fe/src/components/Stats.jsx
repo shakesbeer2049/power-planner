@@ -10,6 +10,7 @@ const Stats = () => {
   const [totalTasks, setTotalTasks] = useState(0);
   const [completedTasks, setCompletedTasks] = useState(0);
   const [achievedPercent, setAchievedPercent] = useState(0);
+  const [selectedStat, setSelectedStat] = useState("overall");
 
   useEffect(() => {
     const { totalTasks, completedTasks } = getTotalAndCompletedTasks(taskList);
@@ -21,7 +22,40 @@ const Stats = () => {
   return (
     <div className="dashboard-div">
       <h1 className="text-center text-2xl pt-8">Performance Analysis</h1>
-
+      <ul className="menu menu-horizontal lg:menu-horizontal bg-base-200 rounded-box ml-8">
+        <li
+          className={selectedStat === "overall" ? "selected-stat" : ""}
+          onClick={() => {
+            setSelectedStat("overall");
+          }}
+        >
+          <a>Overall</a>
+        </li>
+        <li
+          className={selectedStat === "daily" ? "selected-stat" : ""}
+          onClick={() => {
+            setSelectedStat("daily");
+          }}
+        >
+          <a>Daily</a>
+        </li>
+        <li
+          className={selectedStat === "weekly" ? "selected-stat" : ""}
+          onClick={() => {
+            setSelectedStat("weekly");
+          }}
+        >
+          <a>Weekly</a>
+        </li>
+        <li
+          className={selectedStat === "yearly" ? "selected-stat" : ""}
+          onClick={() => {
+            setSelectedStat("yearly");
+          }}
+        >
+          <a>Yearly</a>
+        </li>
+      </ul>
       <div className="performace">
         <div className="cards-div">
           <Card title={"Total Tasks"} data={totalTasks} />

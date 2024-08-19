@@ -74,6 +74,10 @@ const AddTaskModal = () => {
     // console.log(e.target.value)
     setTaskDetails({ ...taskDetails, taskCategory: e.target.value });
   };
+
+  const selectStyles = {
+    container: (css) => ({ ...css, width: "250px" }),
+  };
   return (
     <>
       <ToastContainer />
@@ -111,14 +115,15 @@ const AddTaskModal = () => {
           <Select
             options={weekDays}
             isMulti
-            hideSelectedOptions={false}
+            hideSelectedOptions={true}
             allowSelectAll={true}
             placeholder="Repeats on"
             style={{ "z-index": 5 }}
             onChange={taskRepeatsOnHandler}
-            // closeMenuOnSelect={false}
+            closeMenuOnSelect={false}
             blurInputOnSelect={false}
             value={taskDetails.taskRepeatsOn}
+            styles={selectStyles}
           />
         </div>
         <div className="modal-action">

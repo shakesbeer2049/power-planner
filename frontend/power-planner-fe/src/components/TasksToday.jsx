@@ -19,7 +19,7 @@ const TasksToday = ({}) => {
     const tasksToday = taskList.filter(
       (task) =>
         task?.taskRepeatsOn?.includes(today) &&
-        new Date(task.date).toDateString() === new Date().toDateString()
+        new Date(task.createdOn).toDateString() === new Date().toDateString()
     );
     //  console.log("tasks today", tasksToday);
     const healthTasks = tasksToday.filter(
