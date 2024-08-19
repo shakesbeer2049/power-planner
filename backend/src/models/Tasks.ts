@@ -10,7 +10,7 @@ const taskSchema = new mongoose.Schema({
     required: [true, "Task Status is required"],
     default: false,
   },
-  date: { type: Date, default: Date.now },
+  createdOn: { type: Date, default: Date.now },
   taskCategory: {
     type: [String],
     required: [true, "Task category is required"],
