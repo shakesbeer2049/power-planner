@@ -1,0 +1,10 @@
+.dashboard-div {
+    margin-top: 13%;
+}
+
+.cards-div {
+    display: flex;
+    flex-direction: column;
+    /* border: 1px solid red; */
+    height: 80vh;
+}

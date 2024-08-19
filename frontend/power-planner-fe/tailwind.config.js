@@ -7,6 +7,6 @@ module.exports = {
   },
   plugins: [daisyui],
   daisyui: {
-    themes: ["retro", "light"],
+    themes: ["winter", "light"],
   },
 };

@@ -1,10 +1,11 @@
 import { nanoid } from "nanoid";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Select from "react-select";
 import { weekDays } from "../utils/weekdays";
 import * as taskService from "../utils/taskService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import TaskContext from "../context/TaskContext";
 
 const AddTaskModal = () => {
   const [taskDetails, setTaskDetails] = useState({
@@ -13,6 +14,8 @@ const AddTaskModal = () => {
     taskCategory: "",
   });
 
+  const { setTaskList, taskList } = useContext(TaskContext);
+
   //handle task input
   const handleTaskInput = (e) => {
     setTaskDetails({ ...taskDetails, taskName: e.target.value });
@@ -20,8 +23,6 @@ const AddTaskModal = () => {
 
   // Add Task Handler
   const addTaskHandler = async () => {
-    console.log("add tasks", taskDetails);
-
     const repeatsOn = taskDetails.taskRepeatsOn?.map((repeat) => repeat.value);
 
     let taskObj = {
@@ -37,16 +38,16 @@ const AddTaskModal = () => {
     else if (!taskObj.taskRepeatsOn) formValid = false;
 
     if (formValid) {
-      console.log(taskObj);
       const res = await taskService.addTask(taskObj);
-      setTaskDetails({...taskDetails, taskName:""});
+      setTaskList([...taskList, taskObj]);
+      console.log(res, "task add res");
+      setTaskDetails({ ...taskDetails, taskName: "" });
       toast.success("Task Added.", {
         autoClose: 1000,
         theme: "dark",
         pauseOnFocusLoss: false,
         closeOnClick: true,
       });
-      console.log("res", res);
     } else {
       toast.warning("Please fill all the task details!", {
         autoClose: 1000,
@@ -59,7 +60,6 @@ const AddTaskModal = () => {
 
   // task repeats on handler
   const taskRepeatsOnHandler = (e) => {
-    console.log(e);
     setTaskDetails({ ...taskDetails, taskRepeatsOn: e });
   };
 

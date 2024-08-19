@@ -2,34 +2,31 @@ import "../styles/drawer.css";
 import { AiOutlineMenu } from "react-icons/ai";
 import TaskProgress from "./TaskProgress";
 import AddTaskModal from "./AddTaskModal";
+import XPBar from "./XPBar";
 
 const Drawer = () => {
   return (
     <>
-      <div className="drawer lg:drawer-open">
+      <div className="drawer lg:drawer-open drawer-container">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+
         <div className="drawer-content flex flex-col items-center justify-center">
           {/* Page content here */}
-          {/* SIDE MENU TOGGLE */}
-          <label
-            htmlFor="my-drawer-2"
-            className="drawer-button lg:hidden text-xl"
-            id="side-menu-toggle"
-          >
-            <AiOutlineMenu />
-          </label>
-          {/* XP BAR */}
-          <div className="xp-bar">
-            <span>
-              <b>XP</b>
-            </span>{" "}
-            <progress
-              className="progress progress-success w-24 mt-3"
-              value={50}
-              max="100"
-            ></progress>
+
+          <div className="side-menu-xp-bar">
+            {/* SIDE MENU TOGGLE */}
+            <label
+              htmlFor="my-drawer-2"
+              className="drawer-button lg:hidden text-5xl"
+              id="side-menu-toggle"
+            >
+              <AiOutlineMenu />
+            </label>
+            {/* XP BAR */}
+            <XPBar />
           </div>
         </div>
+
         <div className="drawer-side">
           <label
             htmlFor="my-drawer-2"
@@ -44,7 +41,7 @@ const Drawer = () => {
             <li>
               {/* Open the modal using document.getElementById('ID').showModal() method */}
               <button
-                className="btn"
+                className="btn btn-primary"
                 onClick={() =>
                   document.getElementById("add_task_modal").showModal()
                 }
@@ -63,10 +60,10 @@ const Drawer = () => {
               <a href={`/weekly`}>Weekly</a>
             </li>
             <li>
-              <a>Monthly</a>
+              <a href={`/performance`}>Performance Review</a>
             </li>
             <li>
-              <a>Yearly</a>
+              <a href={`/stats`}>Stats</a>
             </li>
           </ul>
         </div>

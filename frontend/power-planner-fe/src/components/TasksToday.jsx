@@ -37,8 +37,7 @@ const TasksToday = ({}) => {
   };
 
   useEffect(() => {
-    console.log("taskList in useEffect", taskList);
-    if (taskList?.length > 0) makeTaskList();
+    if (taskList?.length > -1) makeTaskList();
   }, [taskList]);
 
   return (
