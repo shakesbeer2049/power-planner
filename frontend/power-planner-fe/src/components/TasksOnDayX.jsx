@@ -49,6 +49,7 @@ const TasksToday = ({ taskList, weekDay }) => {
                 className="checkbox checkbox-accent"
                 name="task"
                 id="task"
+                checked={task.isCompleted}
               />{" "}
               <h4 className={task.isCompleted ? "completed" : ""}>
                 {task.taskName}
@@ -73,6 +74,7 @@ const TasksToday = ({ taskList, weekDay }) => {
                 type="checkbox"
                 name="task"
                 id="task"
+                checked={task.isCompleted}
               />{" "}
               <h4 className={task.isCompleted ? "completed" : ""}>
                 {task.taskName}

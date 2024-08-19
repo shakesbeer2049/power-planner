@@ -7,20 +7,21 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const TasksToday = ({}) => {
-  const { taskList, setTaskList, handleTaskUpdate, setCounter, counter } = useContext(TaskContext);
+  const { taskList, setTaskList, handleTaskUpdate } = useContext(TaskContext);
   const [tasksToday, setTasksToday] = useState({
     health: [],
     wealth: [],
     knowledge: [],
   });
 
-
   const makeTaskList = () => {
     const today = getToday();
-    const tasksToday = taskList.filter((task) =>
-      task?.taskRepeatsOn?.includes(today) && new Date(task.date).toDateString() === new Date().toDateString()
+    const tasksToday = taskList.filter(
+      (task) =>
+        task?.taskRepeatsOn?.includes(today) &&
+        new Date(task.date).toDateString() === new Date().toDateString()
     );
-  //  console.log("tasks today", tasksToday);
+    //  console.log("tasks today", tasksToday);
     const healthTasks = tasksToday.filter(
       (task) => task?.taskCategory == "health"
     );
@@ -39,13 +40,11 @@ const TasksToday = ({}) => {
   };
 
   useEffect(() => {
-    
-    if (taskList?.length>=0){ 
-      console.log("Rerender in Tasks Today Comp",taskList.length);
+    if (taskList?.length >= 0) {
+      console.log("Rerender in Tasks Today Comp", taskList.length);
       makeTaskList();
     }
-  }, [taskList, counter]);
- 
+  }, [taskList]);
 
   return (
     <div className="tasks-today text-left mt-16 ml-8">

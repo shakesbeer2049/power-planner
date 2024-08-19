@@ -14,7 +14,7 @@ const AddTaskModal = () => {
     taskCategory: "",
   });
 
-  const { setTaskList, taskList, setCounter, counter } = useContext(TaskContext);
+  const { setTaskList, taskList } = useContext(TaskContext);
 
   //handle task input
   const handleTaskInput = (e) => {
@@ -22,8 +22,8 @@ const AddTaskModal = () => {
   };
 
   useEffect(() => {
-    console.log("Rerender in Add Task Modal Comp")
-  }, [taskList])
+    console.log("Rerender in Add Task Modal Comp");
+  }, [taskList]);
 
   // Add Task Handler
   const addTaskHandler = async () => {
@@ -47,8 +47,6 @@ const AddTaskModal = () => {
       const res = await taskService.addTask(taskObj);
       const newTaskList = [...taskList, taskObj];
       setTaskList(newTaskList);
-      setCounter(prev => prev+1);
-      console.log(res, "task add res");
       setTaskDetails({ ...taskDetails, taskName: "" });
       toast.success("Task Added.", {
         autoClose: 1000,
@@ -62,7 +60,6 @@ const AddTaskModal = () => {
         theme: "dark",
         pauseOnFocusLoss: false,
         closeOnClick: true,
-        
       });
     }
   };
@@ -72,8 +69,6 @@ const AddTaskModal = () => {
     setTaskDetails({ ...taskDetails, taskRepeatsOn: e });
   };
 
-
-
   // Handle Task Category
   const taskCategoryHandler = (e) => {
     // console.log(e.target.value)
@@ -81,7 +76,7 @@ const AddTaskModal = () => {
   };
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <div className="modal-box add-task-modal">
         <h3 className="font-bold text-xl text-center mb-4">Add Task</h3>
         {/* Task input */}
@@ -138,9 +133,7 @@ const AddTaskModal = () => {
             <button className="btn btn-error text-white">Close</button>
           </form>
         </div>
-        
       </div>
-      
     </>
   );
 };
