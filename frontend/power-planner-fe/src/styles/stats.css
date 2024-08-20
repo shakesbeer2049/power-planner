@@ -8,3 +8,9 @@
     /* border: 1px solid red; */
     height: 80vh;
 }
+
+.selected-stat {
+    background: teal;
+    color: whitesmoke;
+    transition: background-color 0.7s ease, color 0.7s ease;
+}

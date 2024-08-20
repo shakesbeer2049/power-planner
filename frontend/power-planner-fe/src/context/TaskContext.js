@@ -22,7 +22,7 @@ export const TaskProvider = ({ children }) => {
     if (!tasksLoading && !taskError) {
       setTaskList(tasks.tasks);
     }
-    console.log("Rerender in Context Comp")
+    console.log("Rerender in Context Comp");
   }, [tasksLoading, tasks]);
 
   // TASK UPDATE HANDLER
@@ -41,8 +41,7 @@ export const TaskProvider = ({ children }) => {
     if (taskRes.status === "success") {
       // update state
       setTaskList(updatedList);
-      setCounter(prev => prev+1);
-      console.log("task updated in context");
+      setCounter((prev) => prev + 1);
 
       // If task is completed , show toast
       if (updatedTask.isCompleted)
@@ -58,7 +57,9 @@ export const TaskProvider = ({ children }) => {
   };
 
   return (
-    <TaskContext.Provider value={{ taskList, setTaskList, handleTaskUpdate, counter, setCounter }}>
+    <TaskContext.Provider
+      value={{ taskList, setTaskList, handleTaskUpdate, counter, setCounter }}
+    >
       {children}
     </TaskContext.Provider>
   );

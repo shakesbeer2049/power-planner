@@ -4,20 +4,50 @@ import TasksToday from "./TasksOnDayX";
 import { isDateInCurrentWeek } from "../utils/daysAndDates";
 
 const WeeklyTasks = ({}) => {
-  const { taskList } = useContext(TaskContext);
-  const thisWeekTasks = taskList.filter(task => isDateInCurrentWeek(task.date))
+  const { taskList, handleTaskUpdate } = useContext(TaskContext);
+  const thisWeekTasks = taskList.filter((task) =>
+    isDateInCurrentWeek(task.createdOn)
+  );
   return (
     <>
       <h1 className="text-3xl font-bold text-center mt-14 mb-0">
         Weekly Tasks
       </h1>
-      <TasksToday taskList={thisWeekTasks} weekDay={"Monday"} />
-      <TasksToday taskList={thisWeekTasks} weekDay={"Tuesday"} />
-      <TasksToday taskList={thisWeekTasks} weekDay={"Wednesday"} />
-      <TasksToday taskList={thisWeekTasks} weekDay={"Thursday"} />
-      <TasksToday taskList={thisWeekTasks} weekDay={"Friday"} />
-      <TasksToday taskList={thisWeekTasks} weekDay={"Saturday"} />
-      <TasksToday taskList={thisWeekTasks} weekDay={"Sunday"} />
+      <TasksToday
+        handleTaskUpdate={handleTaskUpdate}
+        taskList={thisWeekTasks}
+        weekDay={"Monday"}
+      />
+      <TasksToday
+        handleTaskUpdate={handleTaskUpdate}
+        taskList={thisWeekTasks}
+        weekDay={"Tuesday"}
+      />
+      <TasksToday
+        handleTaskUpdate={handleTaskUpdate}
+        taskList={thisWeekTasks}
+        weekDay={"Wednesday"}
+      />
+      <TasksToday
+        handleTaskUpdate={handleTaskUpdate}
+        taskList={thisWeekTasks}
+        weekDay={"Thursday"}
+      />
+      <TasksToday
+        handleTaskUpdate={handleTaskUpdate}
+        taskList={thisWeekTasks}
+        weekDay={"Friday"}
+      />
+      <TasksToday
+        handleTaskUpdate={handleTaskUpdate}
+        taskList={thisWeekTasks}
+        weekDay={"Saturday"}
+      />
+      <TasksToday
+        handleTaskUpdate={handleTaskUpdate}
+        taskList={thisWeekTasks}
+        weekDay={"Sunday"}
+      />
     </>
   );
 };

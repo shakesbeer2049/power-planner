@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getToday } from "../utils/daysAndDates";
 import "../styles/tasksToday.css";
 import { TbMoodEmpty } from "react-icons/tb";
-const TasksToday = ({ taskList, weekDay }) => {
+const TasksToday = ({ taskList, weekDay, handleTaskUpdate }) => {
   const [tasksToday, setTasksToday] = useState({
     health: [],
     wealth: [],
@@ -42,13 +42,15 @@ const TasksToday = ({ taskList, weekDay }) => {
       <div className="tasks">
         {tasksToday.health?.length > 0 ? (
           tasksToday.health.map((task) => (
-            <div className="task-h1-input">
+            <div className="task-h1-input" key={task._id}>
               {" "}
               <input
                 type="checkbox"
                 className="checkbox checkbox-accent"
                 name="task"
                 id="task"
+                checked={task.isCompleted}
+                onChange={(e) => handleTaskUpdate(e, task)}
               />{" "}
               <h4 className={task.isCompleted ? "completed" : ""}>
                 {task.taskName}
@@ -66,13 +68,15 @@ const TasksToday = ({ taskList, weekDay }) => {
       <div className="tasks">
         {tasksToday.wealth?.length > 0 ? (
           tasksToday.wealth.map((task) => (
-            <div className="task-h1-input">
+            <div className="task-h1-input" key={task._id}>
               {" "}
               <input
                 className="checkbox checkbox-accent"
                 type="checkbox"
                 name="task"
                 id="task"
+                checked={task.isCompleted}
+                onChange={(e) => handleTaskUpdate(e, task)}
               />{" "}
               <h4 className={task.isCompleted ? "completed" : ""}>
                 {task.taskName}
@@ -91,11 +95,11 @@ const TasksToday = ({ taskList, weekDay }) => {
       <div className="tasks">
         {tasksToday.knowledge?.length > 0 ? (
           tasksToday.knowledge.map((task) => (
-            <div className="task-h1-input">
-              {" "}
+            <div className="task-h1-input" key={task._id}>
               <input
                 type="checkbox"
                 checked={task.isCompleted}
+                onChange={(e) => handleTaskUpdate(e, task)}
                 name="task"
                 id="task"
                 className="checkbox checkbox-accent"

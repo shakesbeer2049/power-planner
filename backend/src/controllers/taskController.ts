@@ -36,7 +36,7 @@ export const deleteTask = catchAsync(
 
 export const updateTask = catchAsync(
   async (req: express.Request, res: express.Response, next: NextFunction) => {
-    console.log(req.body)
+    console.log(req.body);
     const updatedTask = await Task.findByIdAndUpdate(req.body._id, req.body, {
       new: true,
     });
@@ -49,8 +49,14 @@ export const updateTask = catchAsync(
 
 export const addTask = catchAsync(
   async (req: express.Request, res: express.Response, next: NextFunction) => {
-    req.body.day = utils.getDayOfWeek();
-    const resp = await Task.create(req.body);
+    const repeatDays = req.body.taskRepeatsOn;
+    if (repeatDays.length > 1) {
+      repeatDays.forEach(async (day: string) => {
+        let newTaskBody = { ...req.body, taskRepeatsOn: [day] };
+        await Task.create(newTaskBody);
+      });
+    } else await Task.create(req.body);
+
     return res.status(200).json({ status: "success", message: "Task Added" });
   }
 );
