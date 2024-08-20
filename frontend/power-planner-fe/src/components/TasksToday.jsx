@@ -16,10 +16,8 @@ const TasksToday = ({}) => {
 
   const makeTaskList = () => {
     const today = getToday();
-    const tasksToday = taskList.filter(
-      (task) =>
-        task?.taskRepeatsOn?.includes(today) &&
-        new Date(task.createdOn).toDateString() === new Date().toDateString()
+    const tasksToday = taskList.filter((task) =>
+      task?.taskRepeatsOn?.includes(today)
     );
     //  console.log("tasks today", tasksToday);
     const healthTasks = tasksToday.filter(
@@ -50,9 +48,8 @@ const TasksToday = ({}) => {
     <div className="tasks-today text-left mt-16 ml-8">
       <h1 className="text-3xl font-bold text-center">FOCUS ON TODAY</h1>
 
-      <h2 className="text-2xl font-bold mb-4">Health</h2>
-
       <div className="tasks">
+        <h2 className="text-2xl font-bold mb-4">Health</h2>
         {tasksToday.health.map((task) => (
           <div className="task-h1-input">
             <DeleteTaskModal task={task} />{" "}
@@ -76,8 +73,9 @@ const TasksToday = ({}) => {
           </div>
         ))}
       </div>
-      <h2 className="text-2xl font-bold mb-4">Knowledge</h2>
+
       <div className="tasks">
+        <h2 className="text-2xl font-bold mb-4">Knowledge</h2>
         {tasksToday.wealth.map((task) => (
           <div key={task._id} className="task-h1-input">
             <DeleteTaskModal task={task} />{" "}
@@ -102,8 +100,8 @@ const TasksToday = ({}) => {
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold mb-4">Wealth</h2>
       <div className="tasks">
+        <h2 className="text-2xl font-bold mb-4">Wealth</h2>
         {tasksToday.knowledge.map((task) => (
           <div key={task._id} className="task-h1-input">
             <DeleteTaskModal task={task} />{" "}
