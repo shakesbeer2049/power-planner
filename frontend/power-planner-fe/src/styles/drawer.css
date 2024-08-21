@@ -61,5 +61,28 @@
 
 .drawer-container {
     z-index: 1000;
-    position: fixed;
+    /* position: fixed; */
+}
+.selected-menu{
+    background-color : teal;
+    color: whitesmoke;
+    border-radius: 5px;
+}
+
+/* MEDIA QUEIRES */
+@media (min-width:769px) {
+    .xp-bar{
+        position: fixed;
+        right: 3px;
+    }
+    .drawer{
+        /* margin-top: -5%; */
+        width: fit-content;
+    }
+    .add-task-modal{
+        position: absolute;
+    }
+    .outlet{
+        /* border: 2px solid red; */
+    }
 }

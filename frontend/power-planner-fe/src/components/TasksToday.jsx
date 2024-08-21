@@ -1,13 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getToday } from "../utils/daysAndDates";
 import "../styles/tasksToday.css";
-import TaskContext from "../context/TaskContext";
 import DeleteTaskModal from "./DeleteTaskModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const TasksToday = ({}) => {
-  const { taskList, setTaskList, handleTaskUpdate } = useContext(TaskContext);
+const TasksToday = ({taskList, setTaskList, handleTaskUpdate}) => {
   const [tasksToday, setTasksToday] = useState({
     health: [],
     wealth: [],
@@ -45,14 +43,14 @@ const TasksToday = ({}) => {
   }, [taskList]);
 
   return (
-    <div className="tasks-today text-left mt-16 ml-8">
+    <div className="tasks-today text-left mt-16 ml-8 lg:mt-0">
       <h1 className="text-3xl font-bold text-center">FOCUS ON TODAY</h1>
 
       <div className="tasks">
         <h2 className="text-2xl font-bold mb-4">Health</h2>
         {tasksToday.health.map((task) => (
-          <div className="task-h1-input">
-            <DeleteTaskModal task={task} />{" "}
+          <div key={task._id} className="task-h1-input">
+            <DeleteTaskModal task={task} taskList={taskList} setTaskList={setTaskList} />{" "}
             <input
               type="checkbox"
               checked={task.isCompleted}
@@ -78,7 +76,7 @@ const TasksToday = ({}) => {
         <h2 className="text-2xl font-bold mb-4">Knowledge</h2>
         {tasksToday.wealth.map((task) => (
           <div key={task._id} className="task-h1-input">
-            <DeleteTaskModal task={task} />{" "}
+            <DeleteTaskModal task={task} taskList={taskList} setTaskList={setTaskList} />{" "}
             <input
               type="checkbox"
               className="checkbox checkbox-accent"
@@ -104,7 +102,7 @@ const TasksToday = ({}) => {
         <h2 className="text-2xl font-bold mb-4">Wealth</h2>
         {tasksToday.knowledge.map((task) => (
           <div key={task._id} className="task-h1-input">
-            <DeleteTaskModal task={task} />{" "}
+            <DeleteTaskModal task={task} taskList={taskList} setTaskList={setTaskList} />{" "}
             <input
               className="checkbox checkbox-accent"
               type="checkbox"

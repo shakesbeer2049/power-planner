@@ -1,11 +1,10 @@
-import { useContext, useEffect, useState } from "react";
-import TaskContext from "../context/TaskContext";
+import { useEffect, useState } from "react";
+
 import "../styles/stats.css";
 import Card from "./Card";
 import { getTotalAndCompletedTasks } from "../utils/taskCalculations";
 
-const Stats = () => {
-  const { taskList } = useContext(TaskContext);
+const Stats = ({taskList}) => {
 
   const [totalTasks, setTotalTasks] = useState(0);
   const [completedTasks, setCompletedTasks] = useState(0);
@@ -21,7 +20,7 @@ const Stats = () => {
 
   return (
     <div className="dashboard-div">
-      <h1 className="text-center text-2xl pt-8">Performance Analysis</h1>
+      <h1 className="text-center text-2xl">Stats</h1>
       <ul className="menu menu-horizontal lg:menu-horizontal bg-base-200 rounded-box ml-8">
         <li
           className={selectedStat === "overall" ? "selected-stat" : ""}
@@ -56,7 +55,7 @@ const Stats = () => {
           <a>Yearly</a>
         </li>
       </ul>
-      <div className="performace">
+      <div className="performance">
         <div className="cards-div">
           <Card title={"Total Tasks"} data={totalTasks} />
           <Card title={"Completed"} data={completedTasks} />

@@ -14,3 +14,26 @@
     color: whitesmoke;
     transition: background-color 0.7s ease, color 0.7s ease;
 }
+
+
+/* MEDIA QUERIES */
+
+@media (min-width:769px) {
+    .dashboard-div {
+        margin-top: 0%;
+    }
+
+    .menu{
+        display: flex;
+        width: fit-content;
+        margin: auto;
+    }
+
+    .cards-div {
+        flex-direction: row;
+        width: 75%;
+        margin: auto;
+        /* margin-left: 25%; */
+    }
+    
+}

@@ -1,20 +1,18 @@
 import { nanoid } from "nanoid";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "react-select";
 import { weekDays } from "../utils/daysAndDates";
 import * as taskService from "../utils/taskService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import TaskContext from "../context/TaskContext";
 
-const AddTaskModal = () => {
+const AddTaskModal = ({ taskList, setTaskList }) => {
   const [taskDetails, setTaskDetails] = useState({
     taskName: "",
     taskRepeatsOn: [],
     taskCategory: "",
   });
 
-  const { setTaskList, taskList } = useContext(TaskContext);
 
   //handle task input
   const handleTaskInput = (e) => {
@@ -45,15 +43,21 @@ const AddTaskModal = () => {
 
     if (formValid) {
       const res = await taskService.addTask(taskObj);
-      const newTaskList = [...taskList, taskObj];
-      setTaskList(newTaskList);
-      setTaskDetails({ ...taskDetails, taskName: "" });
-      toast.success("Task Added.", {
-        autoClose: 1000,
-        theme: "dark",
-        pauseOnFocusLoss: false,
-        closeOnClick: true,
-      });
+      console.log("res", res)
+      console.log(taskList,"taskList")
+
+      if(res.data.status === "success"){
+        const newTaskList = [...taskList, taskObj];
+        setTaskList(newTaskList);
+        setTaskDetails({ ...taskDetails, taskName: "" });
+        toast.success("Task Added.", {
+          autoClose: 1000,
+          theme: "dark",
+          pauseOnFocusLoss: false,
+          closeOnClick: true,
+        });
+      }else window.alert("error in adding Task")
+     
     } else {
       toast.warning("Please fill all the task details!", {
         autoClose: 1000,
@@ -84,6 +88,7 @@ const AddTaskModal = () => {
       <div className="modal-box add-task-modal">
         <h3 className="font-bold text-xl text-center mb-4">Add Task</h3>
         {/* Task input */}
+        <div className="add-task-content lg:text-center">
         <input
           type="text"
           name="add-task-input"
@@ -112,6 +117,7 @@ const AddTaskModal = () => {
           {/* date selection */}
           {/* <input type="date" name="task-date" id="task-date" /> */}
 
+          <div className="react-select lg:ml-20">
           <Select
             options={weekDays}
             isMulti
@@ -125,6 +131,7 @@ const AddTaskModal = () => {
             value={taskDetails.taskRepeatsOn}
             styles={selectStyles}
           />
+          </div>
         </div>
         <div className="modal-action">
           <form method="dialog" id="save-cancel-task">
@@ -137,6 +144,7 @@ const AddTaskModal = () => {
             </span>
             <button className="btn btn-error text-white">Close</button>
           </form>
+        </div>
         </div>
       </div>
     </>

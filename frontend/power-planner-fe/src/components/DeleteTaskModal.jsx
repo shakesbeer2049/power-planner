@@ -1,10 +1,7 @@
-import { useContext } from "react";
-import TaskContext from "../context/TaskContext";
 import * as taskService from "../utils/taskService";
 import { toast } from "react-toastify";
 
-const DeleteTaskModal = ({ task }) => {
-  const { taskList, setTaskList, handleTaskUpdate } = useContext(TaskContext);
+const DeleteTaskModal = ({ task,taskList, setTaskList }) => {
   const handleTaskDelete = async (taskToDelete) => {
     // console.log("deleted task", taskToDelete);
     const updatedList = taskList.filter(

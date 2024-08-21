@@ -3,16 +3,18 @@ import { AiOutlineMenu } from "react-icons/ai";
 import TaskProgress from "./TaskProgress";
 import AddTaskModal from "./AddTaskModal";
 import XPBar from "./XPBar";
+import { useState } from "react";
+import { Link, Outlet } from "react-router-dom";
 
-const Drawer = () => {
+const Drawer = ({ selectedMenu, setSelectedMenu, taskList , setTaskList}) => {
   return (
     <>
-      <div className="drawer lg:drawer-open drawer-container">
+    <div className="main-model lg:flex">
+    <div className="drawer lg:drawer-open drawer-container">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
 
         <div className="drawer-content flex flex-col items-center justify-center">
           {/* Page content here */}
-
           <div className="side-menu-xp-bar">
             {/* SIDE MENU TOGGLE */}
             <label
@@ -36,7 +38,7 @@ const Drawer = () => {
           <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 text-2xl">
             {/* Sidebar content here */}
             <div className="task-progress">
-              <TaskProgress title={"Today"} />
+              <TaskProgress title={"Today"} taskList = {taskList} />
             </div>
             <li>
               {/* Open the modal using document.getElementById('ID').showModal() method */}
@@ -48,26 +50,42 @@ const Drawer = () => {
               >
                 Add Task
               </button>
-              <dialog id="add_task_modal" className="modal">
-                <AddTaskModal />
+              <dialog id="add_task_modal" className="modal lg:mb-8">
+                <AddTaskModal taskList = {taskList} setTaskList = {setTaskList} />
               </dialog>
             </li>
-
-            <li>
-              <a href={`/`}>Daily</a>
+                <br />
+            <li
+              onClick={() => setSelectedMenu("daily")}
+              className={selectedMenu === "daily" ? "selected-menu" : ""}
+            >
+              <Link to="/">Daily</Link>
             </li>
-            <li>
-              <a href={`/weekly`}>Weekly</a>
+            <li
+              onClick={() => setSelectedMenu("weekly")}
+              className={selectedMenu === "weekly" ? "selected-menu" : ""}
+            >
+              <Link to="/weekly">Weekly</Link>
             </li>
-            <li>
-              <a href={`/performance`}>Performance Review</a>
+            <li
+              onClick={() => setSelectedMenu("performance")}
+              className={selectedMenu === "performance" ? "selected-menu" : ""}
+            >
+              <Link to="/performance">Performance</Link>
             </li>
-            <li>
-              <a href={`/stats`}>Stats</a>
+            <li
+              onClick={() => setSelectedMenu("stats")}
+              className={selectedMenu === "stats" ? "selected-menu" : ""}
+            >
+              <Link to="/stats">Stats</Link>
             </li>
           </ul>
         </div>
       </div>
+      <div className="outlet w-full">
+      <Outlet />
+      </div>
+    </div>
     </>
   );
 };

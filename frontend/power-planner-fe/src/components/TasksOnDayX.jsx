@@ -35,10 +35,10 @@ const TasksToday = ({ taskList, weekDay, handleTaskUpdate }) => {
   }, [taskList]);
 
   return (
-    <div className="tasks-today text-left mt-16 ml-8">
-      <h1 className="text-3xl font-bold text-center">{weekDay}</h1>
+    <div className="tasks-today text-left mt-16 ml-8 lg:mt-0">
+      <h1 className="text-5xl font-bold text-center mb-16 mt-16 text-teal-800">{weekDay}</h1>
 
-      <h2 className="text-2xl font-bold mb-4 mt-4">Health</h2>
+      <h2 className="text-2xl font-bold mb-4 mt-4 text-center">Health</h2>
       <div className="tasks">
         {tasksToday.health?.length > 0 ? (
           tasksToday.health.map((task) => (
@@ -64,7 +64,7 @@ const TasksToday = ({ taskList, weekDay, handleTaskUpdate }) => {
           </span>
         )}
       </div>
-      <h2 className="text-2xl font-bold mb-4 mt-4">Knowledge</h2>
+      <h2 className="text-2xl font-bold mb-4 mt-4 text-center">Knowledge</h2>
       <div className="tasks">
         {tasksToday.wealth?.length > 0 ? (
           tasksToday.wealth.map((task) => (
@@ -91,7 +91,7 @@ const TasksToday = ({ taskList, weekDay, handleTaskUpdate }) => {
         )}
       </div>
 
-      <h2 className="text-2xl font-bold mb-4 mt-4">Wealth</h2>
+      <h2 className="text-2xl font-bold mb-4 mt-4 text-center">Wealth</h2>
       <div className="tasks">
         {tasksToday.knowledge?.length > 0 ? (
           tasksToday.knowledge.map((task) => (

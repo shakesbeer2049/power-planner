@@ -2,11 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./styles/index.css";
 import App from "./App";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import TasksToday from "./components/TasksToday";
-import WeeklyTasks from "./components/WeeklyTasks";
-import { TaskProvider } from "./context/TaskContext";
-import Drawer from "./components/Drawer";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
