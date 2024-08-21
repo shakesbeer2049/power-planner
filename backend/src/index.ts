@@ -46,6 +46,6 @@ mongoose
   .catch((err) => console.log(`error in db :  ${err}`));
 
 // Listen to requests on server
-server.listen(3003, () => {
-  console.log("Server is listening to requests at PORT", 3003);
+server.listen(process.env.PORT, () => {
+  console.log("Server is listening to requests at PORT", process.env.PORT);
 });
