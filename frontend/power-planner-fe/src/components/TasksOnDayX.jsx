@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { getToday } from "../utils/daysAndDates";
 import "../styles/tasksToday.css";
 import { TbMoodEmpty } from "react-icons/tb";
-const TasksToday = ({ taskList, weekDay, handleTaskUpdate }) => {
+import { useContext } from "react";
+
+import TaskContext from "../context/TaskContext";
+
+const TasksToday = ({ weekDay }) => {
+  const { taskList, handleTaskUpdate } = useContext(TaskContext);
+
   const [tasksToday, setTasksToday] = useState({
     health: [],
     wealth: [],
@@ -36,7 +42,9 @@ const TasksToday = ({ taskList, weekDay, handleTaskUpdate }) => {
 
   return (
     <div className="tasks-today text-left mt-16 ml-8 lg:mt-0">
-      <h1 className="text-5xl font-bold text-center mb-16 mt-16 text-teal-800">{weekDay}</h1>
+      <h1 className="text-5xl font-bold text-center mb-16 mt-16 text-teal-800">
+        {weekDay}
+      </h1>
 
       <h2 className="text-2xl font-bold mb-4 mt-4 text-center">Health</h2>
       <div className="tasks">

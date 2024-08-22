@@ -4,14 +4,20 @@ import "../styles/tasksToday.css";
 import DeleteTaskModal from "./DeleteTaskModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useContext } from "react";
 
-const TasksToday = ({taskList, setTaskList, handleTaskUpdate}) => {
+import TaskContext from "../context/TaskContext";
+
+const TasksToday = () => {
+  const { taskList, setTaskList, handleTaskUpdate } = useContext(TaskContext);
+
   const [tasksToday, setTasksToday] = useState({
     health: [],
     wealth: [],
     knowledge: [],
   });
 
+  // Functions
   const makeTaskList = () => {
     const today = getToday();
     const tasksToday = taskList.filter((task) =>
@@ -50,7 +56,7 @@ const TasksToday = ({taskList, setTaskList, handleTaskUpdate}) => {
         <h2 className="text-2xl font-bold mb-4">Health</h2>
         {tasksToday.health.map((task) => (
           <div key={task._id} className="task-h1-input">
-            <DeleteTaskModal task={task} taskList={taskList} setTaskList={setTaskList} />{" "}
+            <DeleteTaskModal task={task} />{" "}
             <input
               type="checkbox"
               checked={task.isCompleted}
@@ -76,7 +82,7 @@ const TasksToday = ({taskList, setTaskList, handleTaskUpdate}) => {
         <h2 className="text-2xl font-bold mb-4">Knowledge</h2>
         {tasksToday.wealth.map((task) => (
           <div key={task._id} className="task-h1-input">
-            <DeleteTaskModal task={task} taskList={taskList} setTaskList={setTaskList} />{" "}
+            <DeleteTaskModal task={task} />{" "}
             <input
               type="checkbox"
               className="checkbox checkbox-accent"
@@ -102,7 +108,7 @@ const TasksToday = ({taskList, setTaskList, handleTaskUpdate}) => {
         <h2 className="text-2xl font-bold mb-4">Wealth</h2>
         {tasksToday.knowledge.map((task) => (
           <div key={task._id} className="task-h1-input">
-            <DeleteTaskModal task={task} taskList={taskList} setTaskList={setTaskList} />{" "}
+            <DeleteTaskModal task={task} />{" "}
             <input
               className="checkbox checkbox-accent"
               type="checkbox"

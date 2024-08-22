@@ -1,14 +1,18 @@
-
 import TasksToday from "./TasksOnDayX";
 import { isDateInCurrentWeek } from "../utils/daysAndDates";
+import { useContext } from "react";
 
-const WeeklyTasks = ({taskList, handleTaskUpdate }) => {
+import TaskContext from "../context/TaskContext";
+
+const WeeklyTasks = () => {
+  const { taskList, handleTaskUpdate } = useContext(TaskContext);
+
   const thisWeekTasks = taskList.filter((task) =>
     isDateInCurrentWeek(task.createdOn)
   );
   return (
     <>
-      <h1 className="text-3xl font-bold text-center mt-14 mb-0 weekly-heading lg:mt-0 mb-6 mt-5">
+      <h1 className="text-3xl font-bold text-center mt-14 mb-0 weekly-heading lg:mt-0">
         Weekly Tasks
       </h1>
       <TasksToday

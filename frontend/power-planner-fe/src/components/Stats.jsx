@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
 import "../styles/stats.css";
 import Card from "./Card";
 import { getTotalAndCompletedTasks } from "../utils/taskCalculations";
 
-const Stats = ({taskList}) => {
+import TaskContext from "../context/TaskContext";
+
+const Stats = () => {
+  const { taskList } = useContext(TaskContext);
 
   const [totalTasks, setTotalTasks] = useState(0);
   const [completedTasks, setCompletedTasks] = useState(0);
@@ -17,6 +20,8 @@ const Stats = ({taskList}) => {
     setCompletedTasks(completedTasks);
     setAchievedPercent(((completedTasks / totalTasks) * 100).toFixed(1));
   }, [taskList]);
+
+  const calculateStats = (selectedStat) => {};
 
   return (
     <div className="dashboard-div">

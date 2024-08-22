@@ -1,18 +1,20 @@
 import { nanoid } from "nanoid";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Select from "react-select";
 import { weekDays } from "../utils/daysAndDates";
 import * as taskService from "../utils/taskService";
 import { ToastContainer, toast } from "react-toastify";
+import TaskContext from "../context/TaskContext";
 import "react-toastify/dist/ReactToastify.css";
 
-const AddTaskModal = ({ taskList, setTaskList }) => {
+const AddTaskModal = () => {
+  const { taskList, setTaskList } = useContext(TaskContext);
+
   const [taskDetails, setTaskDetails] = useState({
     taskName: "",
     taskRepeatsOn: [],
     taskCategory: "",
   });
-
 
   //handle task input
   const handleTaskInput = (e) => {
@@ -24,7 +26,7 @@ const AddTaskModal = ({ taskList, setTaskList }) => {
   }, [taskList]);
 
   // Add Task Handler
-  const addTaskHandler = async () => {
+  const addTaskHandler = async (taskDetails) => {
     const repeatsOn = taskDetails.taskRepeatsOn?.map((repeat) => repeat.value);
 
     // Task object
@@ -43,10 +45,10 @@ const AddTaskModal = ({ taskList, setTaskList }) => {
 
     if (formValid) {
       const res = await taskService.addTask(taskObj);
-      console.log("res", res)
-      console.log(taskList,"taskList")
+      console.log("res", res);
+      console.log(taskList, "taskList");
 
-      if(res.data.status === "success"){
+      if (res.data.status === "success") {
         const newTaskList = [...taskList, taskObj];
         setTaskList(newTaskList);
         setTaskDetails({ ...taskDetails, taskName: "" });
@@ -56,8 +58,7 @@ const AddTaskModal = ({ taskList, setTaskList }) => {
           pauseOnFocusLoss: false,
           closeOnClick: true,
         });
-      }else window.alert("error in adding Task")
-     
+      } else window.alert("error in adding Task");
     } else {
       toast.warning("Please fill all the task details!", {
         autoClose: 1000,
@@ -89,62 +90,62 @@ const AddTaskModal = ({ taskList, setTaskList }) => {
         <h3 className="font-bold text-xl text-center mb-4">Add Task</h3>
         {/* Task input */}
         <div className="add-task-content lg:text-center">
-        <input
-          type="text"
-          name="add-task-input"
-          id="add-task-input"
-          placeholder="Add a Task"
-          onChange={handleTaskInput}
-          value={taskDetails.taskName}
-          className="input input-bordered w-full max-w-xs"
-        />
-        {/* Task Attributes */}
-        <div className="task-category-div">
-          {/* choose category */}
-          <select
-            name="task-category"
-            id="task-category"
-            className="select select-bordered w-full max-w-xs mb-4"
-            onChange={taskCategoryHandler}
-            value={taskDetails.taskCategory}
-          >
-            <option value="">Category</option>
-            <option value={"health"}>Health</option>
-            <option value={"wealth"}>Wealth</option>
-            <option value={"knowledge"}>Knowledge</option>
-          </select>
-
-          {/* date selection */}
-          {/* <input type="date" name="task-date" id="task-date" /> */}
-
-          <div className="react-select lg:ml-20">
-          <Select
-            options={weekDays}
-            isMulti
-            hideSelectedOptions={true}
-            allowSelectAll={true}
-            placeholder="Repeats on"
-            style={{ "z-index": 5 }}
-            onChange={taskRepeatsOnHandler}
-            closeMenuOnSelect={false}
-            blurInputOnSelect={false}
-            value={taskDetails.taskRepeatsOn}
-            styles={selectStyles}
+          <input
+            type="text"
+            name="add-task-input"
+            id="add-task-input"
+            placeholder="Add a Task"
+            onChange={handleTaskInput}
+            value={taskDetails.taskName}
+            className="input input-bordered w-full max-w-xs"
           />
-          </div>
-        </div>
-        <div className="modal-action">
-          <form method="dialog" id="save-cancel-task">
-            {/* if there is a button in form, it will close the modal */}
-            <span
-              className="btn btn-primary text-white mr-5"
-              onClick={addTaskHandler}
+          {/* Task Attributes */}
+          <div className="task-category-div">
+            {/* choose category */}
+            <select
+              name="task-category"
+              id="task-category"
+              className="select select-bordered w-full max-w-xs mb-4"
+              onChange={taskCategoryHandler}
+              value={taskDetails.taskCategory}
             >
-              Save
-            </span>
-            <button className="btn btn-error text-white">Close</button>
-          </form>
-        </div>
+              <option value="">Category</option>
+              <option value={"health"}>Health</option>
+              <option value={"wealth"}>Wealth</option>
+              <option value={"knowledge"}>Knowledge</option>
+            </select>
+
+            {/* date selection */}
+            {/* <input type="date" name="task-date" id="task-date" /> */}
+
+            <div className="react-select lg:ml-20">
+              <Select
+                options={weekDays}
+                isMulti
+                hideSelectedOptions={true}
+                allowSelectAll={true}
+                placeholder="Repeats on"
+                style={{ "z-index": 5 }}
+                onChange={taskRepeatsOnHandler}
+                closeMenuOnSelect={false}
+                blurInputOnSelect={false}
+                value={taskDetails.taskRepeatsOn}
+                styles={selectStyles}
+              />
+            </div>
+          </div>
+          <div className="modal-action">
+            <form method="dialog" id="save-cancel-task">
+              {/* if there is a button in form, it will close the modal */}
+              <span
+                className="btn btn-primary text-white mr-5"
+                onClick={addTaskHandler}
+              >
+                Save
+              </span>
+              <button className="btn btn-error text-white">Close</button>
+            </form>
+          </div>
         </div>
       </div>
     </>
