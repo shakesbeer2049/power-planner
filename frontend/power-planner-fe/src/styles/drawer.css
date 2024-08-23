@@ -46,11 +46,13 @@
 
 .side-menu-xp-bar {
     position: fixed;
-    top: 11px;
-    left: 10px;
-    width: 95%;
+    top: 0px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    background: white;
+    padding: 5px;
+    border-radius: 2px;
 }
 
 .task-progress {
@@ -63,26 +65,28 @@
     z-index: 1000;
     /* position: fixed; */
 }
-.selected-menu{
-    background-color : rgba(0, 128, 128, 0.695);
+
+.selected-menu {
+    background-color: rgba(0, 128, 128, 0.695);
     border-radius: 5px;
-    color: whitesmoke !important ;
+    color: whitesmoke !important;
 }
 
 /* MEDIA QUEIRES */
 @media (min-width:769px) {
-    .xp-bar{
+    .xp-bar {
         position: fixed;
         right: 3px;
     }
-    .drawer{
+
+    .drawer {
         /* margin-top: -5%; */
         width: fit-content;
     }
-    .add-task-modal{
+
+    .add-task-modal {
         position: absolute;
     }
-    .outlet{
-        /* border: 2px solid red; */
-    }
+
+
 }

@@ -1,4 +1,4 @@
-import { getToday } from "./daysAndDates";
+import { getToday, isDateInCurrentWeek } from "./daysAndDates";
 
 export const calculateDailyProgress = (taskData) => {
   const tasksToday = taskData.filter((task) =>
@@ -9,9 +9,41 @@ export const calculateDailyProgress = (taskData) => {
   return parseInt((completedTasks / dailyTaskCount) * 100);
 };
 
-export const getTotalAndCompletedTasks = (tasks) => {
-  const totalTasks = tasks.length || 0;
-  const completedTasks = tasks.filter((task) => task.isCompleted).length;
+export const generateStats = (tasks, selectedStat) => {
+  let totalTasks = 0;
+  let completedTasks = 0;
 
-  return { totalTasks, completedTasks };
+  if (selectedStat === "overall") {
+    totalTasks = tasks.length || 0;
+    completedTasks = tasks.filter((task) => task.isCompleted).length;
+  } else if (selectedStat === "daily") {
+    const today = getToday();
+    totalTasks = tasks.filter((task) =>
+      task?.taskRepeatsOn?.includes(today)
+    ).length;
+    completedTasks = tasks.filter(
+      (task) => task?.taskRepeatsOn?.includes(today) && task.isCompleted
+    ).length;
+  } else if (selectedStat === "weekly") {
+    const today = getToday();
+    totalTasks = tasks.filter((task) =>
+      isDateInCurrentWeek(task.createdOn)
+    ).length;
+
+    completedTasks = tasks.filter(
+      (task) => isDateInCurrentWeek(task.createdOn) && task.isCompleted
+    ).length;
+  } else if (selectedStat === "yearly") {
+    const thisYear = new Date().getFullYear().toString();
+
+    totalTasks = tasks.filter((task) =>
+      task?.createdOn?.includes(thisYear)
+    ).length;
+    completedTasks = tasks.filter(
+      (task) => task?.createdOn?.includes(thisYear) && task.isCompleted
+    ).length;
+  }
+
+  const achievedPercent = ((completedTasks / totalTasks) * 100).toFixed(1);
+  return { totalTasks, completedTasks, achievedPercent };
 };

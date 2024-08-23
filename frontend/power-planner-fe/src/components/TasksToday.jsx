@@ -43,7 +43,7 @@ const TasksToday = () => {
 
   useEffect(() => {
     if (taskList?.length >= 0) {
-      console.log("Rerender in Tasks Today Comp", taskList.length);
+      // console.log("Rerender in Tasks Today Comp", taskList.length);
       makeTaskList();
     }
   }, [taskList]);

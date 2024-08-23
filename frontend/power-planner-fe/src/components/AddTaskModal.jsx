@@ -1,11 +1,11 @@
 import { nanoid } from "nanoid";
 import { useContext, useEffect, useState } from "react";
 import Select from "react-select";
-import { weekDays } from "../utils/daysAndDates";
+import { getDaysLeft } from "../utils/daysAndDates";
 import * as taskService from "../utils/taskService";
 import { ToastContainer, toast } from "react-toastify";
-import TaskContext from "../context/TaskContext";
 import "react-toastify/dist/ReactToastify.css";
+import TaskContext from "../context/TaskContext";
 
 const AddTaskModal = () => {
   const { taskList, setTaskList } = useContext(TaskContext);
@@ -21,13 +21,15 @@ const AddTaskModal = () => {
     setTaskDetails({ ...taskDetails, taskName: e.target.value });
   };
 
-  useEffect(() => {
-    console.log("Rerender in Add Task Modal Comp");
-  }, [taskList]);
+  // useEffect(() => {
+  //   console.log("Rerender in Add Task Modal Comp");
+  // }, [taskList]);
 
   // Add Task Handler
-  const addTaskHandler = async (taskDetails) => {
+  const addTaskHandler = async () => {
     const repeatsOn = taskDetails.taskRepeatsOn?.map((repeat) => repeat.value);
+
+    console.log("taskDetails", taskDetails);
 
     // Task object
     let taskObj = {
@@ -43,10 +45,11 @@ const AddTaskModal = () => {
     else if (!taskObj.taskCategory) formValid = false;
     else if (!taskObj.taskRepeatsOn) formValid = false;
 
+    console.log("taskObj", taskObj);
     if (formValid) {
       const res = await taskService.addTask(taskObj);
-      console.log("res", res);
-      console.log(taskList, "taskList");
+      // console.log("res", res);
+      // console.log(taskList, "taskList");
 
       if (res.data.status === "success") {
         const newTaskList = [...taskList, taskObj];
@@ -85,7 +88,6 @@ const AddTaskModal = () => {
   };
   return (
     <>
-      <ToastContainer />
       <div className="modal-box add-task-modal">
         <h3 className="font-bold text-xl text-center mb-4">Add Task</h3>
         {/* Task input */}
@@ -120,11 +122,11 @@ const AddTaskModal = () => {
 
             <div className="react-select lg:ml-20">
               <Select
-                options={weekDays}
+                options={getDaysLeft()}
                 isMulti
                 hideSelectedOptions={true}
                 allowSelectAll={true}
-                placeholder="Repeats on"
+                placeholder="Do this task on"
                 style={{ "z-index": 5 }}
                 onChange={taskRepeatsOnHandler}
                 closeMenuOnSelect={false}
@@ -145,6 +147,7 @@ const AddTaskModal = () => {
               </span>
               <button className="btn btn-error text-white">Close</button>
             </form>
+            <ToastContainer />
           </div>
         </div>
       </div>

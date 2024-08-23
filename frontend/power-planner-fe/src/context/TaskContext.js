@@ -9,13 +9,15 @@ const TaskContext = createContext({});
 export const TaskProvider = ({ children }) => {
   const [taskList, setTaskList] = useState([]);
 
+  const url = "http://localhost:3003/api/v1/tasks";
+  const testUrl = "http://localhost:3000/data";
   const {
     data: tasks,
     isError: taskError,
     isLoading: tasksLoading,
-  } = useApiCaller("http://localhost:3003/api/v1/tasks", "GET", {});
+  } = useApiCaller(url, "GET", {});
 
-  // TASK UPDATE HANDLER
+  // TASK UPDATE HANDL
   const handleTaskUpdate = async (e, taskToUpdate) => {
     // Update Task
     const updatedTask = { ...taskToUpdate, isCompleted: e.target.checked };
@@ -65,7 +67,7 @@ export const TaskProvider = ({ children }) => {
     if (!tasksLoading && !taskError) {
       setTaskList(tasks.tasks);
     }
-    console.log("Rerender in Context Comp");
+    // console.log("Rerender in Context Comp");
   }, [tasksLoading, tasks]);
 
   return (

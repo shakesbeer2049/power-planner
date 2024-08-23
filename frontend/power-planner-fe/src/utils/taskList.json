@@ -1,0 +1,515 @@
+{
+    "status": "success",
+    "data": {
+        "tasks": [
+            {
+                "_id": "66c385e18c979218d7c11b61",
+                "taskName": "go to gym",
+                "isCompleted": true,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Monday"
+                ],
+                "createdOn": "2024-08-19T17:50:25.848Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c385e18c979218d7c11b62",
+                "taskName": "go to gym",
+                "isCompleted": false,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Tuesday"
+                ],
+                "createdOn": "2024-08-19T17:50:25.851Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c385ef8c979218d7c11b65",
+                "taskName": "study for 2 hours",
+                "isCompleted": false,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Monday"
+                ],
+                "createdOn": "2024-08-19T17:50:39.085Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c385ef8c979218d7c11b66",
+                "taskName": "study for 2 hours",
+                "isCompleted": false,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Tuesday"
+                ],
+                "createdOn": "2024-08-19T17:50:39.086Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c385fd8c979218d7c11b69",
+                "taskName": "work hard at job",
+                "isCompleted": false,
+                "taskCategory": [
+                    "wealth"
+                ],
+                "taskRepeatsOn": [
+                    "Monday"
+                ],
+                "createdOn": "2024-08-19T17:50:53.461Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c385fd8c979218d7c11b6a",
+                "taskName": "work hard at job",
+                "isCompleted": false,
+                "taskCategory": [
+                    "wealth"
+                ],
+                "taskRepeatsOn": [
+                    "Tuesday"
+                ],
+                "createdOn": "2024-08-19T17:50:53.463Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c3860c8c979218d7c11b6d",
+                "taskName": "dont eat junk food",
+                "isCompleted": false,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Monday"
+                ],
+                "createdOn": "2024-08-19T17:51:08.664Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c3860c8c979218d7c11b6e",
+                "taskName": "dont eat junk food",
+                "isCompleted": true,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Tuesday"
+                ],
+                "createdOn": "2024-08-19T17:51:08.666Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5963f472e16bfe60ff0c1",
+                "taskName": "work on react",
+                "isCompleted": false,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Tuesday"
+                ],
+                "createdOn": "2024-08-21T07:24:47.104Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5963f472e16bfe60ff0c2",
+                "taskName": "work on react",
+                "isCompleted": true,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Thursday"
+                ],
+                "createdOn": "2024-08-21T07:24:47.106Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5963f472e16bfe60ff0c3",
+                "taskName": "work on react",
+                "isCompleted": false,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Wednesday"
+                ],
+                "createdOn": "2024-08-21T07:24:47.107Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c59644472e16bfe60ff0c7",
+                "taskName": "asasdasdad",
+                "isCompleted": false,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Tuesday"
+                ],
+                "createdOn": "2024-08-21T07:24:52.401Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c59644472e16bfe60ff0c9",
+                "taskName": "asasdasdad",
+                "isCompleted": true,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Wednesday"
+                ],
+                "createdOn": "2024-08-21T07:24:52.403Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c59644472e16bfe60ff0c8",
+                "taskName": "asasdasdad",
+                "isCompleted": false,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Thursday"
+                ],
+                "createdOn": "2024-08-21T07:24:52.402Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5964b472e16bfe60ff0cf",
+                "taskName": "vcvvvcv",
+                "isCompleted": false,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Wednesday"
+                ],
+                "createdOn": "2024-08-21T07:24:59.159Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5964b472e16bfe60ff0ce",
+                "taskName": "vcvvvcv",
+                "isCompleted": false,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Thursday"
+                ],
+                "createdOn": "2024-08-21T07:24:59.159Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5964b472e16bfe60ff0cd",
+                "taskName": "vcvvvcv",
+                "isCompleted": false,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Tuesday"
+                ],
+                "createdOn": "2024-08-21T07:24:59.159Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c59fb4472e16bfe60ff0e5",
+                "taskName": "hii",
+                "isCompleted": false,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Thursday"
+                ],
+                "createdOn": "2024-08-21T08:05:08.519Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b7da472e16bfe60ff122",
+                "taskName": "this is a task to test ",
+                "isCompleted": true,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Thursday"
+                ],
+                "createdOn": "2024-08-21T09:48:10.385Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b82b472e16bfe60ff125",
+                "taskName": "this is a task to test asas",
+                "isCompleted": true,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Wednesday"
+                ],
+                "createdOn": "2024-08-21T09:49:31.669Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b82b472e16bfe60ff126",
+                "taskName": "this is a task to test asas",
+                "isCompleted": true,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Thursday"
+                ],
+                "createdOn": "2024-08-21T09:49:31.670Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b8b7472e16bfe60ff12c",
+                "taskName": "test",
+                "isCompleted": true,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Wednesday"
+                ],
+                "createdOn": "2024-08-21T09:51:51.477Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b8b7472e16bfe60ff12b",
+                "taskName": "test",
+                "isCompleted": false,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Thursday"
+                ],
+                "createdOn": "2024-08-21T09:51:51.476Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b8f4472e16bfe60ff131",
+                "taskName": "test 3",
+                "isCompleted": false,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Wednesday"
+                ],
+                "createdOn": "2024-08-21T09:52:52.968Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b8f4472e16bfe60ff130",
+                "taskName": "test 3",
+                "isCompleted": false,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Thursday"
+                ],
+                "createdOn": "2024-08-21T09:52:52.967Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b907472e16bfe60ff136",
+                "taskName": "sdfsafaf",
+                "isCompleted": false,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Friday"
+                ],
+                "createdOn": "2024-08-21T09:53:11.195Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b907472e16bfe60ff137",
+                "taskName": "sdfsafaf",
+                "isCompleted": false,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Thursday"
+                ],
+                "createdOn": "2024-08-21T09:53:11.196Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b907472e16bfe60ff138",
+                "taskName": "sdfsafaf",
+                "isCompleted": true,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Wednesday"
+                ],
+                "createdOn": "2024-08-21T09:53:11.196Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b99c472e16bfe60ff13d",
+                "taskName": "sdfsafaf",
+                "isCompleted": false,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Thursday"
+                ],
+                "createdOn": "2024-08-21T09:55:40.223Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b99c472e16bfe60ff13c",
+                "taskName": "sdfsafaf",
+                "isCompleted": false,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Friday"
+                ],
+                "createdOn": "2024-08-21T09:55:40.222Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b99c472e16bfe60ff13e",
+                "taskName": "sdfsafaf",
+                "isCompleted": true,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Wednesday"
+                ],
+                "createdOn": "2024-08-21T09:55:40.224Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b9bc472e16bfe60ff145",
+                "taskName": "sdfsafaf",
+                "isCompleted": false,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Thursday"
+                ],
+                "createdOn": "2024-08-21T09:56:12.563Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b9bc472e16bfe60ff144",
+                "taskName": "sdfsafaf",
+                "isCompleted": false,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Friday"
+                ],
+                "createdOn": "2024-08-21T09:56:12.562Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b9bc472e16bfe60ff146",
+                "taskName": "sdfsafaf",
+                "isCompleted": false,
+                "taskCategory": [
+                    "knowledge"
+                ],
+                "taskRepeatsOn": [
+                    "Wednesday"
+                ],
+                "createdOn": "2024-08-21T09:56:12.564Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b9e4472e16bfe60ff14c",
+                "taskName": "helooooooo",
+                "isCompleted": true,
+                "taskCategory": [
+                    "wealth"
+                ],
+                "taskRepeatsOn": [
+                    "Wednesday"
+                ],
+                "createdOn": "2024-08-21T09:56:52.864Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b9e4472e16bfe60ff14d",
+                "taskName": "helooooooo",
+                "isCompleted": false,
+                "taskCategory": [
+                    "wealth"
+                ],
+                "taskRepeatsOn": [
+                    "Thursday"
+                ],
+                "createdOn": "2024-08-21T09:56:52.864Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c5b9e4472e16bfe60ff14e",
+                "taskName": "helooooooo",
+                "isCompleted": false,
+                "taskCategory": [
+                    "wealth"
+                ],
+                "taskRepeatsOn": [
+                    "Friday"
+                ],
+                "createdOn": "2024-08-21T09:56:52.864Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c605bcd98be17c70766609",
+                "taskName": "test",
+                "isCompleted": false,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Thursday"
+                ],
+                "createdOn": "2024-08-21T15:20:28.595Z",
+                "__v": 0
+            },
+            {
+                "_id": "66c605bcd98be17c7076660a",
+                "taskName": "test",
+                "isCompleted": false,
+                "taskCategory": [
+                    "health"
+                ],
+                "taskRepeatsOn": [
+                    "Wednesday"
+                ],
+                "createdOn": "2024-08-21T15:20:28.600Z",
+                "__v": 0
+            }
+        ]
+    },
+    "count": 39
+}

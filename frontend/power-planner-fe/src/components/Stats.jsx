@@ -2,26 +2,28 @@ import { useEffect, useState, useContext } from "react";
 
 import "../styles/stats.css";
 import Card from "./Card";
-import { getTotalAndCompletedTasks } from "../utils/taskCalculations";
+import { generateStats } from "../utils/taskCalculations";
 
 import TaskContext from "../context/TaskContext";
 
 const Stats = () => {
   const { taskList } = useContext(TaskContext);
 
-  const [totalTasks, setTotalTasks] = useState(0);
-  const [completedTasks, setCompletedTasks] = useState(0);
-  const [achievedPercent, setAchievedPercent] = useState(0);
+  const [stats, setStats] = useState({
+    totalTasks: 0,
+    completedTasks: 0,
+    achievedPercent: 0,
+  });
   const [selectedStat, setSelectedStat] = useState("overall");
 
   useEffect(() => {
-    const { totalTasks, completedTasks } = getTotalAndCompletedTasks(taskList);
-    setTotalTasks(totalTasks);
-    setCompletedTasks(completedTasks);
-    setAchievedPercent(((completedTasks / totalTasks) * 100).toFixed(1));
-  }, [taskList]);
-
-  const calculateStats = (selectedStat) => {};
+    const { totalTasks, completedTasks, achievedPercent } = generateStats(
+      taskList,
+      selectedStat
+    );
+    // console.log(totalTasks, completedTasks, achievedPercent);
+    setStats({ totalTasks, completedTasks, achievedPercent });
+  }, [taskList, selectedStat]);
 
   return (
     <div className="dashboard-div">
@@ -62,9 +64,9 @@ const Stats = () => {
       </ul>
       <div className="performance">
         <div className="cards-div">
-          <Card title={"Total Tasks"} data={totalTasks} />
-          <Card title={"Completed"} data={completedTasks} />
-          <Card title={"Achievement"} data={`${achievedPercent}%`} />
+          <Card title={"Total Tasks"} data={stats.totalTasks} />
+          <Card title={"Completed"} data={stats.completedTasks} />
+          <Card title={"Achievement"} data={`${stats.achievedPercent}%`} />
         </div>
       </div>
     </div>
