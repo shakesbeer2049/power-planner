@@ -42,4 +42,17 @@ export const isDateInCurrentWeek = (date) => {
     const today = dayOfWeek[new Date().getDay()];
     return today;
   };
+
+
+  export const months = [
+    "January", "February", "March", "April", "May", "June", 
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  export const getYears = () => {
+    const startYear = 2023;
+    const endYear = 2024;
+    const years = Array.from({length: endYear - startYear + 1}, (_, i) => startYear + i);
+    return years
+  }
   

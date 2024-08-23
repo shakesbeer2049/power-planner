@@ -64,9 +64,9 @@
     /* position: fixed; */
 }
 .selected-menu{
-    background-color : teal;
-    color: whitesmoke;
+    background-color : rgba(0, 128, 128, 0.695);
     border-radius: 5px;
+    color: whitesmoke !important ;
 }
 
 /* MEDIA QUEIRES */

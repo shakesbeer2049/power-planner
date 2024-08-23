@@ -53,7 +53,7 @@ const TasksToday = () => {
       <h1 className="text-3xl font-bold text-center">FOCUS ON TODAY</h1>
 
       <div className="tasks">
-        <h2 className="text-2xl font-bold mb-4">Health</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">Health</h2>
         {tasksToday.health.map((task) => (
           <div key={task._id} className="task-h1-input">
             <DeleteTaskModal task={task} />{" "}
@@ -79,7 +79,7 @@ const TasksToday = () => {
       </div>
 
       <div className="tasks">
-        <h2 className="text-2xl font-bold mb-4">Knowledge</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">Knowledge</h2>
         {tasksToday.wealth.map((task) => (
           <div key={task._id} className="task-h1-input">
             <DeleteTaskModal task={task} />{" "}
@@ -105,7 +105,7 @@ const TasksToday = () => {
       </div>
 
       <div className="tasks">
-        <h2 className="text-2xl font-bold mb-4">Wealth</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">Wealth</h2>
         {tasksToday.knowledge.map((task) => (
           <div key={task._id} className="task-h1-input">
             <DeleteTaskModal task={task} />{" "}

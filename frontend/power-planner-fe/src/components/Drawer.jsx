@@ -4,18 +4,18 @@ import TaskProgress from "./TaskProgress";
 import AddTaskModal from "./AddTaskModal";
 import XPBar from "./XPBar";
 import { Link, Outlet } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import TaskContext from "../context/TaskContext";
 
 const Drawer = ({ selectedMenu, setSelectedMenu }) => {
   const { taskList, setTaskList } = useContext(TaskContext);
-
+  const [drawerState, setDrawerState] = useState(false)
   return (
     <>
       <div className="main-model lg:flex">
         <div className="drawer lg:drawer-open drawer-container">
-          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" checked = {drawerState} />
 
           <div className="drawer-content flex flex-col items-center justify-center">
             {/* Page content here */}
@@ -25,6 +25,7 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
                 htmlFor="my-drawer-2"
                 className="drawer-button lg:hidden text-5xl"
                 id="side-menu-toggle"
+                onClick={()=>setDrawerState(true)}
               >
                 <AiOutlineMenu />
               </label>
@@ -38,6 +39,8 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
               htmlFor="my-drawer-2"
               aria-label="close sidebar"
               className="drawer-overlay"
+              onClick={() =>setDrawerState(false)}
+              
             ></label>
             <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 text-2xl">
               {/* Sidebar content here */}
@@ -60,19 +63,20 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
               </li>
               <br />
               <li
-                onClick={() => setSelectedMenu("daily")}
+                onClick={() => {setSelectedMenu("daily");setDrawerState(false)}}
                 className={selectedMenu === "daily" ? "selected-menu" : ""}
+                
               >
                 <Link to="/">Daily</Link>
               </li>
               <li
-                onClick={() => setSelectedMenu("weekly")}
+                onClick={() => setSelectedMenu("weekly");setDrawerState(false)}
                 className={selectedMenu === "weekly" ? "selected-menu" : ""}
               >
                 <Link to="/weekly">Weekly</Link>
               </li>
               <li
-                onClick={() => setSelectedMenu("performance")}
+                onClick={() => setSelectedMenu("performance");setDrawerState(false)}
                 className={
                   selectedMenu === "performance" ? "selected-menu" : ""
                 }
@@ -80,7 +84,7 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
                 <Link to="/performance">Performance</Link>
               </li>
               <li
-                onClick={() => setSelectedMenu("stats")}
+                onClick={() => setSelectedMenu("stats");setDrawerState(false)}
                 className={selectedMenu === "stats" ? "selected-menu" : ""}
               >
                 <Link to="/stats">Stats</Link>
