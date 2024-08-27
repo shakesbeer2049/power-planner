@@ -1,12 +1,26 @@
 import { useContext, useState } from "react";
-import { getYears, months } from "../utils/daysAndDates";
+import { getYears, months, getWeekOfMonth } from "../utils/daysAndDates";
 import TaskContext from "../context/TaskContext";
 
 export default Performance = () => {
   const { taskList } = useContext(TaskContext);
   const years = getYears();
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
-  const [year, setYear] = useState(null);
+  const [year, setYear] = useState(years[years.length - 1]);
   const [month, setMonth] = useState(null);
 
   const handleYearSelect = (e) => {
@@ -19,20 +33,6 @@ export default Performance = () => {
   };
 
   const makeMonthlyData = () => {
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
     // get the tasks created this year
     const tasksThisYear = taskList.filter((task) =>
       task.createdOn.includes(year)
@@ -50,42 +50,105 @@ export default Performance = () => {
 
     const monthlyJsx = monthlyTasksArray.map((monthTasks, index) => {
       const totalTasksThisMonth = monthTasks.length;
-      if (totalTasksThisMonth) {
-        const completed = monthTasks?.filter((task) => task.isCompleted).length;
 
-        return (
-          <>
-            <tr>
-              <td className="font-bold">{monthNames[index]}</td>
-              <td className="font-bold">
-                {completed} out of {totalTasksThisMonth}
-              </td>
-              <td>
-                <progress
-                  className="progress progress-primary w-28"
-                  value={completed}
-                  max={totalTasksThisMonth}
-                ></progress>
-              </td>
-            </tr>
-          </>
-        );
-      }
+      const completed = monthTasks?.filter((task) => task.isCompleted).length;
+
+      return (
+        <>
+          <tr>
+            <td className="font-bold">{monthNames[index]}</td>
+            <td className="font-bold">
+              {completed} out of {totalTasksThisMonth}
+            </td>
+            <td>
+              <progress
+                className="progress progress-primary w-28"
+                value={completed}
+                max={totalTasksThisMonth}
+              ></progress>
+            </td>
+          </tr>
+        </>
+      );
     });
     console.log("monthlyTasksArray", monthlyTasksArray);
     return monthlyJsx;
   };
 
+  const makeWeeklyData = () => {
+    const monthIndex = monthNames.indexOf(month); // Get the index of the month
+
+    if (monthIndex === -1) {
+      console.error("Invalid month name provided");
+      return;
+    }
+
+    // Get the tasks created in the specified month of this year
+    const tasksThisMonth = taskList.filter((task) => {
+      const taskDate = new Date(task.createdOn);
+
+      return (
+        taskDate.getFullYear() == year && taskDate.getMonth() == monthIndex
+      );
+    });
+    // Initialize an array for the weeks in the selected month (maximum of 6 weeks)
+    const weeklyTasksArray = Array.from({ length: 5 }, () => []);
+
+    // Function to calculate which week of the month the task belongs to
+    const getWeekOfMonth = (date) => {
+      const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+      const dayOfMonth = date.getDate();
+      const firstDayOfWeek = firstDayOfMonth.getDay(); // Day of the week the month starts on
+      const adjustedDayOfMonth = dayOfMonth + firstDayOfWeek;
+      return Math.ceil(adjustedDayOfMonth / 7);
+    };
+
+    if (tasksThisMonth.length > 0) {
+      tasksThisMonth.forEach((task) => {
+        const taskDate = new Date(task.createdOn);
+        const week = getWeekOfMonth(taskDate) - 1; // Zero-based index for the week
+        weeklyTasksArray[week].push(task);
+      });
+    }
+
+    // Create JSX for the selected month's weekly data
+    const weeklyJsx = weeklyTasksArray.map((weekTasks, weekIndex) => {
+      const completed = weekTasks.filter((task) => task.isCompleted).length;
+
+      return (
+        <tr key={weekIndex}>
+          <td className="font-bold">Week {weekIndex + 1}</td>
+          <td className="font-bold">
+            {completed} out of {weekTasks.length}
+          </td>
+          <td>
+            <progress
+              className="progress progress-primary w-28"
+              value={completed}
+              max={weekTasks.length}
+            ></progress>
+          </td>
+        </tr>
+      );
+
+      return null;
+    });
+
+    console.log("weeklyTasksArray", weeklyTasksArray);
+    return weeklyJsx;
+  };
+
   return (
     <>
-      <div className="tasks-today text-left mt-16 m-1 lg:mt-0">
+      <div className="tasks-today text-left mt-2 m-1">
         <h1 className="text-3xl font-bold text-center">Performance Review</h1>
 
         <div className="data-container">
           <div className="dropdown-selectors flex justify-between w-3/4 m-auto">
             <select
-              className="select select-primary w-fit max-w-xs"
+              className="select select-primary w-fit max-w-xs mr-2"
               onChange={handleYearSelect}
+              value={year}
             >
               <option disabled selected>
                 Select Year
@@ -145,31 +208,12 @@ export default Performance = () => {
                   {/* head */}
                   <thead>
                     <tr>
-                      <th>Month</th>
-                      <th>Completed</th>
-                      <th>Notes</th>
+                      <th className="text-lg">Month</th>
+                      <th className="text-lg">Completed</th>
+                      <th></th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {/* row 1 */}
-                    <tr>
-                      <td>Cy Ganderton</td>
-                      <td>Quality Control Specialist</td>
-                      <td>Blue</td>
-                    </tr>
-                    {/* row 2 */}
-                    <tr>
-                      <td>Hart Hagerty</td>
-                      <td>Desktop Support Technician</td>
-                      <td>Purple</td>
-                    </tr>
-                    {/* row 3 */}
-                    <tr>
-                      <td>Brice Swyre</td>
-                      <td>Tax Accountant</td>
-                      <td>Red</td>
-                    </tr>
-                  </tbody>
+                  <tbody>{makeWeeklyData()}</tbody>
                 </table>
               </div>
             </div>

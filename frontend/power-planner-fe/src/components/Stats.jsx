@@ -27,8 +27,8 @@ const Stats = () => {
 
   return (
     <div className="dashboard-div">
-      <h1 className="text-center text-2xl">Stats</h1>
-      <ul className="menu menu-horizontal lg:menu-horizontal bg-base-200 rounded-box ml-8">
+      <h1 className="text-3xl font-bold text-center">Stats</h1>
+      <ul className="menu menu-horizontal ml-2 lg:menu-horizontal bg-base-200 rounded-box ml-8">
         <li
           className={selectedStat === "overall" ? "selected-stat" : ""}
           onClick={() => {
@@ -43,7 +43,7 @@ const Stats = () => {
             setSelectedStat("daily");
           }}
         >
-          <a>Daily</a>
+          <a>Today</a>
         </li>
         <li
           className={selectedStat === "weekly" ? "selected-stat" : ""}
@@ -51,7 +51,7 @@ const Stats = () => {
             setSelectedStat("weekly");
           }}
         >
-          <a>Weekly</a>
+          <a>This Week</a>
         </li>
         <li
           className={selectedStat === "yearly" ? "selected-stat" : ""}
@@ -59,7 +59,7 @@ const Stats = () => {
             setSelectedStat("yearly");
           }}
         >
-          <a>Yearly</a>
+          <a>This Year</a>
         </li>
       </ul>
       <div className="performance">

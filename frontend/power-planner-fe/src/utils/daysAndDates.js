@@ -69,3 +69,27 @@ export const getYears = () => {
   );
   return years;
 };
+
+export const getWeekOfMonth = (date) => {
+  // Clone the date to avoid modifying the original
+  const clonedDate = new Date(date);
+
+  // Get the first day of the month for the given date
+  const firstDayOfMonth = new Date(
+    clonedDate.getFullYear(),
+    clonedDate.getMonth(),
+    1
+  );
+
+  // Calculate the day of the week the first day of the month falls on
+  const firstDayOfWeek = firstDayOfMonth.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+
+  // Calculate the adjusted day of the month (considering the first week)
+  const dayOfMonth = clonedDate.getDate();
+  const adjustedDayOfMonth = dayOfMonth + firstDayOfWeek;
+
+  // Calculate the week number (1-based index)
+  const weekOfMonth = Math.ceil(adjustedDayOfMonth / 7);
+
+  return weekOfMonth;
+};

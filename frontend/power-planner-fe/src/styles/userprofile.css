@@ -1,0 +1,27 @@
+.user-details {
+    position: fixed;
+    top: 0px;
+    right: 7px;
+}
+
+.user-profile-modal {
+    width: 90%;
+}
+
+.xps {
+    font-size: 9px;
+    display: flex;
+    justify-content: space-between;
+    /* width: 33%; */
+    color: orangered;
+}
+
+.points {
+    font-weight: 900;
+    font-size: 21px;
+    /* border: 1px solid red; */
+}
+
+.right-profile {
+    width: 45%;
+}

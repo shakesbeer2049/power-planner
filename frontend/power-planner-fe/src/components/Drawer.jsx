@@ -2,15 +2,22 @@ import "../styles/drawer.css";
 import { AiOutlineMenu } from "react-icons/ai";
 import TaskProgress from "./TaskProgress";
 import AddTaskModal from "./AddTaskModal";
-import XPBar from "./XPBar";
+import XPBar from "./UserProfile";
 import { Link, Outlet } from "react-router-dom";
 import { useContext, useState } from "react";
+import { GiFalconMoon } from "react-icons/gi";
 
-import TaskContext from "../context/TaskContext";
+import AuthContext from "../context/AuthContext";
 
 const Drawer = ({ selectedMenu, setSelectedMenu }) => {
-  const { taskList, setTaskList } = useContext(TaskContext);
   const [drawerState, setDrawerState] = useState(false);
+  const { userDetails } = useContext(AuthContext);
+  console.log("userDetails", userDetails);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "http://localhost:3000/";
+  };
   return (
     <>
       <div className="main-model lg:flex">
@@ -24,7 +31,7 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
 
           <div className="drawer-content flex flex-col items-center justify-center">
             {/* Page content here */}
-            <div className="side-menu-xp-bar">
+            <div className="flex w-full justify-between pl-2 pr-2 pt-2">
               {/* SIDE MENU TOGGLE */}
               <label
                 htmlFor="my-drawer-2"
@@ -46,10 +53,15 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
               className="drawer-overlay"
               onClick={() => setDrawerState(false)}
             ></label>
+
             <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 text-2xl">
               {/* Sidebar content here */}
               <div className="task-progress">
                 <TaskProgress title={"Today"} />
+              </div>
+              <div className="logo flex pb-1 items-center">
+                <GiFalconMoon />
+                <h1 className="ml-1">Consistent</h1>
               </div>
               <li>
                 {/* Open the modal using document.getElementById('ID').showModal() method */}
@@ -73,7 +85,7 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
                 }}
                 className={selectedMenu === "daily" ? "selected-menu" : ""}
               >
-                <Link to="/">Daily</Link>
+                <Link to="daily">Daily</Link>
               </li>
               <li
                 onClick={() => {
@@ -82,7 +94,7 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
                 }}
                 className={selectedMenu === "weekly" ? "selected-menu" : ""}
               >
-                <Link to="/weekly">Weekly</Link>
+                <Link to="weekly">Weekly</Link>
               </li>
               <li
                 onClick={() => {
@@ -93,7 +105,7 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
                   selectedMenu === "performance" ? "selected-menu" : ""
                 }
               >
-                <Link to="/performance">Performance</Link>
+                <Link to="performance">Performance</Link>
               </li>
               <li
                 onClick={() => {
@@ -102,8 +114,9 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
                 }}
                 className={selectedMenu === "stats" ? "selected-menu" : ""}
               >
-                <Link to="/stats">Stats</Link>
+                <Link to="stats">Stats</Link>
               </li>
+              <li onClick={handleLogout}>Logout</li>
             </ul>
           </div>
         </div>

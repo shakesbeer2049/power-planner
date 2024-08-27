@@ -49,7 +49,7 @@ const TasksToday = () => {
   }, [taskList]);
 
   return (
-    <div className="tasks-today text-left mt-16 ml-8 lg:mt-0">
+    <div className="tasks-today text-left mt-2 ml-8">
       <h1 className="text-3xl font-bold text-center">FOCUS ON TODAY</h1>
 
       <div className="tasks">

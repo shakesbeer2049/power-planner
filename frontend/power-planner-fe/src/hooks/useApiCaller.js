@@ -6,6 +6,8 @@ export default function useApiCaller(url, callType, body) {
   const [isError, setIsError] = useState(null);
 
   useEffect(() => {
+    const jwt = localStorage.getItem("token");
+    if (!jwt) throw "Unauthorized";
     const apiCaller = async () => {
       if (!url) {
         setIsError(new Error("URL is required"));
@@ -20,6 +22,7 @@ export default function useApiCaller(url, callType, body) {
           data: body || {},
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
           },
         };
         const response = await axios(config);
@@ -29,6 +32,11 @@ export default function useApiCaller(url, callType, body) {
       } catch (error) {
         console.log(error, "error in fetching data");
         setIsError(error);
+        if (
+          error.message == "Request failed with status code 401" ||
+          error == "Unauthorized"
+        )
+          window.location.href = "http://localhost:3000";
       } finally {
         setIsLoading(false);
       }

@@ -7,13 +7,16 @@ import TasksToday from "./components/TasksToday";
 import Stats from "./components/Stats";
 import Performance from "./components/Performance";
 import { TaskProvider } from "./context/TaskContext";
+import Home from "./components/Home";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   const [selectedMenu, setSelectedMenu] = useState("daily");
 
   const router = createBrowserRouter([
+    { path: "/", element: <Home /> },
     {
-      path: "/",
+      path: "/tasks",
       element: (
         <TaskProvider>
           <Drawer
@@ -24,19 +27,19 @@ function App() {
       ),
       children: [
         {
-          path: "/",
+          path: "daily",
           element: <TasksToday />,
         },
         {
-          path: "/weekly",
+          path: "weekly",
           element: <WeeklyTasks />,
         },
         {
-          path: "/stats",
+          path: "stats",
           element: <Stats />,
         },
         {
-          path: "/performance",
+          path: "performance",
           element: <Performance />,
         },
       ],
@@ -44,7 +47,9 @@ function App() {
   ]);
   return (
     <>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </>
   );
 }
