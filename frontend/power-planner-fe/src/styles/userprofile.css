@@ -25,3 +25,7 @@
 .right-profile {
     width: 45%;
 }
+
+.info-xp:hover {
+    content: "hello";
+}

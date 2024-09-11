@@ -1,18 +1,40 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import "../styles/userprofile.css";
 import { MdHealthAndSafety } from "react-icons/md";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
 import { GiBrain } from "react-icons/gi";
+import { getToday } from "../utils/daysAndDates";
+import TaskContext from "../context/TaskContext";
+import { CiCircleInfo } from "react-icons/ci";
 
 const UserProfile = () => {
   const { userDetails } = useContext(AuthContext);
+  const { taskList } = useContext(TaskContext);
+  const [taskCount, setTaskCount] = useState({ totalToday: 0, completed: 0 });
+
+  useEffect(() => {
+    const today = getToday();
+    const tasksToday = [];
+    let completedToday = 0;
+
+    for (let task = 0; task < taskList.length; task++) {
+      if (taskList[task].taskRepeatsOn == today) {
+        tasksToday.push(taskList[task]);
+        if (taskList[task].isCompleted) completedToday += 1;
+      }
+    }
+    console.log(tasksToday, completedToday);
+    setTaskCount({ totalToday: tasksToday, completed: completedToday });
+  }, [taskList]);
+
   return (
     <>
       <div
         className="user-details"
         onClick={() => document.getElementById("user-legend").showModal()}
       >
+        {/* MAIN BAR */}
         <div className="avatar-user-lvl flex">
           <div className="avatar self-center">
             <div className="w-10 h-10 rounded-full mr-1">
@@ -22,14 +44,22 @@ const UserProfile = () => {
           <div className="user-lvl">
             <h1 className="text-black">{userDetails.username || "robot"}</h1>
 
-            <h1>lvl 0</h1>
+            <h1>lvl {userDetails.lvl || 0} </h1>
           </div>
         </div>
         <div className="xpbar">
+          <CiCircleInfo className="inline info-xp" />
           <progress
             className="progress progress-success w-24"
-            value={25}
-            max="100"
+            value={userDetails.xp || 0}
+            max={userDetails.nextXp || 0}
+          ></progress>
+          <br />
+          <CiCircleInfo className="inline info-tasks" />
+          <progress
+            className="progress progress-error w-24"
+            value={taskCount.completed || 0}
+            max={taskCount.totalToday.length || 0}
           ></progress>
         </div>
       </div>
@@ -54,21 +84,23 @@ const UserProfile = () => {
                 </div>
                 {/* Name */}
                 <div className="lvl-rank">
-                  <span> RECRUIT</span>
+                  <span> {userDetails.rank || "Recruit"}</span>
                   <br />
-                  <span> LEVEL 100</span>
+                  <span> LEVEL {userDetails.lvl || 0}</span>
                 </div>
               </div>
               <div className="progress-bar">
                 <progress
                   className="progress progress-success w-36"
-                  value={75}
-                  max="100"
+                  value={userDetails.xp || 0}
+                  max={userDetails.nextXp || 0}
                 ></progress>
                 <br />
+
+                <br />
                 <div className="xps w-40">
-                  <span>100</span>
-                  <span>3000</span>
+                  <span>{userDetails.xp || 0}</span>
+                  <span>{userDetails.nextXp || 0}</span>
                 </div>
               </div>
             </div>
@@ -76,20 +108,20 @@ const UserProfile = () => {
               <div className="points">
                 <div className="xp flex justify-around">
                   <label htmlFor="xp">XP</label>
-                  <span> 100</span>
+                  <span> {userDetails.xp || 0}</span>
                 </div>
                 <div className="hp flex justify-around">
                   <MdHealthAndSafety className="text-3xl text-red-800" />
-                  <span> 100</span>
+                  <span> {userDetails.hp || 0}</span>
                 </div>
                 <div className="wp flex justify-around">
                   <RiMoneyDollarCircleFill className="text-3xl text-green-700" />
 
-                  <span> 100</span>
+                  <span> {userDetails.wp || 0}</span>
                 </div>
                 <div className="kp flex justify-around">
                   <GiBrain className="text-3xl text-pink-500" />
-                  <span> 100</span>
+                  <span> {userDetails.kp || 0}</span>
                 </div>
               </div>
             </div>

@@ -5,6 +5,7 @@ import { useRef, useContext } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { callApi } from "../utils/callApi";
 import AuthContext from "../context/AuthContext";
+import jwtDecode from "jwt-decode";
 
 const LoginForm = () => {
   const navigate = useNavigate();

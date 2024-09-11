@@ -5,6 +5,7 @@ import DeleteTaskModal from "./DeleteTaskModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useContext } from "react";
+import { TbMoodEmpty } from "react-icons/tb";
 
 import TaskContext from "../context/TaskContext";
 
@@ -19,11 +20,12 @@ const TasksToday = () => {
 
   // Functions
   const makeTaskList = () => {
+    console.log("tasks", taskList);
     const today = getToday();
     const tasksToday = taskList.filter((task) =>
       task?.taskRepeatsOn?.includes(today)
     );
-    //  console.log("tasks today", tasksToday);
+    console.log("tasks today", tasksToday);
     const healthTasks = tasksToday.filter(
       (task) => task?.taskCategory == "health"
     );
@@ -54,82 +56,100 @@ const TasksToday = () => {
 
       <div className="tasks">
         <h2 className="text-2xl font-bold mb-4 text-center">Health</h2>
-        {tasksToday.health.map((task) => (
-          <div key={task._id} className="task-h1-input">
-            <DeleteTaskModal task={task} />{" "}
-            <input
-              type="checkbox"
-              checked={task.isCompleted}
-              className="checkbox checkbox-accent"
-              name="task"
-              id="task"
-              onChange={(e) => {
-                handleTaskUpdate(e, task);
-              }}
-            />{" "}
-            <h4
-              onClick={(e) => document.getElementById(task._id).showModal()}
-              key={task._id}
-              className={task.isCompleted ? "completed" : ""}
-            >
-              {task.taskName}
-            </h4>
-          </div>
-        ))}
+        {tasksToday.health.length > 0 ? (
+          tasksToday.health.map((task) => (
+            <div key={task._id} className="task-h1-input">
+              <DeleteTaskModal task={task} />{" "}
+              <input
+                type="checkbox"
+                checked={task.isCompleted}
+                className="checkbox checkbox-accent"
+                name="task"
+                id="task"
+                onChange={(e) => {
+                  handleTaskUpdate(e, task);
+                }}
+              />{" "}
+              <h4
+                onClick={(e) => document.getElementById(task._id).showModal()}
+                key={task._id}
+                className={task.isCompleted ? "completed" : ""}
+              >
+                {task.taskName}
+              </h4>
+            </div>
+          ))
+        ) : (
+          <span>
+            <TbMoodEmpty className="inline" /> So Empty!
+          </span>
+        )}
       </div>
 
       <div className="tasks">
         <h2 className="text-2xl font-bold mb-4 text-center">Knowledge</h2>
-        {tasksToday.wealth.map((task) => (
-          <div key={task._id} className="task-h1-input">
-            <DeleteTaskModal task={task} />{" "}
-            <input
-              type="checkbox"
-              className="checkbox checkbox-accent"
-              checked={task.isCompleted}
-              name="task"
-              // id="task"
-              onChange={(e) => {
-                handleTaskUpdate(e, task);
-              }}
-            />{" "}
-            <h4
-              onClick={(e) => document.getElementById(task._id).showModal()}
-              key={task._id}
-              className={task.isCompleted ? "completed" : ""}
-            >
-              {task.taskName}
-            </h4>
-          </div>
-        ))}
+        {tasksToday.wealth.length > 0 ? (
+          tasksToday.wealth.map((task) => (
+            <div key={task._id} className="task-h1-input">
+              <DeleteTaskModal task={task} />{" "}
+              <input
+                type="checkbox"
+                className="checkbox checkbox-accent"
+                checked={task.isCompleted}
+                name="task"
+                // id="task"
+                onChange={(e) => {
+                  handleTaskUpdate(e, task);
+                }}
+              />{" "}
+              <h4
+                onClick={(e) => document.getElementById(task._id).showModal()}
+                key={task._id}
+                className={task.isCompleted ? "completed" : ""}
+              >
+                {task.taskName}
+              </h4>
+            </div>
+          ))
+        ) : (
+          <span>
+            <TbMoodEmpty className="inline" /> So Empty!
+          </span>
+        )}
       </div>
 
       <div className="tasks">
         <h2 className="text-2xl font-bold mb-4 text-center">Wealth</h2>
-        {tasksToday.knowledge.map((task) => (
-          <div key={task._id} className="task-h1-input">
-            <DeleteTaskModal task={task} />{" "}
-            <input
-              className="checkbox checkbox-accent"
-              type="checkbox"
-              checked={task.isCompleted}
-              name="task"
-              // id="task"
-              onChange={(e) => {
-                handleTaskUpdate(e, task);
-              }}
-            />{" "}
-            <h4
-              onClick={(e) => document.getElementById(task._id).showModal()}
-              key={task._id}
-              className={task.isCompleted ? "completed" : ""}
-            >
-              {task.taskName}
-            </h4>
-          </div>
-        ))}
+        {tasksToday.knowledge.length > 0 ? (
+          tasksToday.knowledge.map((task) => (
+            <div key={task._id} className="task-h1-input">
+              <DeleteTaskModal task={task} />{" "}
+              <input
+                className="checkbox checkbox-accent"
+                type="checkbox"
+                checked={task.isCompleted}
+                name="task"
+                // id="task"
+                onChange={(e) => {
+                  handleTaskUpdate(e, task);
+                }}
+              />{" "}
+              <h4
+                onClick={(e) => document.getElementById(task._id).showModal()}
+                key={task._id}
+                className={task.isCompleted ? "completed" : ""}
+              >
+                {task.taskName}
+              </h4>
+            </div>
+          ))
+        ) : (
+          <span>
+            <TbMoodEmpty className="inline" /> So Empty!
+          </span>
+        )}
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

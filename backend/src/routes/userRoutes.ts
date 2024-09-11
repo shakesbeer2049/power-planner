@@ -6,10 +6,7 @@ import * as authController from "../controllers/authController";
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 
-router
-  .route("/")
-  .get(userController.getAllUsers)
-  .post(userController.createUser);
+router.route("/").get(userController.getAllUsers);
 
 router
   .route("/:id")

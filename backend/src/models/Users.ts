@@ -28,7 +28,15 @@ const userSchema = new mongoose.Schema<IUser>({
     lowercase: true,
     validate: [validator.isEmail, "Please enter a valid email"],
   },
-  passwordChangedAt: Date
+  passwordChangedAt: Date,
+  xp: { type: Number, default: 0 },
+  lvl: { type: Number, default: 1 },
+  hp: { type: Number, default: 0 },
+  wp: { type: Number, default: 0 },
+  kp: { type: Number, default: 0 },
+  rank: { type: String, default: "Recruit" },
+  nextXP: { type: Number, default: 0 },
+  lastXP: { type: Number, default: 100 * 1.25 },
 });
 
 userSchema.pre("save", async function (next) {
@@ -43,14 +51,14 @@ userSchema.methods.verifyPassword = async function (enteredPwd: string) {
   return await bcrypt.compare(enteredPwd, this.password);
 };
 
-userSchema.methods.changedPasswordAfter = function(JTWTimestamp:number){
-  let changedTimestamp:number;
-  if(this.passwordChangedAt){
+userSchema.methods.changedPasswordAfter = function (JTWTimestamp: number) {
+  let changedTimestamp: number;
+  if (this.passwordChangedAt) {
     changedTimestamp = this.passwordChangedAt.getTime() / 1000;
   }
-  console.log(JTWTimestamp, changedTimestamp);
+  // console.log(JTWTimestamp, changedTimestamp);
   return JTWTimestamp < changedTimestamp;
-}
+};
 
 const User = mongoose.model("User", userSchema);
 export default User;

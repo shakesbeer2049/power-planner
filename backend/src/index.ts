@@ -9,9 +9,16 @@ import taskRouter from "./routes/taskRoutes";
 import userRouter from "./routes/userRoutes";
 import AppError from "./utils/appError";
 import globalErrorHandler from "./controllers/globalErrorHandler";
+import * as authController from "./controllers/authController";
+import { IGetUserAuthInfoRequest } from "types/userTypes";
+const morgan = require("morgan");
+
 require("dotenv").config();
 
 const app = express();
+
+// Use morgan middleware
+app.use(morgan("dev"));
 
 app.use(
   cors({
@@ -25,7 +32,17 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 //? ROUTES
-app.use("/api/v1/tasks", taskRouter);
+app.get(
+  "/api/v1/home",
+  authController.protect,
+  (req: IGetUserAuthInfoRequest, res) => {
+    res.status(200).json({
+      status: "success",
+      data: req.user,
+    });
+  }
+);
+app.use("/api/v1/tasks", authController.protect, taskRouter);
 app.use("/api/v1/users", userRouter);
 
 // Unhandled routes

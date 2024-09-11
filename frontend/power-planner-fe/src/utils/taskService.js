@@ -1,23 +1,30 @@
 import axios from "axios";
-const baseUrl = `http://localhost:3003/api/v1/tasks`;
+import { callApi } from "./callApi";
+const baseUrl = `/tasks`;
 
 export const addTask = async (taskDetails) => {
   try {
     console.log("taskDetils", taskDetails);
-    const addTaskRes = await axios.post(baseUrl, taskDetails);
+    const addTaskRes = await callApi(
+      baseUrl,
+      "POST",
+      taskDetails,
+      localStorage.getItem("token")
+    );
     return addTaskRes;
-  } catch (error) {
-    console.log("error in add tasks", error);
-  }
+  } catch (error) {}
 };
 
 export const updateTask = async (updatedTaskDetails) => {
   try {
-    const updateTaskRes = await axios.put(
+    const updateTaskRes = await callApi(
       `${baseUrl}/${updatedTaskDetails._id}`,
-      updatedTaskDetails
+      "PUT",
+      updatedTaskDetails,
+      localStorage.getItem("token")
     );
-    return updateTaskRes.data;
+
+    return updateTaskRes;
   } catch (error) {
     console.log("error in update tasks", error);
   }
@@ -25,9 +32,12 @@ export const updateTask = async (updatedTaskDetails) => {
 
 export const deleteTask = async (taskDetails) => {
   try {
-    const deleteTaskRes = await axios.delete(`${baseUrl}/${taskDetails._id}`);
-    console.log("deleteTaskRes", deleteTaskRes);
-    return deleteTaskRes.data.status;
+    const deleteTaskRes = await callApi(
+      `${baseUrl}/${taskDetails._id}`,
+      "DELETE",
+      {}
+    );
+    return deleteTaskRes;
   } catch (error) {
     console.log("error in add tasks", error);
   }

@@ -6,9 +6,11 @@ import * as taskService from "../utils/taskService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TaskContext from "../context/TaskContext";
+import AuthContext from "../context/AuthContext";
 
 const AddTaskModal = () => {
   const { taskList, setTaskList } = useContext(TaskContext);
+  const { userDetails } = useContext(AuthContext);
 
   const [taskDetails, setTaskDetails] = useState({
     taskName: "",
@@ -37,7 +39,9 @@ const AddTaskModal = () => {
       taskCategory: taskDetails.taskCategory,
       taskRepeatsOn: repeatsOn,
       isCompleted: false,
+      relatedUserId: userDetails._id,
     };
+    console.log("taskcreate", taskObj);
 
     // validate fields
     let formValid = true;
@@ -48,10 +52,10 @@ const AddTaskModal = () => {
     console.log("taskObj", taskObj);
     if (formValid) {
       const res = await taskService.addTask(taskObj);
-      // console.log("res", res);
+      console.log("res", res);
       // console.log(taskList, "taskList");
 
-      if (res.data.status === "success") {
+      if (res.status === "success") {
         const newTaskList = [...taskList, taskObj];
         setTaskList(newTaskList);
         setTaskDetails({ ...taskDetails, taskName: "" });
@@ -147,7 +151,7 @@ const AddTaskModal = () => {
               </span>
               <button className="btn btn-error text-white">Close</button>
             </form>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
           </div>
         </div>
       </div>

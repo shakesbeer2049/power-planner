@@ -19,8 +19,8 @@ export const getAllUsers = catchAsync(
   }
 );
 
-export const getUserByEmail = (email: string) => {
-  return User.findOne({ email });
+export const getUserByEmail = async (email: string) => {
+  return await User.findOne({ email });
 };
 
 export const getUserById = (id: string) => {

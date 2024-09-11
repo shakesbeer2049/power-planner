@@ -1,5 +1,10 @@
 import { ObjectId } from "mongoose";
+import { Request } from "express";
 
+export interface IGetUserAuthInfoRequest extends Request {
+  user: any; // or any other type
+  relatedUserId: String;
+}
 export interface User {
   _id: ObjectId;
   username: string;
@@ -14,9 +19,17 @@ export interface IUser extends Document {
   password: string;
   username: string;
   confirmPassword: string;
-  passwordChangedAt:Date
+  passwordChangedAt: Date;
+  xp: number;
+  lvl: number;
+  hp: number;
+  wp: number;
+  kp: number;
+  rank: "Recruit";
+  nextXP: number;
+  lastXP: number;
 
   // Method to verify password
   verifyPassword(enteredPwd: string): Promise<boolean>;
-  changedPasswordAfter(iat:number): Promise<boolean>;
+  changedPasswordAfter(iat: number): Promise<boolean>;
 }

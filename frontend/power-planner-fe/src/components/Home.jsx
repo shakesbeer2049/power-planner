@@ -1,12 +1,33 @@
 import { GiFalconMoon } from "react-icons/gi";
 import "../styles/home.css";
-import { useRef, useContext } from "react";
+import { useRef, useContext, useEffect } from "react";
 import AuthContext from "../context/AuthContext";
 import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
+import { jwtDecode } from "jwt-decode";
+import { callApi } from "../utils/callApi";
+import { Link } from "react-router-dom";
 
 const Home = () => {
-  const { setUserDetails, userDetails } = useContext(AuthContext);
+  const { setUserDetails, userDetails, handleLogout } = useContext(AuthContext);
+  console.log(userDetails);
+
+  useEffect(() => {
+    (async () => {
+      const jwt = localStorage.getItem("token");
+      let userId = "";
+
+      if (jwt) {
+        userId = jwtDecode(jwt).id;
+        if (userId) {
+          const verifyUser = await callApi("/home", "GET", {}, jwt);
+          if (verifyUser.status === "success") {
+            setUserDetails(verifyUser.data);
+          }
+        }
+      }
+    })();
+  }, []);
 
   return (
     <div className="home">
@@ -15,8 +36,15 @@ const Home = () => {
           <a className="btn btn-ghost text-xl">
             <GiFalconMoon className="text-2xl" /> Consistent
           </a>
-          {userDetails?.loggedIn ? (
-            <div>{userDetails.username} is logged in</div>
+          {userDetails?.username ? (
+            <div className="logged-in">
+              <button className="btn btn-info mr-2" onClick={handleLogout}>
+                Logout
+              </button>
+              <button className="btn btn-success mr-2">
+                <Link to="/tasks/daily">Tasks</Link>
+              </button>
+            </div>
           ) : (
             <div className="home-buttons flex justify-between ">
               <div className="login-modal">

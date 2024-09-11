@@ -29,6 +29,10 @@ const taskSchema = new mongoose.Schema({
       "Sunday",
     ],
   },
+  relatedUserId: {
+    type: String,
+    required: [true, "user id is required"],
+  },
 });
 
 const Task = mongoose.model("Task", taskSchema);

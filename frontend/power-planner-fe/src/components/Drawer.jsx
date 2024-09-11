@@ -1,23 +1,21 @@
 import "../styles/drawer.css";
 import { AiOutlineMenu } from "react-icons/ai";
-import TaskProgress from "./TaskProgress";
+import TaskProgress from "../trashed/TaskProgress";
 import AddTaskModal from "./AddTaskModal";
 import XPBar from "./UserProfile";
 import { Link, Outlet } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GiFalconMoon } from "react-icons/gi";
-
 import AuthContext from "../context/AuthContext";
+import TaskContext from "../context/TaskContext";
+import useApiCaller from "../hooks/useApiCaller";
 
 const Drawer = ({ selectedMenu, setSelectedMenu }) => {
   const [drawerState, setDrawerState] = useState(false);
-  const { userDetails } = useContext(AuthContext);
+  const { taskList, setTaskList } = useContext(TaskContext);
+  const { userDetails, handleLogout } = useContext(AuthContext);
   console.log("userDetails", userDetails);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "http://localhost:3000/";
-  };
   return (
     <>
       <div className="main-model lg:flex">
@@ -56,12 +54,13 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
 
             <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 text-2xl">
               {/* Sidebar content here */}
-              <div className="task-progress">
-                <TaskProgress title={"Today"} />
-              </div>
+              <div className="task-progress"></div>
               <div className="logo flex pb-1 items-center">
                 <GiFalconMoon />
-                <h1 className="ml-1">Consistent</h1>
+                <h1 className="ml-1">
+                  {" "}
+                  <Link to="/"> Consistent</Link>{" "}
+                </h1>
               </div>
               <li>
                 {/* Open the modal using document.getElementById('ID').showModal() method */}
@@ -116,7 +115,10 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
               >
                 <Link to="stats">Stats</Link>
               </li>
-              <li onClick={handleLogout}>Logout</li>
+
+              <li className="mt-48" onClick={handleLogout}>
+                <button className="btn btn-error">Logout</button>
+              </li>
             </ul>
           </div>
         </div>

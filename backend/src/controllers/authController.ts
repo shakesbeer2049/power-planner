@@ -5,15 +5,21 @@ import jwt from "jsonwebtoken";
 import AppError from "../utils/appError";
 import User from "../models/Users";
 import { generateJWT } from "../utils/helper";
-const {promisify} = require('util');
+import { IGetUserAuthInfoRequest } from "types/userTypes";
+const { promisify } = require("util");
 
 export const register = catchAsync(
   async (req: express.Request, res: express.Response) => {
+    // console.log("create user", req.body);
     const { email } = req.body;
 
     const userExists = await getUserByEmail(email);
 
-    if (userExists) return res.status(400);
+    if (userExists)
+      return res.status(400).json({
+        status: "fail",
+        message: "User already exists",
+      });
 
     // create user
     const newUser = await createUser({
@@ -24,7 +30,7 @@ export const register = catchAsync(
     });
     newUser.password = "";
     const token = generateJWT(newUser._id.toString());
-
+    // console.log(newUser);
     return res.status(201).json({
       status: "success",
       token,
@@ -54,16 +60,22 @@ export const login = catchAsync(
       return next(new AppError("incorrect email or password!", 401));
     }
 
+    user.password = "";
     const token = generateJWT(user._id.toString());
     return res.status(200).json({
       status: "success",
       token,
+      data: user,
     });
   }
 );
 
 export const protect = catchAsync(
-  async(req: express.Request, res: express.Response, next: express.NextFunction) => {
+  async (
+    req: IGetUserAuthInfoRequest,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
     let token;
 
     // Check headers
@@ -78,24 +90,27 @@ export const protect = catchAsync(
     if (!token) return next(new AppError("Unauthorized, Access Denied!", 401));
 
     // verify token
-    const decoded:any = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-    console.log(decoded, "decoded");
+    const decoded: any = await promisify(jwt.verify)(
+      token,
+      process.env.JWT_SECRET
+    );
+    // console.log(decoded, "decoded");
 
-    const {id} = decoded;
+    const { id } = decoded;
 
     // check if user exists
-    const userExists  = await User.findById(id);
-    if(!userExists) return next(new AppError("User does not exist!", 401));
+    const userExists = await User.findById(id);
+    if (!userExists) return next(new AppError("User does not exist!", 401));
 
     // compare pwdissued and jwt issued
-    if(userExists.changedPasswordAfter(decoded.iat)){
+    if (userExists.changedPasswordAfter(decoded.iat)) {
       return next(new AppError("Please login again", 401));
     }
 
+    // console.log("userExists", userExists);
     // Grant Access
-    // req.user = userExists;
+    req.user = userExists;
 
     next();
   }
 );
-

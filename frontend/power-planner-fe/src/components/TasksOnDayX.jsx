@@ -68,7 +68,7 @@ const TasksToday = ({ weekDay }) => {
         ) : (
           <span className="text-center">
             {" "}
-            So Empty! <TbMoodEmpty />{" "}
+            <TbMoodEmpty className="inline" /> So Empty!{" "}
           </span>
         )}
       </div>
@@ -94,7 +94,7 @@ const TasksToday = ({ weekDay }) => {
         ) : (
           <span className="text-center">
             {" "}
-            So Empty! <TbMoodEmpty />{" "}
+            <TbMoodEmpty className="inline" /> So Empty!{" "}
           </span>
         )}
       </div>
@@ -120,7 +120,7 @@ const TasksToday = ({ weekDay }) => {
         ) : (
           <span className="text-center">
             {" "}
-            So Empty! <TbMoodEmpty />{" "}
+            <TbMoodEmpty className="inline" /> So Empty!{" "}
           </span>
         )}
       </div>
