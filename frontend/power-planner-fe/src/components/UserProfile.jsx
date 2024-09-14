@@ -52,7 +52,7 @@ const UserProfile = () => {
           <progress
             className="progress progress-success w-24"
             value={userDetails.xp || 0}
-            max={userDetails.nextXp || 0}
+            max={userDetails.nextXP || 0}
           ></progress>
           <br />
           <CiCircleInfo className="inline info-tasks" />
@@ -93,14 +93,14 @@ const UserProfile = () => {
                 <progress
                   className="progress progress-success w-36"
                   value={userDetails.xp || 0}
-                  max={userDetails.nextXp || 0}
+                  max={userDetails.nextXP || 0}
                 ></progress>
                 <br />
 
                 <br />
                 <div className="xps w-40">
                   <span>{userDetails.xp || 0}</span>
-                  <span>{userDetails.nextXp || 0}</span>
+                  <span>{userDetails.nextXP || 0}</span>
                 </div>
               </div>
             </div>

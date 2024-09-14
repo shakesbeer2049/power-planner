@@ -1,9 +1,19 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getYears, months, getWeekOfMonth } from "../utils/daysAndDates";
 import TaskContext from "../context/TaskContext";
+import { callApi } from "../utils/callApi";
 
 export default Performance = () => {
-  const { taskList } = useContext(TaskContext);
+  // const { taskList } = useContext(TaskContext);
+  const[taskList, setTaskList]  = useState([]);
+  useEffect(() => {
+    const fetchAllTasks = async() => {
+      const res = await callApi("/tasks/all","GET", {});
+      console.log(res, "res")
+      setTaskList(res.data.tasks);
+    }
+    fetchAllTasks();
+  },[])
   const years = getYears();
   const monthNames = [
     "January",
