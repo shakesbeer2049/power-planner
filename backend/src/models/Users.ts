@@ -37,6 +37,7 @@ const userSchema = new mongoose.Schema<IUser>({
   rank: { type: String, default: "Recruit" },
   nextXP: { type: Number, default: 0 },
   lastXP: { type: Number, default: 100 * 1.25 },
+  totalXP: { type: Number, default: 100 * 1.25 },
 });
 
 userSchema.pre("save", async function (next) {
