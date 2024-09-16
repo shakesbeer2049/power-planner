@@ -4,7 +4,6 @@ const baseUrl = `/tasks`;
 
 export const addTask = async (taskDetails) => {
   try {
-    console.log("taskDetils", taskDetails);
     const addTaskRes = await callApi(
       baseUrl,
       "POST",
@@ -46,7 +45,6 @@ export const deleteTask = async (taskDetails) => {
 export const getTasks = async () => {
   try {
     const getTaskRes = await axios.get(`${baseUrl}`);
-    console.log(getTaskRes);
     return getTaskRes.data;
   } catch (error) {
     console.log("error in get tasks", error);

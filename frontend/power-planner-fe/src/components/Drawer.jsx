@@ -14,7 +14,6 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
   const [drawerState, setDrawerState] = useState(false);
   const { taskList, setTaskList } = useContext(TaskContext);
   const { userDetails, handleLogout } = useContext(AuthContext);
-  console.log("userDetails", userDetails);
 
   return (
     <>

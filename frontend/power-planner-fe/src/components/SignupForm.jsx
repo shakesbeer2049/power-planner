@@ -19,7 +19,6 @@ const SignupForm = () => {
   const password = watch("password");
 
   const handleSignup = async (data) => {
-    console.log("formdata", data);
     const response = await callApi("/users/register", "POST", data);
     if (response.status === "success" && response.token) {
       // Storing the JWT
@@ -28,8 +27,6 @@ const SignupForm = () => {
       const userDeets = { ...response.data.user, loggedIn: true };
       setUserDetails(userDeets);
     }
-
-    console.log("response in handle sign up", response);
   };
 
   return (

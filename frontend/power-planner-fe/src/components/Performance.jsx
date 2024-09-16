@@ -5,15 +5,14 @@ import { callApi } from "../utils/callApi";
 
 export default Performance = () => {
   // const { taskList } = useContext(TaskContext);
-  const[taskList, setTaskList]  = useState([]);
+  const [taskList, setTaskList] = useState([]);
   useEffect(() => {
-    const fetchAllTasks = async() => {
-      const res = await callApi("/tasks/all","GET", {});
-      console.log(res, "res")
+    const fetchAllTasks = async () => {
+      const res = await callApi("/tasks/all", "GET", {});
       setTaskList(res.data.tasks);
-    }
+    };
     fetchAllTasks();
-  },[])
+  }, []);
   const years = getYears();
   const monthNames = [
     "January",
@@ -34,7 +33,6 @@ export default Performance = () => {
   const [month, setMonth] = useState(null);
 
   const handleYearSelect = (e) => {
-    console.log(e.target.value);
     setYear(e.target.value);
   };
 
@@ -53,7 +51,6 @@ export default Performance = () => {
     if (tasksThisYear) {
       tasksThisYear.forEach((task) => {
         const month = new Date(task.createdOn).getMonth();
-        console.log("month", month);
         monthlyTasksArray[month].push(task);
       });
     }
@@ -81,7 +78,6 @@ export default Performance = () => {
         </>
       );
     });
-    console.log("monthlyTasksArray", monthlyTasksArray);
     return monthlyJsx;
   };
 
@@ -144,7 +140,6 @@ export default Performance = () => {
       return null;
     });
 
-    console.log("weeklyTasksArray", weeklyTasksArray);
     return weeklyJsx;
   };
 

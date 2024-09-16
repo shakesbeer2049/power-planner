@@ -23,15 +23,9 @@ const AddTaskModal = () => {
     setTaskDetails({ ...taskDetails, taskName: e.target.value });
   };
 
-  // useEffect(() => {
-  //   console.log("Rerender in Add Task Modal Comp");
-  // }, [taskList]);
-
   // Add Task Handler
   const addTaskHandler = async () => {
     const repeatsOn = taskDetails.taskRepeatsOn?.map((repeat) => repeat.value);
-
-    console.log("taskDetails", taskDetails);
 
     // Task object
     let taskObj = {
@@ -41,7 +35,6 @@ const AddTaskModal = () => {
       isCompleted: false,
       relatedUserId: userDetails._id,
     };
-    console.log("taskcreate", taskObj);
 
     // validate fields
     let formValid = true;
@@ -49,13 +42,11 @@ const AddTaskModal = () => {
     else if (!taskObj.taskCategory) formValid = false;
     else if (!taskObj.taskRepeatsOn) formValid = false;
 
-    console.log("taskObj", taskObj);
     if (formValid) {
       const res = await taskService.addTask(taskObj);
-      console.log("res", res);
-      // console.log(taskList, "taskList");
 
       if (res.status === "success") {
+        taskObj._id = res.data._id;
         const newTaskList = [...taskList, taskObj];
         setTaskList(newTaskList);
         setTaskDetails({ ...taskDetails, taskName: "" });
@@ -83,7 +74,6 @@ const AddTaskModal = () => {
 
   // Handle Task Category
   const taskCategoryHandler = (e) => {
-    // console.log(e.target.value)
     setTaskDetails({ ...taskDetails, taskCategory: e.target.value });
   };
 

@@ -45,7 +45,6 @@ export const TaskProvider = ({ children }) => {
     if (!tasksLoading && !taskError) {
       setTaskList(taskData.tasks);
     }
-    // console.log("Rerender in Context Comp");
   }, [tasksLoading, taskData]);
 
   // TASK UPDATE HANDL
@@ -59,8 +58,6 @@ export const TaskProvider = ({ children }) => {
 
     // Update Task on server
     const taskRes = await taskService.updateTask(updatedTask);
-
-    console.log("taskRes", taskRes);
 
     // If task updated
     if (taskRes.status === "success") {
@@ -83,8 +80,6 @@ export const TaskProvider = ({ children }) => {
 
   // Task Delete
   const handleTaskDelete = async (taskToDelete) => {
-    // console.log("deleted task", taskToDelete);
-
     if (taskToDelete.isCompleted) {
       toast.error("Cannot delete a completed task");
       return;

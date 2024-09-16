@@ -21,7 +21,6 @@ const LoginForm = () => {
   const handleLogin = async (data) => {
     try {
       const response = await callApi("/users/login", "POST", data);
-      console.log("response", response);
       if (response.status === "success") {
         setUserDetails(response.data);
         localStorage.setItem("token", response.token);

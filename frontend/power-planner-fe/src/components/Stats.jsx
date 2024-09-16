@@ -6,15 +6,14 @@ import { generateStats } from "../utils/taskCalculations";
 import { callApi } from "../utils/callApi";
 
 const Stats = () => {
-  const[taskList, setTaskList]  = useState([]);
+  const [taskList, setTaskList] = useState([]);
   useEffect(() => {
-    const fetchAllTasks = async() => {
-      const res = await callApi("/tasks/all","GET", {});
-      console.log(res, "res")
+    const fetchAllTasks = async () => {
+      const res = await callApi("/tasks/all", "GET", {});
       setTaskList(res.data.tasks);
-    }
+    };
     fetchAllTasks();
-  },[])
+  }, []);
   const [stats, setStats] = useState({
     totalTasks: 0,
     completedTasks: 0,
@@ -27,7 +26,6 @@ const Stats = () => {
       taskList,
       selectedStat
     );
-    // console.log(totalTasks, completedTasks, achievedPercent);
     setStats({ totalTasks, completedTasks, achievedPercent });
   }, [taskList, selectedStat]);
 

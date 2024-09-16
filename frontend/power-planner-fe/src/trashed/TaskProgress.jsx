@@ -6,7 +6,6 @@ const TaskProgress = ({ title }) => {
   const { taskList } = useContext(TaskContext);
   const [dailyProgressCount, setDailyProgressCount] = useState(0);
   useEffect(() => {
-    // console.log("Rerender in Task Progress Comp");
     const percentCompleted = calculateDailyProgress(taskList);
     setDailyProgressCount(percentCompleted);
   }, [taskList]);

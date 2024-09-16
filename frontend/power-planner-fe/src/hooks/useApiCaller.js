@@ -26,7 +26,6 @@ export default function useApiCaller(url, callType, body) {
           },
         };
         const response = await axios(config);
-        console.log("axios response", response);
         const data = response.data.data;
         setData(data);
       } catch (error) {
@@ -64,7 +63,6 @@ export default function useApiCaller(url, callType, body) {
 
       const response = await axios(config);
       const data = response.data.data;
-      console.log("data from useFetch", data);
       setData(data);
     } catch (error) {
       console.log(error, "error in fetching data");

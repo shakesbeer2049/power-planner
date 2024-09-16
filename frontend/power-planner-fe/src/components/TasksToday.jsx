@@ -20,12 +20,10 @@ const TasksToday = () => {
 
   // Functions
   const makeTaskList = () => {
-    console.log("tasks", taskList);
     const today = getToday();
     const tasksToday = taskList.filter((task) =>
       task?.taskRepeatsOn?.includes(today)
     );
-    console.log("tasks today", tasksToday);
     const healthTasks = tasksToday.filter(
       (task) => task?.taskCategory == "health"
     );
@@ -45,7 +43,6 @@ const TasksToday = () => {
 
   useEffect(() => {
     if (taskList?.length >= 0) {
-      // console.log("Rerender in Tasks Today Comp", taskList.length);
       makeTaskList();
     }
   }, [taskList]);

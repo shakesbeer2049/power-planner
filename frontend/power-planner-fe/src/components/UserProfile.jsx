@@ -24,7 +24,6 @@ const UserProfile = () => {
         if (taskList[task].isCompleted) completedToday += 1;
       }
     }
-    console.log(tasksToday, completedToday);
     setTaskCount({ totalToday: tasksToday, completed: completedToday });
   }, [taskList]);
 

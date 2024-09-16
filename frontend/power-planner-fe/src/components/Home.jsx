@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const { setUserDetails, userDetails, handleLogout } = useContext(AuthContext);
-  console.log(userDetails);
 
   useEffect(() => {
     (async () => {
