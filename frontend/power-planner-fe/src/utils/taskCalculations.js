@@ -16,15 +16,7 @@ export const generateStats = (tasks, selectedStat) => {
   if (selectedStat === "overall") {
     totalTasks = tasks.length || 0;
     completedTasks = tasks.filter((task) => task.isCompleted).length;
-  } else if (selectedStat === "daily") {
-    const today = getToday();
-    totalTasks = tasks.filter((task) =>
-      task?.taskRepeatsOn?.includes(today)
-    ).length;
-    completedTasks = tasks.filter(
-      (task) => task?.taskRepeatsOn?.includes(today) && task.isCompleted
-    ).length;
-  } else if (selectedStat === "weekly") {
+  }else if (selectedStat === "weekly") {
     const today = getToday();
     totalTasks = tasks.filter((task) =>
       isDateInCurrentWeek(task.createdOn)

@@ -16,6 +16,7 @@ const DeleteTaskModal = ({ task }) => {
             <button
               className="btn btn-error"
               onClick={() => handleTaskDelete(task)}
+              disabled = {task.isCompleted}
             >
               Delete
             </button>

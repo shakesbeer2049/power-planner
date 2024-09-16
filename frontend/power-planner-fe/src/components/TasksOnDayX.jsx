@@ -5,6 +5,7 @@ import { TbMoodEmpty } from "react-icons/tb";
 import { useContext } from "react";
 
 import TaskContext from "../context/TaskContext";
+import DeleteTaskModal from "./DeleteTaskModal";
 
 const TasksToday = ({ weekDay }) => {
   const { taskList, handleTaskUpdate } = useContext(TaskContext);
@@ -51,6 +52,7 @@ const TasksToday = ({ weekDay }) => {
         {tasksToday.health?.length > 0 ? (
           tasksToday.health.map((task) => (
             <div className="task-h1-input" key={task._id}>
+               <DeleteTaskModal task={task} />{" "}
               {" "}
               <input
                 type="checkbox"
@@ -60,7 +62,11 @@ const TasksToday = ({ weekDay }) => {
                 checked={task.isCompleted}
                 onChange={(e) => handleTaskUpdate(e, task)}
               />{" "}
-              <h4 className={task.isCompleted ? "completed" : ""}>
+              <h4
+                onClick={(e) => document.getElementById(task._id).showModal()}
+                key={task._id}
+                className={task.isCompleted ? "completed" : ""}
+              >
                 {task.taskName}
               </h4>
             </div>
@@ -77,6 +83,7 @@ const TasksToday = ({ weekDay }) => {
         {tasksToday.wealth?.length > 0 ? (
           tasksToday.wealth.map((task) => (
             <div className="task-h1-input" key={task._id}>
+               <DeleteTaskModal task={task} />{" "}
               {" "}
               <input
                 className="checkbox checkbox-accent"
@@ -86,7 +93,11 @@ const TasksToday = ({ weekDay }) => {
                 checked={task.isCompleted}
                 onChange={(e) => handleTaskUpdate(e, task)}
               />{" "}
-              <h4 className={task.isCompleted ? "completed" : ""}>
+             <h4
+                onClick={(e) => document.getElementById(task._id).showModal()}
+                key={task._id}
+                className={task.isCompleted ? "completed" : ""}
+              >
                 {task.taskName}
               </h4>
             </div>
@@ -104,6 +115,7 @@ const TasksToday = ({ weekDay }) => {
         {tasksToday.knowledge?.length > 0 ? (
           tasksToday.knowledge.map((task) => (
             <div className="task-h1-input" key={task._id}>
+               <DeleteTaskModal task={task} />{" "}
               <input
                 type="checkbox"
                 checked={task.isCompleted}
@@ -112,7 +124,11 @@ const TasksToday = ({ weekDay }) => {
                 id="task"
                 className="checkbox checkbox-accent"
               />{" "}
-              <h4 className={task.isCompleted ? "completed" : ""}>
+             <h4
+                onClick={(e) => document.getElementById(task._id).showModal()}
+                key={task._id}
+                className={task.isCompleted ? "completed" : ""}
+              >
                 {task.taskName}
               </h4>
             </div>

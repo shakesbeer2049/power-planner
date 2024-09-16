@@ -3,12 +3,18 @@ import { useEffect, useState, useContext } from "react";
 import "../styles/stats.css";
 import Card from "./Card";
 import { generateStats } from "../utils/taskCalculations";
-
-import TaskContext from "../context/TaskContext";
+import { callApi } from "../utils/callApi";
 
 const Stats = () => {
-  const { taskList } = useContext(TaskContext);
-
+  const[taskList, setTaskList]  = useState([]);
+  useEffect(() => {
+    const fetchAllTasks = async() => {
+      const res = await callApi("/tasks/all","GET", {});
+      console.log(res, "res")
+      setTaskList(res.data.tasks);
+    }
+    fetchAllTasks();
+  },[])
   const [stats, setStats] = useState({
     totalTasks: 0,
     completedTasks: 0,
@@ -36,14 +42,6 @@ const Stats = () => {
           }}
         >
           <a>Overall</a>
-        </li>
-        <li
-          className={selectedStat === "daily" ? "selected-stat" : ""}
-          onClick={() => {
-            setSelectedStat("daily");
-          }}
-        >
-          <a>Today</a>
         </li>
         <li
           className={selectedStat === "weekly" ? "selected-stat" : ""}

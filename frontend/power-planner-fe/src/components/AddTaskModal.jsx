@@ -136,6 +136,7 @@ const AddTaskModal = () => {
                 closeMenuOnSelect={false}
                 blurInputOnSelect={false}
                 value={taskDetails.taskRepeatsOn}
+                maxMenuHeight={"100px"}
                 styles={selectStyles}
               />
             </div>
