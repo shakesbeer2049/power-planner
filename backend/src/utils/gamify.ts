@@ -51,70 +51,84 @@ class Gamify {
     this.hp = user.hp;
     this.kp = user.kp;
     this.wp = user.wp;
-    this.rank = this.rankArray[this.lvl] || "Recruit";
-    this.nextXP = this.calculateNextXP();
+    this.rank = user.rank;
+    this.nextXP = user.nextXP;
+    this.lastXP = user.lastXP
   }
 
-  calculateNextXP() {
+  updateNextXP() {
     // return this.lvl * 100 * 1.25;
-    return this.lvl * 3 + 3;
+     this.nextXP = this.lvl * 2;
   }
 
-  promoteRank() {
-    return this.rankArray[this.lvl] || this.rank;
+  updateRank() {
+     this.rank = this.rankArray[this.lvl] || this.rank;
   }
 
   increaseLevel() {
-    return (this.lvl += 1);
+     ++this.lvl;
   }
 
   checkUpgrades() {
     if (this.xp >= this.nextXP) {
+      this.xp = 1;
       this.lastXP = this.nextXP;
-      this.xp = 0;
-      this.lvl = this.increaseLevel();
-      this.rank = this.promoteRank();
-      
-      this.lastXP = this.xp;
-      this.nextXP = this.calculateNextXP();
-    } else if (this.xp < this.lastXP) {
-      this.decreaseLevel();
+      this.increaseLevel();
+      this.updateRank();
+      this.updateNextXP();
+    } else if (this.xp === 0) {
       this.xp = Math.max(this.lastXP - 1,0);
-      this.nextXP = this.lastXP;
-      this.rank = this.promoteRank();
+      this.decreaseLevel();
+      this.updateRank();
+      this.updateNextXP()
+      this.lastXP = Math.max(this.lvl * 2 - 2, 0);
+     
+      
     }
   }
 
   increaseHP() {
-    return ++this.hp;
+     ++this.hp;
   }
   increaseKP() {
-    return ++this.kp;
+     ++this.kp;
   }
   increaseWP() {
-    return ++this.wp;
+     ++this.wp;
   }
 
   increaseXP() {
-    return ++this.xp;
+    console.log("xp increased to ",this.xp + 1)
+     ++this.xp;
+  }
+
+  increaseTotalXP() {
+    console.log("xp increased to ",this.totalXP + 1)
+     ++this.totalXP;
   }
 
   decreaseHP() {
-    return Math.max(this.hp - 1, 0);
+   this.hp =  Math.max(this.hp - 1, 0);
   }
   decreaseKP() {
-    return Math.max(this.kp - 1, 0);
+   this.kp =  Math.max(this.kp - 1, 0);
   }
   decreaseWP() {
-    return Math.max(this.wp - 1, 0);
+   this.wp =  Math.max(this.wp - 1, 0);
   }
 
   decreaseLevel() {
-    return Math.max(this.lvl - 1, 1);
+   this.lvl =  Math.max(this.lvl - 1, 1);
   }
 
   decreaseXP() {
-    return Math.max(this.xp - 1, 0);
+    console.log("xp decreased to ", Math.max(this.xp - 1, 0))
+   this.xp =  Math.max(this.xp - 1, 0);
+  }
+
+  decreaseTotalXP() {
+    console.log("xp decreased to ", Math.max(this.totalXP - 1, 0))
+   this.totalXP =  Math.max(this.totalXP - 1, 0);
   }
 }
 

@@ -102,6 +102,7 @@ export const updateTask = catchAsync(
     const category = taskCategory[0];
 
     if (isCompleted) {
+      userProfile.increaseTotalXP();
       userProfile.increaseXP();
       switch (category) {
         case "health":
@@ -117,6 +118,7 @@ export const updateTask = catchAsync(
           break;
       }
     } else {
+      userProfile.decreaseTotalXP();
       userProfile.decreaseXP();
       switch (category) {
         case "health":
@@ -149,6 +151,7 @@ export const updateTask = catchAsync(
         wp: userProfile.wp,
         rank: userProfile.rank,
         nextXP: userProfile.nextXP,
+        lastXP:userProfile.lastXP,
         totalXP: userProfile.hp + userProfile.kp + userProfile.wp,
       },
       { new: true }
