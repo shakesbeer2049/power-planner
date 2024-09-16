@@ -78,22 +78,20 @@ export const updateTask = catchAsync(
     // Validate req.body
     if (!req.params.id || !req.body) {
       return res.status(400).json({
-        status: 'fail',
-        message: 'Invalid request data',
+        status: "fail",
+        message: "Invalid request data",
       });
     }
 
     // Find and update the task
-    const updatedTask = await Task.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
 
     if (!updatedTask) {
       return res.status(404).json({
-        status: 'fail',
-        message: 'Task not found',
+        status: "fail",
+        message: "Task not found",
       });
     }
 
@@ -104,66 +102,68 @@ export const updateTask = catchAsync(
     const category = taskCategory[0];
 
     if (isCompleted) {
-      req.user.xp = userProfile.increaseXP();
+      userProfile.increaseXP();
       switch (category) {
-        case 'health':
-          req.user.hp = userProfile.increaseHP();
+        case "health":
+          userProfile.increaseHP();
           break;
-        case 'wealth':
-          req.user.wp = userProfile.increaseWP();
+        case "wealth":
+          userProfile.increaseWP();
           break;
-        case 'knowledge':
-          req.user.kp = userProfile.increaseKP();
+        case "knowledge":
+          userProfile.increaseKP();
           break;
         default:
           break;
       }
     } else {
-      req.user.xp = userProfile.decreaseXP();
+      userProfile.decreaseXP();
       switch (category) {
-        case 'health':
-          if (req.user.hp > 0) req.user.hp = userProfile.decreaseHP();
+        case "health":
+          if (req.user.hp > 0) userProfile.decreaseHP();
           break;
-        case 'wealth':
-          if (req.user.wp > 0) req.user.wp = userProfile.decreaseWP();
+        case "wealth":
+          if (req.user.wp > 0) userProfile.decreaseWP();
           break;
-        case 'knowledge':
-          if (req.user.kp > 0) req.user.kp = userProfile.decreaseKP();
+        case "knowledge":
+          if (req.user.kp > 0) userProfile.decreaseKP();
           break;
         default:
           break;
       }
     }
+    console.log(userProfile);
 
     // Update the user's XP and check for upgrades
-    // req.user.xp = req.user.kp + req.user.wp + req.user.hp;
+
     userProfile.checkUpgrades();
 
     // Save the updated user object to the database
     const updatedUserStat = await User.findByIdAndUpdate(
       req.user._id,
       {
-        xp: req.user.xp,
-        lvl: req.user.lvl,
-        hp: req.user.hp,
-        kp: req.user.kp,
-        wp: req.user.wp,
+        xp: userProfile.xp,
+        lvl: userProfile.lvl,
+        hp: userProfile.hp,
+        kp: userProfile.kp,
+        wp: userProfile.wp,
         rank: userProfile.rank,
         nextXP: userProfile.nextXP,
+        totalXP: userProfile.hp + userProfile.kp + userProfile.wp,
       },
       { new: true }
     );
 
     if (!updatedUserStat) {
       return res.status(404).json({
-        status: 'fail',
-        message: 'User not found',
+        status: "fail",
+        message: "User not found",
       });
     }
 
     // Respond with the updated task and user data
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: { updatedTask, user: updatedUserStat },
       count: 1,
     });

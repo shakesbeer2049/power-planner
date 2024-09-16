@@ -28,6 +28,7 @@ export interface IUser extends Document {
   rank: "Recruit";
   nextXP: number;
   lastXP: number;
+  totalXP: number;
 
   // Method to verify password
   verifyPassword(enteredPwd: string): Promise<boolean>;

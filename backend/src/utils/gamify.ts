@@ -7,39 +7,57 @@ interface GameUser {
   rank: string;
   nextXP: number;
   lastXP: number;
+  totalXP: number;
 }
 
 class Gamify {
   xp = 0;
+  totalXP = 0;
   lvl = 1;
   hp = 0;
   kp = 0;
   wp = 0;
   nextXP = 0;
   lastXP = 0;
-  rank = 'Recruit';
+  rank = "Recruit";
 
   rankArray = [
-    "", 'Recruit', 'Earthling', 'Soldier', 'Elite Soldier', 'Captain',
-    'Lieutenant', 'Knight', 'E-rank Hunter', 'D-rank Hunter',
-    'C-rank Hunter', 'B-rank Hunter', 'A-rank Hunter', 'S-rank Hunter',
-    'Jōnin', 'Kage', 'Z-Fighter', 'Hokage', 'Saiyan', 'Super Saiyan'
+    "",
+    "Recruit",
+    "Earthling",
+    "Soldier",
+    "Elite Soldier",
+    "Captain",
+    "Lieutenant",
+    "Knight",
+    "E-rank Hunter",
+    "D-rank Hunter",
+    "C-rank Hunter",
+    "B-rank Hunter",
+    "A-rank Hunter",
+    "S-rank Hunter",
+    "Jōnin",
+    "Kage",
+    "Z-Fighter",
+    "Hokage",
+    "Saiyan",
+    "Super Saiyan",
   ];
 
   constructor(user: GameUser) {
     this.xp = user.xp;
+    this.totalXP = user.totalXP;
     this.lvl = user.lvl;
     this.hp = user.hp;
     this.kp = user.kp;
     this.wp = user.wp;
-    this.rank = user.rank;
-    this.nextXP = user.nextXP;
-    this.lastXP = user.lastXP;
+    this.rank = this.rankArray[this.lvl] || "Recruit";
+    this.nextXP = this.calculateNextXP();
   }
 
   calculateNextXP() {
     // return this.lvl * 100 * 1.25;
-    return this.lvl * 3 + 2;
+    return this.lvl * 3 + 3;
   }
 
   promoteRank() {
@@ -52,14 +70,14 @@ class Gamify {
 
   checkUpgrades() {
     if (this.xp >= this.nextXP) {
+      this.lastXP = this.nextXP;
+      this.xp = 0;
       this.lvl = this.increaseLevel();
       this.rank = this.promoteRank();
       
       this.lastXP = this.xp;
       this.nextXP = this.calculateNextXP();
-      this.xp = 1;
-     
-    } else if (this.xp === 0) {
+    } else if (this.xp < this.lastXP) {
       this.decreaseLevel();
       this.xp = Math.max(this.lastXP - 1,0);
       this.nextXP = this.lastXP;
@@ -77,8 +95,8 @@ class Gamify {
     return ++this.wp;
   }
 
-  increaseXP(){
-return ++this.xp;
+  increaseXP() {
+    return ++this.xp;
   }
 
   decreaseHP() {
@@ -96,7 +114,7 @@ return ++this.xp;
   }
 
   decreaseXP() {
-    return Math.max(this.xp - 1, 1);
+    return Math.max(this.xp - 1, 0);
   }
 }
 
