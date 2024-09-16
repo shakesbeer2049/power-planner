@@ -4,7 +4,7 @@ import express, { NextFunction } from "express";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/appError";
 import { IGetUserAuthInfoRequest } from "types/userTypes";
-import { getEndOfWeek, getStartOfWeek } from "../utils/dates";
+import { getEndOfWeek, getStartOfWeek, getToday } from "../utils/dates";
 import Gamify from "../utils/gamify";
 import User from "../models/Users";
 
@@ -15,7 +15,6 @@ export const getAllTasks = catchAsync(
     next: NextFunction
   ) => {
     const tasks = await Task.find({ relatedUserId: req.user._id });
-    // console.log("tasks", tasks);
 
     res
       .status(200)
@@ -38,7 +37,6 @@ export const getTasksForThisWeek = catchAsync(
         $lte: endOfWeek,
       },
     });
-    // console.log("tasks This week", tasks);
 
     res
       .status(200)
@@ -73,8 +71,6 @@ export const updateTask = catchAsync(
     res: express.Response,
     next: NextFunction
   ) => {
-    console.log(req.params, req.body);
-
     // Validate req.body
     if (!req.params.id || !req.body) {
       return res.status(400).json({
@@ -134,7 +130,6 @@ export const updateTask = catchAsync(
           break;
       }
     }
-    console.log(userProfile);
 
     // Update the user's XP and check for upgrades
 
@@ -151,7 +146,7 @@ export const updateTask = catchAsync(
         wp: userProfile.wp,
         rank: userProfile.rank,
         nextXP: userProfile.nextXP,
-        lastXP:userProfile.lastXP,
+        lastXP: userProfile.lastXP,
         totalXP: userProfile.hp + userProfile.kp + userProfile.wp,
       },
       { new: true }
@@ -176,13 +171,22 @@ export const updateTask = catchAsync(
 export const addTask = catchAsync(
   async (req: express.Request, res: express.Response, next: NextFunction) => {
     const repeatDays = req.body.taskRepeatsOn;
+    let todayTask;
     if (repeatDays.length > 1) {
-      repeatDays.forEach(async (day: string) => {
+      for (const day of repeatDays) {
         let newTaskBody = { ...req.body, taskRepeatsOn: [day] };
-        await Task.create(newTaskBody);
-      });
-    } else await Task.create(req.body);
+        if (newTaskBody.taskRepeatsOn[0] === getToday()) {
+          todayTask = await Task.create(newTaskBody); // waits for the task creation
+        } else {
+          await Task.create(newTaskBody); // still waits for the creation
+        }
+      }
+    } else {
+      todayTask = await Task.create(req.body);
+    }
 
-    return res.status(200).json({ status: "success", message: "Task Added" });
+    return res
+      .status(200)
+      .json({ status: "success", message: "Task(s) Added", data: todayTask });
   }
 );

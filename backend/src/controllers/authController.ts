@@ -10,7 +10,6 @@ const { promisify } = require("util");
 
 export const register = catchAsync(
   async (req: express.Request, res: express.Response) => {
-    // console.log("create user", req.body);
     const { email } = req.body;
 
     const userExists = await getUserByEmail(email);
@@ -30,7 +29,6 @@ export const register = catchAsync(
     });
     newUser.password = "";
     const token = generateJWT(newUser._id.toString());
-    // console.log(newUser);
     return res.status(201).json({
       status: "success",
       token,
@@ -94,7 +92,6 @@ export const protect = catchAsync(
       token,
       process.env.JWT_SECRET
     );
-    // console.log(decoded, "decoded");
 
     const { id } = decoded;
 
@@ -107,7 +104,6 @@ export const protect = catchAsync(
       return next(new AppError("Please login again", 401));
     }
 
-    // console.log("userExists", userExists);
     // Grant Access
     req.user = userExists;
 

@@ -14,3 +14,17 @@ export const getEndOfWeek = (date: Date): Date => {
   endOfWeek.setUTCHours(23, 59, 59, 999); // Set time to 23:59:59.999 UTC
   return endOfWeek;
 };
+
+export const getToday = () => {
+  const dayOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const today = dayOfWeek[new Date().getDay()];
+  return today;
+};

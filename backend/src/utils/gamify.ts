@@ -53,20 +53,20 @@ class Gamify {
     this.wp = user.wp;
     this.rank = user.rank;
     this.nextXP = user.nextXP;
-    this.lastXP = user.lastXP
+    this.lastXP = user.lastXP;
   }
 
   updateNextXP() {
     // return this.lvl * 100 * 1.25;
-     this.nextXP = this.lvl * 2;
+    this.nextXP = this.lvl * 2;
   }
 
   updateRank() {
-     this.rank = this.rankArray[this.lvl] || this.rank;
+    this.rank = this.rankArray[this.lvl] || this.rank;
   }
 
   increaseLevel() {
-     ++this.lvl;
+    ++this.lvl;
   }
 
   checkUpgrades() {
@@ -77,58 +77,52 @@ class Gamify {
       this.updateRank();
       this.updateNextXP();
     } else if (this.xp === 0) {
-      this.xp = Math.max(this.lastXP - 1,0);
+      this.xp = Math.max(this.lastXP - 1, 0);
       this.decreaseLevel();
       this.updateRank();
-      this.updateNextXP()
+      this.updateNextXP();
       this.lastXP = Math.max(this.lvl * 2 - 2, 0);
-     
-      
     }
   }
 
   increaseHP() {
-     ++this.hp;
+    ++this.hp;
   }
   increaseKP() {
-     ++this.kp;
+    ++this.kp;
   }
   increaseWP() {
-     ++this.wp;
+    ++this.wp;
   }
 
   increaseXP() {
-    console.log("xp increased to ",this.xp + 1)
-     ++this.xp;
+    ++this.xp;
   }
 
   increaseTotalXP() {
-    console.log("xp increased to ",this.totalXP + 1)
-     ++this.totalXP;
+    ++this.totalXP;
   }
 
   decreaseHP() {
-   this.hp =  Math.max(this.hp - 1, 0);
+    this.hp = Math.max(this.hp - 1, 0);
   }
   decreaseKP() {
-   this.kp =  Math.max(this.kp - 1, 0);
+    this.kp = Math.max(this.kp - 1, 0);
   }
   decreaseWP() {
-   this.wp =  Math.max(this.wp - 1, 0);
+    this.wp = Math.max(this.wp - 1, 0);
   }
 
   decreaseLevel() {
-   this.lvl =  Math.max(this.lvl - 1, 1);
+    this.lvl = Math.max(this.lvl - 1, 1);
   }
 
   decreaseXP() {
-    console.log("xp decreased to ", Math.max(this.xp - 1, 0))
-   this.xp =  Math.max(this.xp - 1, 0);
+    this.xp = Math.max(this.xp - 1, 0);
   }
 
   decreaseTotalXP() {
-    console.log("xp decreased to ", Math.max(this.totalXP - 1, 0))
-   this.totalXP =  Math.max(this.totalXP - 1, 0);
+    this.totalXP = Math.max(this.totalXP - 1, 0);
   }
 }
 

@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema<IUser>({
   rank: { type: String, default: "Recruit" },
   nextXP: { type: Number, default: 1 * 2 },
   lastXP: { type: Number, default: 0 },
-  totalXP: { type: Number, default: 0 }
+  totalXP: { type: Number, default: 0 },
 });
 
 userSchema.pre("save", async function (next) {
@@ -57,7 +57,6 @@ userSchema.methods.changedPasswordAfter = function (JTWTimestamp: number) {
   if (this.passwordChangedAt) {
     changedTimestamp = this.passwordChangedAt.getTime() / 1000;
   }
-  // console.log(JTWTimestamp, changedTimestamp);
   return JTWTimestamp < changedTimestamp;
 };
 
