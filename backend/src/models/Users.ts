@@ -35,8 +35,8 @@ const userSchema = new mongoose.Schema<IUser>({
   wp: { type: Number, default: 0 },
   kp: { type: Number, default: 0 },
   rank: { type: String, default: "Recruit" },
-  nextXP: { type: Number, default: 0 },
-  lastXP: { type: Number, default: 100 * 1.25 },
+  nextXP: { type: Number, default: 1 * 3 + 2 },
+  lastXP: { type: Number, default: 0 },
 });
 
 userSchema.pre("save", async function (next) {

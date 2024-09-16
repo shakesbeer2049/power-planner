@@ -32,14 +32,14 @@ class Gamify {
     this.hp = user.hp;
     this.kp = user.kp;
     this.wp = user.wp;
-    this.rank = this.rankArray[this.lvl] || 'Recruit';
-    this.nextXP = this.calculateNextXP();
-    this.lastXP = 0;
+    this.rank = user.rank;
+    this.nextXP = user.nextXP;
+    this.lastXP = user.lastXP;
   }
 
   calculateNextXP() {
     // return this.lvl * 100 * 1.25;
-    return this.lvl * 3;
+    return this.lvl * 3 + 2;
   }
 
   promoteRank() {
@@ -52,15 +52,18 @@ class Gamify {
 
   checkUpgrades() {
     if (this.xp >= this.nextXP) {
-      this.lastXP = this.xp;
-      this.xp = 0;
       this.lvl = this.increaseLevel();
       this.rank = this.promoteRank();
+      
+      this.lastXP = this.xp;
       this.nextXP = this.calculateNextXP();
-    } else if (this.xp < this.lastXP) {
+      this.xp = 1;
+     
+    } else if (this.xp === 0) {
       this.decreaseLevel();
+      this.xp = Math.max(this.lastXP - 1,0);
+      this.nextXP = this.lastXP;
       this.rank = this.promoteRank();
-      this.nextXP = this.calculateNextXP();
     }
   }
 
