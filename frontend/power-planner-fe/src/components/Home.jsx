@@ -46,10 +46,10 @@ const Home = () => {
             </div>
           ) : (
             <div className="home-buttons flex justify-between ">
-              <div className="login-modal">
+              <div className="login-modal mr-2">
                 {/* Open the modal using document.getElementById('ID').showModal() method */}
                 <button
-                  className="btn"
+                  className="btn btn-success"
                   onClick={() =>
                     document.getElementById("login-modal").showModal()
                   }
@@ -62,7 +62,7 @@ const Home = () => {
               <div className="signup-modal">
                 {/* Open the modal using document.getElementById('ID').showModal() method */}
                 <button
-                  className="btn"
+                  className="btn btn-primary"
                   onClick={() =>
                     document.getElementById("sign-up-modal").showModal()
                   }

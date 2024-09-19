@@ -57,8 +57,7 @@ class Gamify {
   }
 
   updateNextXP() {
-    // return this.lvl * 100 * 1.25;
-    this.nextXP = this.lvl * 2;
+    return this.lvl * 100 * 1.25;
   }
 
   updateRank() {

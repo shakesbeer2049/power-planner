@@ -35,7 +35,7 @@ export default function useApiCaller(url, callType, body) {
           error.message == "Request failed with status code 401" ||
           error == "Unauthorized"
         )
-          window.location.href = "https://power-planner-1.onrender.com/";
+          window.location.href = "https://power-planner-fe-rpuw.onrender.com";
       } finally {
         setIsLoading(false);
       }

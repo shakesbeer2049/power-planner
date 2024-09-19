@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   // LOGOUT
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.href = "https://power-planner-1.onrender.com/";
+    window.location.href = "https://power-planner-fe-rpuw.onrender.com";
   };
 
   return (
