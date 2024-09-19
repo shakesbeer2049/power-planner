@@ -100,7 +100,7 @@ const LoginForm = () => {
             type="submit"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Logging In" : "Login"}
+            {isSubmitting ? "hang on..." : "Login"}
           </button>
           {errors.root && (
             <div className="text-red-500">{errors.root.message}</div>

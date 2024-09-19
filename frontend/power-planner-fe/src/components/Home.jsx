@@ -87,6 +87,17 @@ const Home = () => {
           Motivation is temporary; <br /> Discipline is permanent.
         </h2>
       </div>
+      <footer className="footer footer-center bg-base-300 text-base-content p-4">
+        <aside>
+          <p>
+            {" "}
+            Created with ❤️ by{" "}
+            <a href="https://github.com/shakesbeer2049" target="_blank">
+              Sheikh Zubair
+            </a>{" "}
+          </p>
+        </aside>
+      </footer>
     </div>
   );
 };
