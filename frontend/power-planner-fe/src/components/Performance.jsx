@@ -146,7 +146,7 @@ export default Performance = () => {
   return (
     <>
       <div className="tasks-today text-left mt-2 m-1">
-        <h1 className="text-3xl font-bold text-center">Performance Review</h1>
+        <h1 className="text-3xl font-bold text-center mt-[2.5rem]">Performance Review</h1>
 
         <div className="data-container">
           <div className="dropdown-selectors flex justify-between w-3/4 m-auto">

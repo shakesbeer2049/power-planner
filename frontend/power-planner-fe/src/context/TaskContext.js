@@ -32,7 +32,7 @@ export const TaskProvider = ({ children }) => {
   }, []);
 
   // Initial Task fetch
-  const url = "http://localhost:3003/api/v1/tasks";
+  const url = "https://power-planner-1.onrender.com/api/v1/tasks";
   const testUrl = "http://localhost:3000/data";
   const {
     data: taskData,

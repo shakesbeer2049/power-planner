@@ -12,7 +12,7 @@ const WeeklyTasks = () => {
   );
   return (
     <>
-      <h1 className="text-3xl font-bold text-center mt-2 mb-0 weekly-heading">
+      <h1 className="text-3xl font-bold text-center mt-[2.5rem] mb-0 weekly-heading">
         Weekly Tasks
       </h1>
       <TasksToday

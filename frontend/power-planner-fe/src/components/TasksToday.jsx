@@ -49,7 +49,7 @@ const TasksToday = () => {
 
   return (
     <div className="tasks-today text-left mt-2 ml-8">
-      <h1 className="text-3xl font-bold text-center">FOCUS ON TODAY</h1>
+      <h1 className="text-3xl mt-[2.5rem] font-bold text-center">FOCUS ON TODAY</h1>
 
       <div className="tasks">
         <h2 className="text-2xl font-bold mb-4 text-center">Health</h2>

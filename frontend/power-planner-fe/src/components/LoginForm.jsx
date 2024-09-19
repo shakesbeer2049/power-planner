@@ -21,6 +21,7 @@ const LoginForm = () => {
   const handleLogin = async (data) => {
     try {
       const response = await callApi("/users/login", "POST", data);
+      // console.log("login response", response)
       if (response.status === "success") {
         setUserDetails(response.data);
         localStorage.setItem("token", response.token);
@@ -29,7 +30,7 @@ const LoginForm = () => {
 
       if (response.status === "fail") {
         setError("root", {
-          message: response.message,
+          message: "Invalid credentials!",
         });
       }
     } catch (error) {

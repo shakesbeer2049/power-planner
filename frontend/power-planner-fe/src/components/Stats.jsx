@@ -31,8 +31,8 @@ const Stats = () => {
 
   return (
     <div className="dashboard-div">
-      <h1 className="text-3xl font-bold text-center">Stats</h1>
-      <ul className="menu menu-horizontal ml-2 lg:menu-horizontal bg-base-200 rounded-box ml-8">
+      <h1 className="text-3xl font-bold text-center mt-[2.5rem]">Stats</h1>
+      <ul className="menu menu-horizontal justify-center lg:menu-horizontal bg-base-200 rounded-box ml-8">
         <li
           className={selectedStat === "overall" ? "selected-stat" : ""}
           onClick={() => {
