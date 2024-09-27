@@ -5,23 +5,23 @@ import { MdHealthAndSafety } from "react-icons/md";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
 import { GiBrain } from "react-icons/gi";
 import { getToday } from "../utils/daysAndDates";
-import TaskContext from "../context/TaskContext";
 import { CiCircleInfo } from "react-icons/ci";
 
-const UserProfile = () => {
+const UserProfile = ({ taskList }) => {
   const { userDetails } = useContext(AuthContext);
-  const { taskList } = useContext(TaskContext);
   const [taskCount, setTaskCount] = useState({ totalToday: 0, completed: 0 });
+  const [hoverXP, setHoverXP] = useState(false);
+  const [hoverTasks, setHoverTasks] = useState(false);
 
   useEffect(() => {
     const today = getToday();
     const tasksToday = [];
     let completedToday = 0;
 
-    for (let task = 0; task < taskList.length; task++) {
-      if (taskList[task].taskRepeatsOn == today) {
-        tasksToday.push(taskList[task]);
-        if (taskList[task].isCompleted) completedToday += 1;
+    for (const element of taskList) {
+      if (element.taskRepeatsOn.includes(today)) {
+        tasksToday.push(element);
+        if (element.isCompleted) completedToday += 1;
       }
     }
     setTaskCount({ totalToday: tasksToday, completed: completedToday });
@@ -29,7 +29,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <div
+      <button
         className="user-details"
         onClick={() => document.getElementById("user-legend").showModal()}
       >
@@ -37,7 +37,10 @@ const UserProfile = () => {
         <div className="avatar-user-lvl flex">
           <div className="avatar self-center">
             <div className="w-10 h-10 rounded-full mr-1">
-              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+              <img
+                alt="avatar"
+                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+              />
             </div>
           </div>
           <div className="user-lvl">
@@ -47,21 +50,32 @@ const UserProfile = () => {
           </div>
         </div>
         <div className="xpbar">
-          <CiCircleInfo className="inline info-xp" />
+          <CiCircleInfo
+            className="inline info-xp"
+            onMouseEnter={() => setHoverXP(true)}
+            onMouseLeave={() => setHoverXP(false)}
+          />
+          {hoverXP && <div className="hover-text-xp">xp bar</div>}
+
           <progress
             className="progress progress-success w-24"
             value={userDetails.xp || 0}
             max={userDetails.nextXP || 0}
           ></progress>
           <br />
-          <CiCircleInfo className="inline info-tasks" />
+          <CiCircleInfo
+            className="inline info-tasks"
+            onMouseEnter={() => setHoverTasks(true)}
+            onMouseLeave={() => setHoverTasks(false)}
+          />
+          {hoverTasks && <div className="hover-text-tasks">progress today</div>}
           <progress
             className="progress progress-error w-24"
             value={taskCount.completed || 0}
             max={taskCount.totalToday.length || 0}
           ></progress>
         </div>
-      </div>
+      </button>
 
       {/* MODAL */}
       <dialog id="user-legend" className="modal">
@@ -139,59 +153,3 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
-<div className="main-user-profile-container flex justify-between w-3/4">
-  <div className="main-sec flex">
-    <div className="profile-xpbar flex">
-      <div className="user-image">
-        <div
-          className="w-14
-                 h-14
-                 rounded-full mr-1"
-        >
-          <img
-            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-            className="rounded-full"
-          />
-        </div>
-        <h1 className="username text-center">robot</h1>
-      </div>
-      <div className="xp-bar-profile">
-        <progress
-          className="progress progress-success w-56"
-          value={0}
-          max="100"
-        ></progress>
-      </div>
-    </div>
-    <div className="lvl-rank">
-      <div className="info">
-        <div className="lvl">
-          <label htmlFor="level">Level</label>
-          <span> 1</span>
-        </div>
-        <div className="rank">
-          <span>Recruit</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div className="points">
-    <div className="xp">
-      <label htmlFor="xp">XP</label>
-      <span> 100</span>
-    </div>
-    <div className="hp">
-      <label htmlFor="hp">HP</label>
-      <span> 100</span>
-    </div>
-    <div className="wp">
-      <label htmlFor="wp">WP</label>
-      <span> 100</span>
-    </div>
-    <div className="kp">
-      <label htmlFor="kp">KP</label>
-      <span> 100</span>
-    </div>
-  </div>
-</div>;

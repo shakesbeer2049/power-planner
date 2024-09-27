@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { getToday } from "../utils/daysAndDates";
 import "../styles/tasksToday.css";
 import DeleteTaskModal from "./DeleteTaskModal";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useContext } from "react";
 import { TbMoodEmpty } from "react-icons/tb";
 
 import TaskContext from "../context/TaskContext";
 
 const TasksToday = () => {
-  const { taskList, setTaskList, handleTaskUpdate } = useContext(TaskContext);
+  const { taskList, handleTaskUpdate } = useContext(TaskContext);
 
   const [tasksToday, setTasksToday] = useState({
     health: [],
@@ -49,7 +47,9 @@ const TasksToday = () => {
 
   return (
     <div className="tasks-today text-left mt-2 ml-8">
-      <h1 className="text-3xl mt-[2.5rem] font-bold text-center">FOCUS ON TODAY</h1>
+      <h1 className="text-3xl mt-[2.5rem] font-bold text-center">
+        FOCUS ON TODAY
+      </h1>
 
       <div className="tasks">
         <h2 className="text-2xl font-bold mb-4 text-center">Health</h2>

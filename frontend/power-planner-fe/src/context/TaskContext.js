@@ -33,13 +33,13 @@ export const TaskProvider = ({ children }) => {
 
   // Initial Task fetch
   const url = "https://power-planner-1.onrender.com/api/v1/tasks";
-  const testUrl = "http://localhost:3000/data";
-  const localUrl = "http://localhost:3003/api/v1/"
+  // const testUrl = "http://localhost:3000/data";
+  // const localUrl = "http://localhost:3003/api/v1/tasks";
   const {
     data: taskData,
     isError: taskError,
     isLoading: tasksLoading,
-  } = useApiCaller(localUrl, "GET", {}, userDetails._id);
+  } = useApiCaller(url, "GET", {}, userDetails._id);
 
   // Effects
   useEffect(() => {

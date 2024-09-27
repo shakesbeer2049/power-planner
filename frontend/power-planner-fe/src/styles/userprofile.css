@@ -29,3 +29,29 @@
 .info-xp:hover {
     content: "hello";
 }
+
+.hover-text-xp {
+    font-size: 16px;
+    color: #333;
+    position: absolute;
+    border: 1px solid black;
+    border-radius: 7px;
+    padding: 5px;
+    right: 100%;
+    top: 33%;
+    background: white;
+    width: max-content;
+}
+
+.hover-text-tasks {
+    font-size: 16px;
+    color: #333;
+    position: absolute;
+    border: 1px solid black;
+    border-radius: 7px;
+    padding: 5px;
+    right: 100%;
+    top: 89%;
+    background: white;
+    width: max-content;
+}

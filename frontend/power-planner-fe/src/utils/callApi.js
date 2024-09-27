@@ -2,10 +2,10 @@ import axios from "axios";
 
 export const callApi = async (url, method, body) => {
   const jwt = localStorage.getItem("token");
-  const baseURL = "http://localhost:3003/api/v1/"
-  // const baseURL = "https://power-planner-1.onrender.com/api/v1";
+  // const baseURL = "http://localhost:3003/api/v1";
+  const baseURL = "https://power-planner-1.onrender.com/api/v1";
   if (!url) {
-    throw "URL is required";
+    throw new Error("URL is required");
   }
 
   try {

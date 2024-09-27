@@ -1,9 +1,8 @@
-import { nanoid } from "nanoid";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Select from "react-select";
 import { getDaysLeft } from "../utils/daysAndDates";
 import * as taskService from "../utils/taskService";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TaskContext from "../context/TaskContext";
 import AuthContext from "../context/AuthContext";
@@ -38,9 +37,12 @@ const AddTaskModal = () => {
 
     // validate fields
     let formValid = true;
-    if (!taskObj.taskName) formValid = false;
-    else if (!taskObj.taskCategory) formValid = false;
-    else if (!taskObj.taskRepeatsOn) formValid = false;
+    if (
+      !taskObj.taskName ||
+      !taskObj.taskCategory ||
+      !taskObj.taskRepeatsOn.length
+    )
+      formValid = false;
 
     if (formValid) {
       const res = await taskService.addTask(taskObj);
@@ -81,72 +83,70 @@ const AddTaskModal = () => {
     container: (css) => ({ ...css, width: "250px" }),
   };
   return (
-    <>
-      <div className="modal-box add-task-modal">
-        <h3 className="font-bold text-xl text-center mb-4">Add Task</h3>
-        {/* Task input */}
-        <div className="add-task-content lg:text-center">
-          <input
-            type="text"
-            name="add-task-input"
-            id="add-task-input"
-            placeholder="Add a Task"
-            onChange={handleTaskInput}
-            value={taskDetails.taskName}
-            className="input input-bordered w-full max-w-xs"
-          />
-          {/* Task Attributes */}
-          <div className="task-category-div">
-            {/* choose category */}
-            <select
-              name="task-category"
-              id="task-category"
-              className="select select-bordered w-full max-w-xs mb-4"
-              onChange={taskCategoryHandler}
-              value={taskDetails.taskCategory}
-            >
-              <option value="">Category</option>
-              <option value={"health"}>Health</option>
-              <option value={"wealth"}>Wealth</option>
-              <option value={"knowledge"}>Knowledge</option>
-            </select>
+    <div className="modal-box add-task-modal">
+      <h3 className="font-bold text-xl text-center mb-4">Add Task</h3>
+      {/* Task input */}
+      <div className="add-task-content lg:text-center">
+        <input
+          type="text"
+          name="add-task-input"
+          id="add-task-input"
+          placeholder="Add a Task"
+          onChange={handleTaskInput}
+          value={taskDetails.taskName}
+          className="input input-bordered w-full max-w-xs"
+        />
+        {/* Task Attributes */}
+        <div className="task-category-div">
+          {/* choose category */}
+          <select
+            name="task-category"
+            id="task-category"
+            className="select select-bordered w-full max-w-xs mb-4"
+            onChange={taskCategoryHandler}
+            value={taskDetails.taskCategory}
+          >
+            <option value="">Category</option>
+            <option value={"health"}>Health</option>
+            <option value={"wealth"}>Wealth</option>
+            <option value={"knowledge"}>Knowledge</option>
+          </select>
 
-            {/* date selection */}
-            {/* <input type="date" name="task-date" id="task-date" /> */}
+          {/* date selection */}
+          {/* <input type="date" name="task-date" id="task-date" /> */}
 
-            <div className="react-select lg:ml-20">
-              <Select
-                options={getDaysLeft()}
-                isMulti
-                hideSelectedOptions={true}
-                allowSelectAll={true}
-                placeholder="Do this task on"
-                style={{ "z-index": 5 }}
-                onChange={taskRepeatsOnHandler}
-                closeMenuOnSelect={false}
-                blurInputOnSelect={false}
-                value={taskDetails.taskRepeatsOn}
-                maxMenuHeight={"100px"}
-                styles={selectStyles}
-              />
-            </div>
-          </div>
-          <div className="modal-action">
-            <form method="dialog" id="save-cancel-task">
-              {/* if there is a button in form, it will close the modal */}
-              <span
-                className="btn btn-primary text-white mr-5"
-                onClick={addTaskHandler}
-              >
-                Save
-              </span>
-              <button className="btn btn-error text-white">Close</button>
-            </form>
-            {/* <ToastContainer /> */}
+          <div className="react-select lg:ml-20">
+            <Select
+              options={getDaysLeft()}
+              isMulti
+              hideSelectedOptions={true}
+              allowSelectAll={true}
+              placeholder="Do this task on"
+              style={{ "z-index": 5 }}
+              onChange={taskRepeatsOnHandler}
+              closeMenuOnSelect={false}
+              blurInputOnSelect={false}
+              value={taskDetails.taskRepeatsOn}
+              maxMenuHeight={"100px"}
+              styles={selectStyles}
+            />
           </div>
         </div>
+        <div className="modal-action">
+          <form method="dialog" id="save-cancel-task">
+            {/* if there is a button in form, it will close the modal */}
+            <button
+              className="btn btn-primary text-white mr-5"
+              onClick={addTaskHandler}
+            >
+              Save
+            </button>
+            <button className="btn btn-error text-white">Close</button>
+          </form>
+          {/* <ToastContainer /> */}
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
