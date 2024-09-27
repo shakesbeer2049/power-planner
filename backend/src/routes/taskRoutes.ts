@@ -7,7 +7,6 @@ import {
   getTasksForThisWeek,
 } from "../controllers/taskController";
 import { Router } from "express";
-import * as authController from "../controllers/authController";
 const router = Router();
 // authController.protect,
 router.route("/").get(getTasksForThisWeek).post(addTask);
