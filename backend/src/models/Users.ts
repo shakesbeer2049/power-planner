@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import { IUser } from "types/userTypes";
+import crypto from "crypto";
 
 const userSchema = new mongoose.Schema<IUser>({
   username: { type: String, required: [true, "Please enter a username"] },
@@ -28,7 +29,6 @@ const userSchema = new mongoose.Schema<IUser>({
     lowercase: true,
     validate: [validator.isEmail, "Please enter a valid email"],
   },
-  passwordChangedAt: Date,
   xp: { type: Number, default: 0 },
   lvl: { type: Number, default: 1 },
   hp: { type: Number, default: 0 },
@@ -38,6 +38,9 @@ const userSchema = new mongoose.Schema<IUser>({
   nextXP: { type: Number, default: 100 * 1.25 },
   lastXP: { type: Number, default: 0 },
   totalXP: { type: Number, default: 0 },
+  passwordChangedAt: Date,
+  passwordRestToken: String,
+  passwordResetExpiresAt: String,
 });
 
 userSchema.pre("save", async function (next) {
@@ -58,6 +61,19 @@ userSchema.methods.changedPasswordAfter = function (JTWTimestamp: number) {
     changedTimestamp = this.passwordChangedAt.getTime() / 1000;
   }
   return JTWTimestamp < changedTimestamp;
+};
+
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  this.passwordRestToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.passwordResetExpiresAt = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
 };
 
 const User = mongoose.model("User", userSchema);

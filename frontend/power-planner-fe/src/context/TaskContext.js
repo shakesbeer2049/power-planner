@@ -32,9 +32,9 @@ export const TaskProvider = ({ children }) => {
   }, []);
 
   // Initial Task fetch
-  const url = "https://power-planner-1.onrender.com/api/v1/tasks";
+  // const url = "https://power-planner-1.onrender.com/api/v1/tasks";
   // const testUrl = "http://localhost:3000/data";
-  // const localUrl = "http://localhost:3003/api/v1/tasks";
+  const url = "http://localhost:3003/api/v1/tasks";
   const {
     data: taskData,
     isError: taskError,
@@ -50,6 +50,7 @@ export const TaskProvider = ({ children }) => {
 
   // TASK UPDATE HANDL
   const handleTaskUpdate = async (e, taskToUpdate) => {
+    console.log("task to update", taskToUpdate);
     // Update Task
     const updatedTask = { ...taskToUpdate, isCompleted: e.target.checked };
     // Update TaskList in UI

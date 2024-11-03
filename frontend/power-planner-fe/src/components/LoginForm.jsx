@@ -1,15 +1,15 @@
-import { GiFalconMoon } from "react-icons/gi";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/home.css";
-import { useRef, useContext } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
 import { callApi } from "../utils/callApi";
 import AuthContext from "../context/AuthContext";
-import jwtDecode from "jwt-decode";
+import { IoEyeOutline } from "react-icons/io5";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const { setUserDetails, userDetails } = useContext(AuthContext);
+  const [showPwd, setShowPwd] = useState(false);
   const emailRegex = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
   const {
     register,
@@ -83,13 +83,20 @@ const LoginForm = () => {
                 />
               </svg>
               <input
-                type="password"
+                type={`${showPwd ? "text" : "password"}`}
                 className="grow"
                 placeholder="Password"
                 {...register("password", {
                   required: "Enter your password",
                 })}
               />
+              <span
+                onClick={() => {
+                  setShowPwd(!showPwd);
+                }}
+              >
+                <IoEyeOutline />
+              </span>
             </label>
             {errors.password && (
               <div className="text-red-500">{errors.password.message}</div>

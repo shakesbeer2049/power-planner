@@ -110,3 +110,19 @@ export const protect = catchAsync(
     next();
   }
 );
+
+export const forgotPassword = catchAsync(
+  async (
+    req: IGetUserAuthInfoRequest,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return next(new AppError("User with this email does not exist", 404));
+    }
+
+    const resetToken = user.createPasswordResetToken();
+    await user.save({ validateBeforeSave: false });
+  }
+);

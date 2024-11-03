@@ -7,6 +7,8 @@ import TaskContext from "../context/TaskContext";
 const WeeklyTasks = () => {
   const { taskList, handleTaskUpdate } = useContext(TaskContext);
 
+  console.log("tasks", taskList);
+
   const thisWeekTasks = taskList.filter((task) =>
     isDateInCurrentWeek(task.createdOn)
   );

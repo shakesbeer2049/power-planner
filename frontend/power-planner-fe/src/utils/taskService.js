@@ -1,5 +1,6 @@
 import axios from "axios";
 import { callApi } from "./callApi";
+
 const baseUrl = `/tasks`;
 
 export const addTask = async (taskDetails) => {

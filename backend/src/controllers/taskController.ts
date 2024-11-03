@@ -37,7 +37,7 @@ export const getTasksForThisWeek = catchAsync(
         $lte: endOfWeek,
       },
     });
-
+    console.log("tasks", tasks);
     res
       .status(200)
       .json({ status: "success", data: { tasks }, count: tasks.length });
@@ -95,7 +95,7 @@ export const updateTask = catchAsync(
     const userProfile = new Gamify(req.user);
 
     const { isCompleted, taskCategory } = req.body;
-    const category = taskCategory[0];
+    const category = taskCategory;
 
     if (isCompleted) {
       userProfile.increaseTotalXP();
@@ -170,23 +170,18 @@ export const updateTask = catchAsync(
 
 export const addTask = catchAsync(
   async (req: express.Request, res: express.Response, next: NextFunction) => {
-    const repeatDays = req.body.taskRepeatsOn;
-    let todayTask;
-    if (repeatDays.length > 1) {
-      for (const day of repeatDays) {
-        let newTaskBody = { ...req.body, taskRepeatsOn: [day] };
-        if (newTaskBody.taskRepeatsOn[0] === getToday()) {
-          todayTask = await Task.create(newTaskBody); // waits for the task creation
-        } else {
-          await Task.create(newTaskBody); // still waits for the creation
-        }
-      }
-    } else {
-      todayTask = await Task.create(req.body);
-    }
+    console.log("task details", req.body);
+    const createdTasks = await Task.create(req.body);
 
-    return res
-      .status(200)
-      .json({ status: "success", message: "Task(s) Added", data: todayTask });
+    // Check for today's task among created tasks
+    const todayTask = createdTasks.find(
+      (task: any) => task.taskRepeatsOn === getToday()
+    );
+
+    return res.status(200).json({
+      status: "success",
+      message: "Task(s) Added",
+      data: todayTask,
+    });
   }
 );

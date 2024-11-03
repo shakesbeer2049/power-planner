@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import Select from "react-select";
 import { getDaysLeft } from "../utils/daysAndDates";
 import * as taskService from "../utils/taskService";
@@ -13,7 +14,7 @@ const AddTaskModal = () => {
 
   const [taskDetails, setTaskDetails] = useState({
     taskName: "",
-    taskRepeatsOn: [],
+    taskRepeatsOn: "",
     taskCategory: "",
   });
 
@@ -45,11 +46,21 @@ const AddTaskModal = () => {
       formValid = false;
 
     if (formValid) {
-      const res = await taskService.addTask(taskObj);
+      const taskArray = [];
+      if (taskObj.taskRepeatsOn.length > 0) {
+        for (const element of taskObj.taskRepeatsOn) {
+          taskArray.push({
+            ...taskObj,
+            taskRepeatsOn: element,
+            _id: uuidv4(),
+          });
+        }
+      }
+      const res = await taskService.addTask(taskArray);
 
       if (res.status === "success") {
         taskObj._id = res.data._id;
-        const newTaskList = [...taskList, taskObj];
+        const newTaskList = [...taskList, ...taskArray];
         setTaskList(newTaskList);
         setTaskDetails({ ...taskDetails, taskName: "" });
         toast.success("Task Added.", {

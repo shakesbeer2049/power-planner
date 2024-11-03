@@ -29,8 +29,11 @@ export interface IUser extends Document {
   nextXP: number;
   lastXP: number;
   totalXP: number;
+  passwordResetExpiresAt: Date;
+  passwordRestToken: String;
 
   // Method to verify password
   verifyPassword(enteredPwd: string): Promise<boolean>;
   changedPasswordAfter(iat: number): Promise<boolean>;
+  createPasswordResetToken(): any;
 }
