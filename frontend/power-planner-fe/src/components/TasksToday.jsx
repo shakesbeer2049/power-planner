@@ -4,6 +4,7 @@ import "../styles/tasksToday.css";
 import DeleteTaskModal from "./DeleteTaskModal";
 import "react-toastify/dist/ReactToastify.css";
 import { TbMoodEmpty } from "react-icons/tb";
+import Task from "./Task";
 
 import TaskContext from "../context/TaskContext";
 
@@ -51,102 +52,23 @@ const TasksToday = () => {
         FOCUS ON TODAY
       </h1>
 
-      <div className="tasks">
-        <h2 className="text-2xl font-bold mb-4 text-center">Health</h2>
-        {tasksToday.health.length > 0 ? (
-          tasksToday.health.map((task) => (
-            <div key={task._id} className="task-h1-input">
-              <DeleteTaskModal task={task} />{" "}
-              <input
-                type="checkbox"
-                checked={task.isCompleted}
-                className="checkbox checkbox-accent"
-                name="task"
-                id="task"
-                onChange={(e) => {
-                  handleTaskUpdate(e, task);
-                }}
-              />{" "}
-              <h4
-                onClick={(e) => document.getElementById(task._id).showModal()}
-                key={task._id}
-                className={task.isCompleted ? "completed" : ""}
-              >
-                {task.taskName}
-              </h4>
-            </div>
-          ))
-        ) : (
-          <span>
-            <TbMoodEmpty className="inline" /> So Empty!
-          </span>
-        )}
-      </div>
+      <Task
+        category={"Health"}
+        taskList={tasksToday.health}
+        handleTaskUpdate={handleTaskUpdate}
+      />
 
-      <div className="tasks">
-        <h2 className="text-2xl font-bold mb-4 text-center">Knowledge</h2>
-        {tasksToday.wealth.length > 0 ? (
-          tasksToday.wealth.map((task) => (
-            <div key={task._id} className="task-h1-input">
-              <DeleteTaskModal task={task} />{" "}
-              <input
-                type="checkbox"
-                className="checkbox checkbox-accent"
-                checked={task.isCompleted}
-                name="task"
-                // id="task"
-                onChange={(e) => {
-                  handleTaskUpdate(e, task);
-                }}
-              />{" "}
-              <h4
-                onClick={(e) => document.getElementById(task._id).showModal()}
-                key={task._id}
-                className={task.isCompleted ? "completed" : ""}
-              >
-                {task.taskName}
-              </h4>
-            </div>
-          ))
-        ) : (
-          <span>
-            <TbMoodEmpty className="inline" /> So Empty!
-          </span>
-        )}
-      </div>
+      <Task
+        category={"Wealth"}
+        taskList={tasksToday.wealth}
+        handleTaskUpdate={handleTaskUpdate}
+      />
 
-      <div className="tasks">
-        <h2 className="text-2xl font-bold mb-4 text-center">Wealth</h2>
-        {tasksToday.knowledge.length > 0 ? (
-          tasksToday.knowledge.map((task) => (
-            <div key={task._id} className="task-h1-input">
-              <DeleteTaskModal task={task} />{" "}
-              <input
-                className="checkbox checkbox-accent"
-                type="checkbox"
-                checked={task.isCompleted}
-                name="task"
-                // id="task"
-                onChange={(e) => {
-                  handleTaskUpdate(e, task);
-                }}
-              />{" "}
-              <h4
-                onClick={(e) => document.getElementById(task._id).showModal()}
-                key={task._id}
-                className={task.isCompleted ? "completed" : ""}
-              >
-                {task.taskName}
-              </h4>
-            </div>
-          ))
-        ) : (
-          <span>
-            <TbMoodEmpty className="inline" /> So Empty!
-          </span>
-        )}
-      </div>
-      {/* <ToastContainer /> */}
+      <Task
+        category={"Knowledge"}
+        taskList={tasksToday.knowledge}
+        handleTaskUpdate={handleTaskUpdate}
+      />
     </div>
   );
 };

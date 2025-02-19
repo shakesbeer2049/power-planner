@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema<IUser>({
     lowercase: true,
     validate: [validator.isEmail, "Please enter a valid email"],
   },
+  createdOn: { type: Date, default: Date.now },
   xp: { type: Number, default: 0 },
   lvl: { type: Number, default: 1 },
   hp: { type: Number, default: 0 },

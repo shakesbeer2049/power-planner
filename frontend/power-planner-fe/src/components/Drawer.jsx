@@ -5,7 +5,7 @@ import AddTaskModal from "./AddTaskModal";
 import XPBar from "./UserProfile";
 import { Link, Outlet } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { GiFalconMoon } from "react-icons/gi";
+import { HiChevronDoubleUp } from "react-icons/hi";
 import AuthContext from "../context/AuthContext";
 import TaskContext from "../context/TaskContext";
 import useApiCaller from "../hooks/useApiCaller";
@@ -54,16 +54,16 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
             {/* Sidebar content here */}
             <div className="task-progress"></div>
             <div className="logo flex pb-1 items-center">
-              <GiFalconMoon />
+              <HiChevronDoubleUp className="text-2xl" />
               <h1 className="ml-1">
                 {" "}
-                <Link to="/"> Consistent</Link>{" "}
+                <Link to="/"> LevelUP</Link>{" "}
               </h1>
             </div>
             <li>
               {/* Open the modal using document.getElementById('ID').showModal() method */}
               <button
-                className="btn btn-primary"
+                className="btn btn-primary mb-1"
                 onClick={() =>
                   document.getElementById("add_task_modal").showModal()
                 }
@@ -74,7 +74,6 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
                 <AddTaskModal />
               </dialog>
             </li>
-            <br />
             <li
               onClick={() => {
                 setSelectedMenu("daily");
@@ -82,7 +81,7 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
               }}
               className={selectedMenu === "daily" ? "selected-menu" : ""}
             >
-              <Link to="daily">Daily</Link>
+              <Link to="daily">My Day</Link>
             </li>
             <li
               onClick={() => {
@@ -91,7 +90,7 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
               }}
               className={selectedMenu === "weekly" ? "selected-menu" : ""}
             >
-              <Link to="weekly">Weekly</Link>
+              <Link to="weekly">My Week</Link>
             </li>
             <li
               onClick={() => {
@@ -112,8 +111,8 @@ const Drawer = ({ selectedMenu, setSelectedMenu }) => {
               <Link to="stats">Stats</Link>
             </li>
 
-            <li className="mt-48" onClick={handleLogout}>
-              <button className="btn btn-error">Logout</button>
+            <li className="" onClick={handleLogout}>
+              <button className="btn btn-error logout-btn ">Logout</button>
             </li>
           </ul>
         </div>

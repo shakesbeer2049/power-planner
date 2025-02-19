@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TaskContext from "../context/TaskContext";
 import AuthContext from "../context/AuthContext";
+import MultiSelect from "./MultiSelect";
 
 const AddTaskModal = () => {
   const { taskList, setTaskList } = useContext(TaskContext);
@@ -91,7 +92,7 @@ const AddTaskModal = () => {
   };
 
   const selectStyles = {
-    container: (css) => ({ ...css, width: "250px" }),
+    container: (css) => ({ ...css, width: "150px" }),
   };
   return (
     <div className="modal-box add-task-modal">
@@ -102,10 +103,10 @@ const AddTaskModal = () => {
           type="text"
           name="add-task-input"
           id="add-task-input"
-          placeholder="Add a Task"
+          placeholder="I will ... "
           onChange={handleTaskInput}
           value={taskDetails.taskName}
-          className="input input-bordered w-full max-w-xs"
+          className="input"
         />
         {/* Task Attributes */}
         <div className="task-category-div">
@@ -113,7 +114,7 @@ const AddTaskModal = () => {
           <select
             name="task-category"
             id="task-category"
-            className="select select-bordered w-full max-w-xs mb-4"
+            className=""
             onChange={taskCategoryHandler}
             value={taskDetails.taskCategory}
           >
@@ -132,7 +133,7 @@ const AddTaskModal = () => {
               isMulti
               hideSelectedOptions={true}
               allowSelectAll={true}
-              placeholder="Do this task on"
+              placeholder="Repeats on"
               style={{ "z-index": 5 }}
               onChange={taskRepeatsOnHandler}
               closeMenuOnSelect={false}
@@ -146,17 +147,19 @@ const AddTaskModal = () => {
         <div className="modal-action">
           <form method="dialog" id="save-cancel-task">
             {/* if there is a button in form, it will close the modal */}
+            <button className="btn mr-5">Close</button>
             <button
-              className="btn btn-primary text-white mr-5"
+              className="btn btn-primary text-white"
               onClick={addTaskHandler}
             >
               Save
             </button>
-            <button className="btn btn-error text-white">Close</button>
           </form>
           {/* <ToastContainer /> */}
         </div>
       </div>
+
+      <MultiSelect />
     </div>
   );
 };

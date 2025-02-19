@@ -1,4 +1,4 @@
-import { GiFalconMoon } from "react-icons/gi";
+import { HiChevronDoubleUp } from "react-icons/hi";
 import "../styles/home.css";
 import { useRef, useContext, useEffect } from "react";
 import AuthContext from "../context/AuthContext";
@@ -33,7 +33,7 @@ const Home = () => {
       <div className="nav-container flex">
         <div className="navbar bg-base-100 justify-between">
           <a className="btn btn-ghost text-xl">
-            <GiFalconMoon className="text-2xl" /> Consistent
+            <HiChevronDoubleUp className="text-2xl" /> LevelUP
           </a>
           {userDetails?.username ? (
             <div className="logged-in">

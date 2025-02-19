@@ -20,6 +20,7 @@ export interface IUser extends Document {
   username: string;
   confirmPassword: string;
   passwordChangedAt: Date;
+  createdOn: Date;
   xp: number;
   lvl: number;
   hp: number;
