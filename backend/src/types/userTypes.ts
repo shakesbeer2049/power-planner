@@ -6,7 +6,7 @@ export interface IGetUserAuthInfoRequest extends Request {
   relatedUserId: String;
 }
 export interface User {
-  _id: ObjectId;
+  userID: string;
   username: string;
   email: string;
   password: string;

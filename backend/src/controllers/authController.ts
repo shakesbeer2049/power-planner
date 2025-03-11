@@ -1,16 +1,17 @@
 import express from "express";
-import { createUser, getUserByEmail } from "./userController";
+import { getUserByEmail } from "./userController";
 import catchAsync from "../utils/catchAsync";
 import jwt from "jsonwebtoken";
 import AppError from "../utils/appError";
-import User from "../models/Users";
 import { generateJWT } from "../utils/helper";
 import { IGetUserAuthInfoRequest } from "types/userTypes";
+import { pool } from "../db/database";
+import bcrypt from "bcryptjs";
 const { promisify } = require("util");
 
 export const register = catchAsync(
   async (req: express.Request, res: express.Response) => {
-    const { email } = req.body;
+    const { email, password, confirmPassword, username } = req.body;
 
     const userExists = await getUserByEmail(email);
 
@@ -20,15 +21,30 @@ export const register = catchAsync(
         message: "User already exists",
       });
 
+    // Check if password and confirmPassword are the same
+    if (password !== confirmPassword) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Passwords do not match",
+      });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 12);
+
     // create user
-    const newUser = await createUser({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-      confirmPassword: req.body.confirmPassword,
-    });
-    newUser.password = "";
-    const token = generateJWT(newUser._id.toString());
+    const queryResponse = await pool.query(
+      "INSERT INTO user_base (username, email, password, confirmPassword) VALUES (?, ?, ?, ?)",
+      [username, email, hashedPassword, ""]
+    );
+    console.log(queryResponse, "new user");
+
+    const newUser = {
+      id: queryResponse[0].insertId,
+      username,
+      email,
+    };
+    const token = generateJWT(newUser.id.toString());
     return res.status(201).json({
       status: "success",
       token,
@@ -45,6 +61,7 @@ export const login = catchAsync(
     res: express.Response,
     next: express.NextFunction
   ) => {
+    console.log(req.body);
     const { email, password } = req.body;
 
     if (!email || !password)
@@ -52,14 +69,23 @@ export const login = catchAsync(
         new AppError("Email and password are required to login!", 400)
       );
 
-    const user = await User.findOne({ email }).select("+password");
+    const queryResponse = await pool.query(
+      "SELECT * FROM user_base WHERE email = ?",
+      [email]
+    );
+    const user = queryResponse[0][0];
 
-    if (!user || !(await user.verifyPassword(password))) {
-      return next(new AppError("incorrect email or password!", 401));
+    if (!user || !user.password) {
+      return next(new AppError("Incorrect email or password!", 401));
+    }
+    console.log(user.password, "user password");
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return next(new AppError("Incorrect email or password!", 401));
     }
 
     user.password = "";
-    const token = generateJWT(user._id.toString());
+    const token = generateJWT(user.userID.toString());
     return res.status(200).json({
       status: "success",
       token,
@@ -96,16 +122,20 @@ export const protect = catchAsync(
     const { id } = decoded;
 
     // check if user exists
-    const userExists = await User.findById(id);
+    const queryResponse = await pool.query(
+      `SELECT * FROM user_base WHERE userID = ?`,
+      [id]
+    );
+    const userExists = queryResponse[0];
     if (!userExists) return next(new AppError("User does not exist!", 401));
 
     // compare pwdissued and jwt issued
-    if (userExists.changedPasswordAfter(decoded.iat)) {
-      return next(new AppError("Please login again", 401));
-    }
+    // if (userExists.changedPasswordAfter(decoded.iat)) {
+    //   return next(new AppError("Please login again", 401));
+    // }
 
     // Grant Access
-    req.user = userExists;
+    req.user = userExists[0];
 
     next();
   }
@@ -117,12 +147,19 @@ export const forgotPassword = catchAsync(
     res: express.Response,
     next: express.NextFunction
   ) => {
-    const user = await User.findOne({ email: req.body.email });
+    const queryResponse = await pool.query(
+      `SELECT * FROM user_base WHERE email = ?`,
+      [req.body.email]
+    );
+    const user = queryResponse[0];
     if (!user) {
       return next(new AppError("User with this email does not exist", 404));
     }
 
     const resetToken = user.createPasswordResetToken();
-    await user.save({ validateBeforeSave: false });
+    await pool.query(`UPDATE user_base SET resetToken = ? WHERE userID = ?`, [
+      resetToken,
+      user.userID,
+    ]);
   }
 );

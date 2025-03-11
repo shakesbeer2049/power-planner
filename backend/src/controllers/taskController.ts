@@ -1,12 +1,10 @@
-import Task from "../models/Tasks";
-import * as utils from "../utils/helper";
 import express, { NextFunction } from "express";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/appError";
 import { IGetUserAuthInfoRequest } from "types/userTypes";
 import { getEndOfWeek, getStartOfWeek, getToday } from "../utils/dates";
 import Gamify from "../utils/gamify";
-import User from "../models/Users";
+import { pool } from "../db/database";
 
 export const getAllTasks = catchAsync(
   async (
@@ -14,8 +12,10 @@ export const getAllTasks = catchAsync(
     res: express.Response,
     next: NextFunction
   ) => {
-    const tasks = await Task.find({ relatedUserId: req.user._id });
-
+    const [tasks] = await pool.query(
+      `SELECT * FROM task_base WHERE relatedUserId = ?`,
+      [req.user.userID]
+    );
     res
       .status(200)
       .json({ status: "success", data: { tasks }, count: tasks.length });
@@ -30,13 +30,10 @@ export const getTasksForThisWeek = catchAsync(
   ) => {
     const startOfWeek = getStartOfWeek(new Date());
     const endOfWeek = getEndOfWeek(new Date());
-    const tasks = await Task.find({
-      relatedUserId: req.user._id,
-      createdOn: {
-        $gte: startOfWeek,
-        $lte: endOfWeek,
-      },
-    });
+    const [tasks] = await pool.query(
+      `SELECT * FROM task_base WHERE relatedUserId = ? AND createdOn BETWEEN ? AND ?`,
+      [req.user.userID, startOfWeek, endOfWeek]
+    );
     console.log("tasks", tasks);
     res
       .status(200)
@@ -46,18 +43,23 @@ export const getTasksForThisWeek = catchAsync(
 
 export const getTask = catchAsync(
   async (req: express.Request, res: express.Response, next: NextFunction) => {
-    const task = await Task.findById(req.params.id);
-    if (!task) return next(new AppError("Task not found", 404));
+    const task = await pool.query(`SELECT * FROM task_base WHERE id = ?`, [
+      req.params.id,
+    ]);
+    if (task.length === 0) return next(new AppError("Task not found", 404));
     res
       .status(200)
-      .json({ status: "success", data: { task }, count: task.length });
+      .json({ status: "success", data: { task: task[0] }, count: 1 });
   }
 );
 
 export const deleteTask = catchAsync(
   async (req: express.Request, res: express.Response, next: NextFunction) => {
-    const task = await Task.findByIdAndDelete(req.params.id);
-    if (!task) return next(new AppError("Task not found", 404));
+    const result = await pool.query(`DELETE FROM task_base WHERE id = ?`, [
+      req.params.id,
+    ]);
+    if (result.affectedRows === 0)
+      return next(new AppError("Task not found", 404));
 
     res
       .status(200)
@@ -80,11 +82,12 @@ export const updateTask = catchAsync(
     }
 
     // Find and update the task
-    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const result = await pool.query(`UPDATE tasks SET ? WHERE id = ?`, [
+      req.body,
+      req.params.id,
+    ]);
 
-    if (!updatedTask) {
+    if (result.affectedRows === 0) {
       return res.status(404).json({
         status: "fail",
         message: "Task not found",
@@ -136,23 +139,23 @@ export const updateTask = catchAsync(
     userProfile.checkUpgrades();
 
     // Save the updated user object to the database
-    const updatedUserStat = await User.findByIdAndUpdate(
-      req.user._id,
-      {
-        xp: userProfile.xp,
-        lvl: userProfile.lvl,
-        hp: userProfile.hp,
-        kp: userProfile.kp,
-        wp: userProfile.wp,
-        rank: userProfile.rank,
-        nextXP: userProfile.nextXP,
-        lastXP: userProfile.lastXP,
-        totalXP: userProfile.hp + userProfile.kp + userProfile.wp,
-      },
-      { new: true }
+    const updatedUserStat = await pool.query(
+      `UPDATE users SET xp = ?, lvl = ?, hp = ?, kp = ?, wp = ?, rank = ?, nextXP = ?, lastXP = ?, totalXP = ? WHERE id = ?`,
+      [
+        userProfile.xp,
+        userProfile.lvl,
+        userProfile.hp,
+        userProfile.kp,
+        userProfile.wp,
+        userProfile.rank,
+        userProfile.nextXP,
+        userProfile.lastXP,
+        userProfile.hp + userProfile.kp + userProfile.wp,
+        req.user._id,
+      ]
     );
 
-    if (!updatedUserStat) {
+    if (updatedUserStat.affectedRows === 0) {
       return res.status(404).json({
         status: "fail",
         message: "User not found",
@@ -162,7 +165,7 @@ export const updateTask = catchAsync(
     // Respond with the updated task and user data
     res.status(200).json({
       status: "success",
-      data: { updatedTask, user: updatedUserStat },
+      data: { updatedTask: req.body, user: userProfile },
       count: 1,
     });
   }
@@ -171,17 +174,34 @@ export const updateTask = catchAsync(
 export const addTask = catchAsync(
   async (req: express.Request, res: express.Response, next: NextFunction) => {
     console.log("task details", req.body);
-    const createdTasks = await Task.create(req.body);
+    const {
+      taskName,
+      isCompleted,
+      taskCategory,
+      taskRepeatsOn,
+      relatedUserId,
+    } = req.body;
+    const result = await pool.query(
+      `INSERT INTO task_base (taskName, isCompleted, taskCategory, taskRepeatsOn, relatedUserId) VALUES(?,?,?,?,?)`,
+      [
+        taskName,
+        isCompleted,
+        taskCategory,
+        JSON.stringify(taskRepeatsOn),
+        relatedUserId,
+      ]
+    );
 
     // Check for today's task among created tasks
-    const todayTask = createdTasks.find(
-      (task: any) => task.taskRepeatsOn === getToday()
+    const todayTask = await pool.query(
+      `SELECT * FROM task_base WHERE taskID = ? AND taskRepeatsOn = ?`,
+      [result.insertId, getToday()]
     );
 
     return res.status(200).json({
       status: "success",
       message: "Task(s) Added",
-      data: todayTask,
+      data: todayTask[0],
     });
   }
 );

@@ -1,6 +1,6 @@
 import catchAsync from "../utils/catchAsync";
-import User from "../models/Users";
 import express from "express";
+import { pool } from "../db/database";
 
 export const getAllUsers = catchAsync(
   async (
@@ -8,39 +8,49 @@ export const getAllUsers = catchAsync(
     res: express.Response,
     next: express.NextFunction
   ) => {
-    const users = await User.find();
-    res.status(200).json({
-      status: "success",
-      count: users.length,
-      data: {
-        users,
-      },
-    });
+    const userQueryRes = await pool.query("SELECT * FROM user_base");
+    const users = userQueryRes[0];
+    res
+      .status(200)
+      .json({ status: "success", data: { users }, count: users.length });
   }
 );
 
 export const getUserByEmail = async (email: string) => {
-  return await User.findOne({ email });
+  const [rows] = await pool.query("SELECT * FROM user_base WHERE email = ?", [
+    email,
+  ]);
+  return rows[0];
 };
 
-export const getUserById = (id: string) => {
-  return User.findById(id);
+export const getUserById = async (id: string) => {
+  const [rows] = await pool.query("SELECT * FROM user_base WHERE id = ?", [id]);
+  return rows[0];
 };
 
-export const getUserBySessionToken = (sessionToken: string) => {
-  return User.findOne({ "authenticate.sessionToken": sessionToken });
+export const getUserBySessionToken = async (sessionToken: string) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM user_base WHERE sessionToken = ?",
+    [sessionToken]
+  );
+  return rows[0];
 };
 
-export const createUser = async (values: Record<string, any>) => {
-  let user = await new User(values).save();
-  const newUser = user.toObject();
-  return newUser;
+// export const createUser = async (values: Record<string, any>) => {
+//   const { insertId } = await pool.query("INSERT INTO user_base SET ?", values);
+//   const [newUser] = await pool.query("SELECT * FROM user_base WHERE id = ?", [
+//     insertId,
+//   ]);
+//   return newUser[0];
+// };
+
+export const deleteUserById = async (id: string) => {
+  await pool.query("DELETE FROM user_base WHERE id = ?", [id]);
 };
 
-export const deleteUserById = (id: string) => {
-  User.findByIdAndDelete({ _id: id });
-};
-
-export const updateUserById = (id: string, values: Record<string, any>) => {
-  User.findByIdAndUpdate(id, values);
+export const updateUserById = async (
+  id: string,
+  values: Record<string, any>
+) => {
+  await pool.query("UPDATE user_base SET ? WHERE id = ?", [values, id]);
 };

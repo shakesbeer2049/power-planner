@@ -12,6 +12,7 @@ interface GameUser {
 
 class Gamify {
   xp = 0;
+  // total xp is the xp of the user since the beginning
   totalXP = 0;
   lvl = 1;
   hp = 0;
@@ -123,6 +124,10 @@ class Gamify {
   decreaseTotalXP() {
     this.totalXP = Math.max(this.totalXP - 1, 0);
   }
+
+  // checkYesterdaysTasks() {
+  //   // check if the user completed all tasks from yesterday
+  // }
 }
 
 export default Gamify;
