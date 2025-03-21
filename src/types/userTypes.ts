@@ -3,10 +3,10 @@ import { Request } from "express";
 
 export interface IGetUserAuthInfoRequest extends Request {
   user: any; // or any other type
-  relatedUserId: String;
+  related_user_id: String;
 }
 export interface User {
-  userID: string;
+  user_id: string;
   username: string;
   email: string;
   password: string;

@@ -8,6 +8,7 @@ import { IGetUserAuthInfoRequest } from "types/userTypes";
 import { pool } from "../db/database";
 import bcrypt from "bcryptjs";
 const { promisify } = require("util");
+import { v4 as uuid } from "uuid";
 
 export const register = catchAsync(
   async (req: express.Request, res: express.Response) => {
@@ -31,16 +32,21 @@ export const register = catchAsync(
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 12);
-
+    const userId = uuid();
     // create user
     const queryResponse = await pool.query(
-      "INSERT INTO user_base (username, email, password, confirmPassword) VALUES (?, ?, ?, ?)",
-      [username, email, hashedPassword, ""]
+      "INSERT INTO user_base (userId, username, email, password) VALUES (?, ?, ?, ?)",
+      [userId, username, email, hashedPassword]
     );
     console.log(queryResponse, "new user");
 
+    const [userResult] = await pool.query(
+      "SELECT userId FROM user_base WHERE email = ?",
+      [email]
+    );
+
     const newUser = {
-      id: queryResponse[0].insertId,
+      id: userResult[0].userId,
       username,
       email,
     };
@@ -78,14 +84,14 @@ export const login = catchAsync(
     if (!user || !user.password) {
       return next(new AppError("Incorrect email or password!", 401));
     }
-    console.log(user.password, "user password");
+    console.log(user.password, password);
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
       return next(new AppError("Incorrect email or password!", 401));
     }
 
     user.password = "";
-    const token = generateJWT(user.userID.toString());
+    const token = generateJWT(user.userId.toString());
     return res.status(200).json({
       status: "success",
       token,
@@ -123,10 +129,10 @@ export const protect = catchAsync(
 
     // check if user exists
     const queryResponse = await pool.query(
-      `SELECT * FROM user_base WHERE userID = ?`,
+      `SELECT * FROM user_base WHERE userId = ?`,
       [id]
     );
-    const userExists = queryResponse[0];
+    const [userExists] = queryResponse[0];
     if (!userExists) return next(new AppError("User does not exist!", 401));
 
     // compare pwdissued and jwt issued
@@ -135,7 +141,7 @@ export const protect = catchAsync(
     // }
 
     // Grant Access
-    req.user = userExists[0];
+    req.user = userExists;
 
     next();
   }
@@ -157,9 +163,9 @@ export const forgotPassword = catchAsync(
     }
 
     const resetToken = user.createPasswordResetToken();
-    await pool.query(`UPDATE user_base SET resetToken = ? WHERE userID = ?`, [
+    await pool.query(`UPDATE user_base SET resetToken = ? WHERE userId = ?`, [
       resetToken,
-      user.userID,
+      user.userId,
     ]);
   }
 );

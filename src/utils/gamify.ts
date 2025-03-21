@@ -1,13 +1,13 @@
 interface GameUser {
+  totalXp: number;
+  nextXp: number;
+  lastXp: number;
+  ranked: string;
   xp: number;
   lvl: number;
   hp: number;
   kp: number;
   wp: number;
-  rank: string;
-  nextXP: number;
-  lastXP: number;
-  totalXP: number;
 }
 
 class Gamify {
@@ -47,18 +47,18 @@ class Gamify {
 
   constructor(user: GameUser) {
     this.xp = user.xp;
-    this.totalXP = user.totalXP;
+    this.totalXP = user.totalXp;
     this.lvl = user.lvl;
     this.hp = user.hp;
     this.kp = user.kp;
     this.wp = user.wp;
-    this.rank = user.rank;
-    this.nextXP = user.nextXP;
-    this.lastXP = user.lastXP;
+    this.rank = user.ranked;
+    this.nextXP = user.nextXp;
+    this.lastXP = user.lastXp;
   }
 
   updateNextXP() {
-    return this.lvl * 100 * 1.25;
+    this.nextXP = this.lvl * 100 * 1.25;
   }
 
   updateRank() {
@@ -86,21 +86,21 @@ class Gamify {
   }
 
   increaseHP() {
-    ++this.hp;
+    this.hp++;
   }
   increaseKP() {
-    ++this.kp;
+    this.kp++;
   }
   increaseWP() {
-    ++this.wp;
+    this.wp++;
   }
 
   increaseXP() {
-    ++this.xp;
+    this.xp++;
   }
 
   increaseTotalXP() {
-    ++this.totalXP;
+    this.totalXP++;
   }
 
   decreaseHP() {

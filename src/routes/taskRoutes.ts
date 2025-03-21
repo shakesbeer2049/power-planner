@@ -5,12 +5,14 @@ import {
   updateTask,
   deleteTask,
   getTasksForThisWeek,
+  getTasksToday,
 } from "../controllers/taskController";
 import { Router } from "express";
 const router = Router();
 // authController.protect,
-router.route("/").get(getTasksForThisWeek).post(addTask);
+router.route("/").get(getTasksToday).post(addTask);
 router.route("/all").get(getAllTasks);
+router.route("/weekly").get(getTasksForThisWeek);
 
 router.route("/:id").get(getTask).put(updateTask).delete(deleteTask);
 

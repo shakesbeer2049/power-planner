@@ -2,9 +2,10 @@ import express, { NextFunction } from "express";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/appError";
 import { IGetUserAuthInfoRequest } from "types/userTypes";
-import { getEndOfWeek, getStartOfWeek, getToday } from "../utils/dates";
 import Gamify from "../utils/gamify";
 import { pool } from "../db/database";
+import { v4 as uuid } from "uuid";
+import { scheduleTasks } from "../utils/helper";
 
 export const getAllTasks = catchAsync(
   async (
@@ -13,8 +14,52 @@ export const getAllTasks = catchAsync(
     next: NextFunction
   ) => {
     const [tasks] = await pool.query(
-      `SELECT * FROM task_base WHERE relatedUserId = ?`,
-      [req.user.userID]
+      `SELECT 
+    TAB.taskId,
+    TAB.taskName,
+    TAB.createdOn,
+    TAB.taskCategory,
+    TAB.taskRepeatsOn,
+    TAB.relatedUserId,
+    TAL.logId,
+    TAL.completedOn,
+    TAS.scheduledOn,
+    TAS.scheduleId
+    FROM task_base TAB
+    LEFT JOIN task_log TAL ON TAB.taskId = TAL.relatedTaskId
+    LEFT JOIN task_schedule TAS ON TAB.taskId = TAS.relatedTaskId
+    WHERE TAB.relatedUserId = ?;`,
+      [req.user.userId]
+    );
+    res
+      .status(200)
+      .json({ status: "success", data: { tasks }, count: tasks.length });
+  }
+);
+
+export const getTasksToday = catchAsync(
+  async (
+    req: IGetUserAuthInfoRequest,
+    res: express.Response,
+    next: NextFunction
+  ) => {
+    const [tasks] = await pool.query(
+      `SELECT 
+    TAB.taskId,
+    TAB.taskName,
+    TAB.createdOn,
+    TAB.taskCategory,
+    TAB.taskRepeatsOn,
+    TAB.relatedUserId,
+    TAL.logId,
+    TAL.completedOn,
+    TAS.scheduledOn,
+    TAS.scheduleId
+    FROM task_base TAB
+    LEFT JOIN task_log TAL ON TAB.taskId = TAL.relatedTaskId
+    LEFT JOIN task_schedule TAS ON TAB.taskId = TAS.relatedTaskId
+    WHERE TAB.relatedUserId = ? AND TAS.scheduledOn = CURDATE();`,
+      [req.user.userId]
     );
     res
       .status(200)
@@ -28,11 +73,25 @@ export const getTasksForThisWeek = catchAsync(
     res: express.Response,
     next: NextFunction
   ) => {
-    const startOfWeek = getStartOfWeek(new Date());
-    const endOfWeek = getEndOfWeek(new Date());
     const [tasks] = await pool.query(
-      `SELECT * FROM task_base WHERE relatedUserId = ? AND createdOn BETWEEN ? AND ?`,
-      [req.user.userID, startOfWeek, endOfWeek]
+      `SELECT 
+    TAB.taskId,
+    TAB.taskName,
+    TAB.createdOn,
+    TAB.taskCategory,
+    TAB.taskRepeatsOn,
+    TAB.relatedUserId,
+    TAL.logId,
+    TAL.completedOn,
+    TAS.scheduledOn,
+    TAS.scheduleId
+FROM task_base TAB
+LEFT JOIN task_log TAL ON TAB.taskId = TAL.relatedTaskId
+LEFT JOIN task_schedule TAS ON TAB.taskId = TAS.relatedTaskId
+WHERE TAB.relatedUserId = ? 
+  AND TAS.scheduledOn BETWEEN DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
+                      AND DATE_ADD(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 6 DAY);`,
+      [req.user.userId]
     );
     console.log("tasks", tasks);
     res
@@ -43,7 +102,7 @@ export const getTasksForThisWeek = catchAsync(
 
 export const getTask = catchAsync(
   async (req: express.Request, res: express.Response, next: NextFunction) => {
-    const task = await pool.query(`SELECT * FROM task_base WHERE id = ?`, [
+    const task = await pool.query(`SELECT * FROM task_base WHERE taskId = ?`, [
       req.params.id,
     ]);
     if (task.length === 0) return next(new AppError("Task not found", 404));
@@ -55,9 +114,31 @@ export const getTask = catchAsync(
 
 export const deleteTask = catchAsync(
   async (req: express.Request, res: express.Response, next: NextFunction) => {
-    const result = await pool.query(`DELETE FROM task_base WHERE id = ?`, [
-      req.params.id,
-    ]);
+    // const deleteFromLogBase  = await pool.query(`DELETE FROM task_base WHERE relatedTaskId = ?`, [
+    //   req.params.id,
+    // ]);
+    const result = await pool.query(
+      `DELETE FROM task_base WHERE taskId = ? AND createdOn = ?`,
+      [req.params.id, req.body.createdOn]
+    );
+    if (result.affectedRows === 0)
+      return next(new AppError("Task not found", 404));
+
+    res
+      .status(200)
+      .json({ status: "success", data: {}, message: "Task deleted" });
+  }
+);
+
+export const deleteOne = catchAsync(
+  async (req: express.Request, res: express.Response, next: NextFunction) => {
+    // const deleteFromLogBase  = await pool.query(`DELETE FROM task_base WHERE relatedTaskId = ?`, [
+    //   req.params.id,
+    // ]);
+    const result = await pool.query(
+      `DELETE FROM task_schedule WHERE relatedTaskId = ? AND scheduledId = ?`,
+      [req.params.id, req.body.createdOn]
+    );
     if (result.affectedRows === 0)
       return next(new AppError("Task not found", 404));
 
@@ -73,7 +154,6 @@ export const updateTask = catchAsync(
     res: express.Response,
     next: NextFunction
   ) => {
-    // Validate req.body
     if (!req.params.id || !req.body) {
       return res.status(400).json({
         status: "fail",
@@ -81,111 +161,166 @@ export const updateTask = catchAsync(
       });
     }
 
-    // Find and update the task
-    const result = await pool.query(`UPDATE tasks SET ? WHERE id = ?`, [
-      req.body,
-      req.params.id,
-    ]);
+    const connection = await pool.getConnection();
 
-    if (result.affectedRows === 0) {
-      return res.status(404).json({
-        status: "fail",
-        message: "Task not found",
+    try {
+      await connection.beginTransaction();
+
+      const logId = uuid();
+      const completedOn = new Date()
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " ");
+
+      // Check if task log entry already exists and lock the row for update
+      const [existingLog] = await connection.query(
+        `SELECT logId FROM task_log WHERE relatedTaskId = ? AND relatedUserId = ? FOR UPDATE`,
+        [req.body.taskId, req.body.relatedUserId]
+      );
+
+      let result;
+      // completing the task
+      if (!req.body.logId && existingLog.length === 0) {
+        // Marking Task as Complete - Insert Log Entry
+        [result] = await connection.query(
+          `INSERT INTO task_log (logId, relatedTaskId, relatedUserId, completedOn) VALUES(?,?,?,?)`,
+          [logId, req.body.taskId, req.body.relatedUserId, completedOn]
+        );
+        req.body.logId = logId;
+        req.body.completedOn = completedOn;
+        // mark as not complete and remove
+      } else if (req.body.logId && existingLog.length > 0) {
+        // Marking Task as Not Complete - Delete Log Entry
+        [result] = await connection.query(
+          `DELETE FROM task_log WHERE logId = ? AND relatedUserId = ?`,
+          [req.body.logId, req.body.relatedUserId]
+        );
+
+        if (result.affectedRows === 0) {
+          await connection.rollback();
+          await connection.release();
+          return res.status(404).json({
+            status: "fail",
+            message: "Task log not found or already deleted",
+          });
+        }
+
+        req.body.logId = null;
+        req.body.completedOn = null;
+      } else if (!req.body.logId && existingLog.length > 0) {
+        // If trying to mark as complete but entry already exists
+        await connection.rollback();
+        await connection.release();
+        return res.status(400).json({
+          status: "fail",
+          message: "Task is already marked as complete",
+        });
+      }
+
+      // Create a Gamify instance for the user
+      const userProfile = new Gamify(req.user);
+      const category = req.body.taskCategory;
+
+      if (req.body.logId) {
+        userProfile.increaseTotalXP();
+        userProfile.increaseXP();
+        switch (category) {
+          case "health":
+            userProfile.increaseHP();
+            break;
+          case "wealth":
+            userProfile.increaseWP();
+            break;
+          case "knowledge":
+            userProfile.increaseKP();
+            break;
+          default:
+            break;
+        }
+      } else {
+        userProfile.decreaseTotalXP();
+        userProfile.decreaseXP();
+        switch (category) {
+          case "health":
+            if (req.user.hp > 0) userProfile.decreaseHP();
+            break;
+          case "wealth":
+            if (req.user.wp > 0) userProfile.decreaseWP();
+            break;
+          case "knowledge":
+            if (req.user.kp > 0) userProfile.decreaseKP();
+            break;
+          default:
+            break;
+        }
+      }
+
+      userProfile.checkUpgrades();
+
+      const [updatedUserStat] = await connection.query(
+        `UPDATE user_base 
+         SET xp = ?, lvl = ?, hp = ?, kp = ?, wp = ?, ranked = ?, 
+         nextXp = ?, lastXp = ?, totalXp = ? 
+         WHERE userId = ?`,
+        [
+          userProfile.xp,
+          userProfile.lvl,
+          userProfile.hp,
+          userProfile.kp,
+          userProfile.wp,
+          userProfile.rank,
+          userProfile.nextXP,
+          userProfile.lastXP,
+          userProfile.hp + userProfile.kp + userProfile.wp,
+          req.user.userId,
+        ]
+      );
+
+      if (updatedUserStat.affectedRows === 0) {
+        await connection.rollback();
+        await connection.release();
+        return res.status(404).json({
+          status: "fail",
+          message: "User not found",
+        });
+      }
+
+      await connection.commit();
+      await connection.release();
+
+      res.status(200).json({
+        status: "success",
+        data: { task: req.body, user: userProfile },
+        count: 1,
+      });
+    } catch (error) {
+      await connection.rollback();
+      await connection.release();
+      console.error("Error updating task:", error);
+      res.status(500).json({
+        status: "error",
+        message: "An error occurred while updating the task",
       });
     }
-
-    // Create a Gamify instance for the user
-    const userProfile = new Gamify(req.user);
-
-    const { isCompleted, taskCategory } = req.body;
-    const category = taskCategory;
-
-    if (isCompleted) {
-      userProfile.increaseTotalXP();
-      userProfile.increaseXP();
-      switch (category) {
-        case "health":
-          userProfile.increaseHP();
-          break;
-        case "wealth":
-          userProfile.increaseWP();
-          break;
-        case "knowledge":
-          userProfile.increaseKP();
-          break;
-        default:
-          break;
-      }
-    } else {
-      userProfile.decreaseTotalXP();
-      userProfile.decreaseXP();
-      switch (category) {
-        case "health":
-          if (req.user.hp > 0) userProfile.decreaseHP();
-          break;
-        case "wealth":
-          if (req.user.wp > 0) userProfile.decreaseWP();
-          break;
-        case "knowledge":
-          if (req.user.kp > 0) userProfile.decreaseKP();
-          break;
-        default:
-          break;
-      }
-    }
-
-    // Update the user's XP and check for upgrades
-
-    userProfile.checkUpgrades();
-
-    // Save the updated user object to the database
-    const updatedUserStat = await pool.query(
-      `UPDATE users SET xp = ?, lvl = ?, hp = ?, kp = ?, wp = ?, rank = ?, nextXP = ?, lastXP = ?, totalXP = ? WHERE id = ?`,
-      [
-        userProfile.xp,
-        userProfile.lvl,
-        userProfile.hp,
-        userProfile.kp,
-        userProfile.wp,
-        userProfile.rank,
-        userProfile.nextXP,
-        userProfile.lastXP,
-        userProfile.hp + userProfile.kp + userProfile.wp,
-        req.user._id,
-      ]
-    );
-
-    if (updatedUserStat.affectedRows === 0) {
-      return res.status(404).json({
-        status: "fail",
-        message: "User not found",
-      });
-    }
-
-    // Respond with the updated task and user data
-    res.status(200).json({
-      status: "success",
-      data: { updatedTask: req.body, user: userProfile },
-      count: 1,
-    });
   }
 );
 
 export const addTask = catchAsync(
   async (req: express.Request, res: express.Response, next: NextFunction) => {
     console.log("task details", req.body);
-    const {
-      taskName,
-      isCompleted,
-      taskCategory,
-      taskRepeatsOn,
-      relatedUserId,
-    } = req.body;
-    const result = await pool.query(
-      `INSERT INTO task_base (taskName, isCompleted, taskCategory, taskRepeatsOn, relatedUserId) VALUES(?,?,?,?,?)`,
+    const { taskName, taskCategory, taskRepeatsOn, relatedUserId } = req.body;
+    if (!taskName || !taskCategory || !taskRepeatsOn || !relatedUserId) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Missing required fields in request body",
+      });
+    }
+    const taskId = uuid();
+    await pool.query(
+      `INSERT INTO task_base (taskId, taskName, taskCategory, taskRepeatsOn, relatedUserId) VALUES(?,?,?,?,?)`,
       [
+        taskId,
         taskName,
-        isCompleted,
         taskCategory,
         JSON.stringify(taskRepeatsOn),
         relatedUserId,
@@ -193,15 +328,23 @@ export const addTask = catchAsync(
     );
 
     // Check for today's task among created tasks
-    const todayTask = await pool.query(
-      `SELECT * FROM task_base WHERE taskID = ? AND taskRepeatsOn = ?`,
-      [result.insertId, getToday()]
+    const [todayTask] = await pool.query(
+      `SELECT * FROM task_base WHERE taskId = ?`,
+      [taskId]
     );
 
+    await scheduleTasks(
+      taskId,
+      relatedUserId,
+      taskRepeatsOn || [],
+      todayTask[0].createdOn
+    );
+    console.log("todayTask", todayTask);
+    const newTask = { ...todayTask[0], scheduledOn: todayTask[0].createdOn };
     return res.status(200).json({
       status: "success",
-      message: "Task(s) Added",
-      data: todayTask[0],
+      message: "Task Added",
+      data: { task: newTask },
     });
   }
 );

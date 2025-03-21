@@ -24,7 +24,9 @@ export const getUserByEmail = async (email: string) => {
 };
 
 export const getUserById = async (id: string) => {
-  const [rows] = await pool.query("SELECT * FROM user_base WHERE id = ?", [id]);
+  const [rows] = await pool.query("SELECT * FROM user_base WHERE userId = ?", [
+    id,
+  ]);
   return rows[0];
 };
 
@@ -52,5 +54,5 @@ export const updateUserById = async (
   id: string,
   values: Record<string, any>
 ) => {
-  await pool.query("UPDATE user_base SET ? WHERE id = ?", [values, id]);
+  await pool.query("UPDATE user_base SET ? WHERE userId = ?", [values, id]);
 };
