@@ -6,6 +6,7 @@ import Gamify from "../utils/gamify";
 import { pool } from "../db/database";
 import { v4 as uuid } from "uuid";
 import { scheduleTasks } from "../utils/helper";
+import { format } from "date-fns";
 
 export const getAllTasks = catchAsync(
   async (
@@ -58,9 +59,11 @@ export const getTasksToday = catchAsync(
     FROM task_base TAB
     LEFT JOIN task_log TAL ON TAB.taskId = TAL.relatedTaskId
     LEFT JOIN task_schedule TAS ON TAB.taskId = TAS.relatedTaskId
-    WHERE TAB.relatedUserId = ? AND TAS.scheduledOn = CURDATE();`,
+    WHERE TAB.relatedUserId = ? 
+    AND TAS.scheduledOn >= CURDATE();`,
       [req.user.userId]
     );
+    console.log("tasks", tasks);
     res
       .status(200)
       .json({ status: "success", data: { tasks }, count: tasks.length });
@@ -81,22 +84,25 @@ export const getTasksForThisWeek = catchAsync(
     TAB.taskCategory,
     TAB.taskRepeatsOn,
     TAB.relatedUserId,
-    TAL.logId,
-    TAL.completedOn,
     TAS.scheduledOn,
+    TAL.completedOn,
     TAS.scheduleId
 FROM task_base TAB
-LEFT JOIN task_log TAL ON TAB.taskId = TAL.relatedTaskId
-LEFT JOIN task_schedule TAS ON TAB.taskId = TAS.relatedTaskId
+LEFT JOIN task_schedule TAS 
+    ON TAB.taskId = TAS.relatedTaskId
+LEFT JOIN task_log TAL 
+    ON TAB.taskId = TAL.relatedTaskId AND DATE(TAL.completedOn) = TAS.scheduledOn
 WHERE TAB.relatedUserId = ? 
   AND TAS.scheduledOn BETWEEN DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
-                      AND DATE_ADD(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 6 DAY);`,
+                          AND DATE_ADD(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 6 DAY)
+  AND (TAL.completedOn IS NULL OR DATE(TAL.completedOn) = TAS.scheduledOn)
+ORDER BY TAS.scheduledOn, TAB.taskId;`,
       [req.user.userId]
     );
     console.log("tasks", tasks);
     res
       .status(200)
-      .json({ status: "success", data: { tasks }, count: tasks.length });
+      .json({ status: "success", data: tasks || [], count: tasks.length });
   }
 );
 
@@ -106,9 +112,7 @@ export const getTask = catchAsync(
       req.params.id,
     ]);
     if (task.length === 0) return next(new AppError("Task not found", 404));
-    res
-      .status(200)
-      .json({ status: "success", data: { task: task[0] }, count: 1 });
+    res.status(200).json({ status: "success", data: task[0] || {}, count: 1 });
   }
 );
 
@@ -180,7 +184,12 @@ export const updateTask = catchAsync(
 
       let result;
       // completing the task
-      if (!req.body.logId && existingLog.length === 0) {
+      const today = format(new Date(), "yyyy-MM-dd");
+      if (
+        !req.body.logId &&
+        existingLog.length === 0 &&
+        req.body.scheduledOn.includes(today)
+      ) {
         // Marking Task as Complete - Insert Log Entry
         [result] = await connection.query(
           `INSERT INTO task_log (logId, relatedTaskId, relatedUserId, completedOn) VALUES(?,?,?,?)`,
@@ -222,8 +231,8 @@ export const updateTask = catchAsync(
       const category = req.body.taskCategory;
 
       if (req.body.logId) {
-        userProfile.increaseTotalXP();
-        userProfile.increaseXP();
+        userProfile.increaseTotalXp();
+        userProfile.increaseXp();
         switch (category) {
           case "health":
             userProfile.increaseHP();
@@ -238,8 +247,8 @@ export const updateTask = catchAsync(
             break;
         }
       } else {
-        userProfile.decreaseTotalXP();
-        userProfile.decreaseXP();
+        userProfile.decreaseTotalXp();
+        userProfile.decreaseXp();
         switch (category) {
           case "health":
             if (req.user.hp > 0) userProfile.decreaseHP();
@@ -268,9 +277,9 @@ export const updateTask = catchAsync(
           userProfile.hp,
           userProfile.kp,
           userProfile.wp,
-          userProfile.rank,
-          userProfile.nextXP,
-          userProfile.lastXP,
+          userProfile.ranked,
+          userProfile.nextXp,
+          userProfile.lastXp,
           userProfile.hp + userProfile.kp + userProfile.wp,
           req.user.userId,
         ]

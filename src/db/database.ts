@@ -10,6 +10,7 @@ const pool = mysql
     user: "root",
     password: "sql123",
     database: "consistent_db",
+    timezone: "Z",
   })
   .promise();
 

@@ -13,14 +13,14 @@ interface GameUser {
 class Gamify {
   xp = 0;
   // total xp is the xp of the user since the beginning
-  totalXP = 0;
+  totalXp = 0;
   lvl = 1;
   hp = 0;
   kp = 0;
   wp = 0;
-  nextXP = 0;
-  lastXP = 0;
-  rank = "Recruit";
+  nextXp = 6;
+  lastXp = 0;
+  ranked = "Recruit";
 
   rankArray = [
     "",
@@ -47,22 +47,23 @@ class Gamify {
 
   constructor(user: GameUser) {
     this.xp = user.xp;
-    this.totalXP = user.totalXp;
+    this.totalXp = user.totalXp;
     this.lvl = user.lvl;
     this.hp = user.hp;
     this.kp = user.kp;
     this.wp = user.wp;
-    this.rank = user.ranked;
-    this.nextXP = user.nextXp;
-    this.lastXP = user.lastXp;
+    this.ranked = user.ranked;
+    this.nextXp = user.nextXp;
+    this.lastXp = user.lastXp;
   }
 
-  updateNextXP() {
-    this.nextXP = this.lvl * 100 * 1.25;
+  updateNextXp() {
+    // this.nextXp = Math.floor(10 + this.lvl * 10 + Math.pow(1.2, this.lvl) * 5);
+    this.nextXp = this.lvl * 5;
   }
 
   updateRank() {
-    this.rank = this.rankArray[this.lvl] || this.rank;
+    this.ranked = this.rankArray[this.lvl] || this.ranked;
   }
 
   increaseLevel() {
@@ -70,18 +71,15 @@ class Gamify {
   }
 
   checkUpgrades() {
-    if (this.xp >= this.nextXP) {
-      this.xp = 1;
-      this.lastXP = this.nextXP;
+    if (this.xp >= this.nextXp) {
+      this.lastXp = this.xp;
+      this.updateNextXp();
+      this.updateRank();
       this.increaseLevel();
-      this.updateRank();
-      this.updateNextXP();
-    } else if (this.xp === 0) {
-      this.xp = Math.max(this.lastXP - 1, 0);
-      this.decreaseLevel();
-      this.updateRank();
-      this.updateNextXP();
-      this.lastXP = Math.max(this.lvl * 2 - 2, 0);
+      this.xp = 1;
+    }
+
+    if (this.lvl === 1 && this.xp <= 0) {
     }
   }
 
@@ -95,12 +93,12 @@ class Gamify {
     this.wp++;
   }
 
-  increaseXP() {
+  increaseXp() {
     this.xp++;
   }
 
-  increaseTotalXP() {
-    this.totalXP++;
+  increaseTotalXp() {
+    this.totalXp++;
   }
 
   decreaseHP() {
@@ -117,12 +115,12 @@ class Gamify {
     this.lvl = Math.max(this.lvl - 1, 1);
   }
 
-  decreaseXP() {
+  decreaseXp() {
     this.xp = Math.max(this.xp - 1, 0);
   }
 
-  decreaseTotalXP() {
-    this.totalXP = Math.max(this.totalXP - 1, 0);
+  decreaseTotalXp() {
+    this.totalXp = Math.max(this.totalXp - 1, 0);
   }
 
   // checkYesterdaysTasks() {

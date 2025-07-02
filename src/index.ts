@@ -56,12 +56,6 @@ app.use(globalErrorHandler);
 // create server
 const server = http.createServer(app);
 
-// Connect to DB
-// mongoose
-//   .connect(process.env.MONGO_URI_2)
-//   .then(() => console.log("connected to DB"))
-//   .catch((err) => console.log(`error in db :  ${err}`));
-
 // Listen to requests on server
 server.listen(process.env.PORT, () => {
   console.log("Server is listening to requests at PORT", process.env.PORT);
