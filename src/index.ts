@@ -3,7 +3,6 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import cors from "cors";
 import compression from "compression";
-import mongoose from "mongoose";
 import http from "http";
 import taskRouter from "./routes/taskRoutes";
 import userRouter from "./routes/userRoutes";
@@ -11,6 +10,7 @@ import AppError from "./utils/appError";
 import globalErrorHandler from "./controllers/globalErrorHandler";
 import * as authController from "./controllers/authController";
 import { IGetUserAuthInfoRequest } from "types/userTypes";
+import { isConnectedToDB } from "./db/database";
 const morgan = require("morgan");
 
 require("dotenv").config();
@@ -55,6 +55,8 @@ app.use(globalErrorHandler);
 
 // create server
 const server = http.createServer(app);
+
+isConnectedToDB();
 
 // Listen to requests on server
 server.listen(process.env.PORT, () => {

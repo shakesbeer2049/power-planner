@@ -1,6 +1,7 @@
 import catchAsync from "../utils/catchAsync";
 import express from "express";
 import { pool } from "../db/database";
+import { UserLeaderBoard } from "types/userTypes";
 
 export const getAllUsers = catchAsync(
   async (
@@ -55,4 +56,27 @@ export const updateUserById = async (
   values: Record<string, any>
 ) => {
   await pool.query("UPDATE user_base SET ? WHERE userId = ?", [values, id]);
+};
+
+export const getLeaderboards = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        userId, username, totalXp, lvl, wp, hp, kp,ranked,
+        ((totalXp * 0.3) + (lvl * 15) + ((wp + hp + kp) * 0.2)) AS score
+      FROM user_base
+      ORDER BY score DESC
+      LIMIT 50;
+    `);
+    const scores = result[0];
+    res
+      .status(200)
+      .json({ status: "success", data: { scores }, count: scores.length });
+  } catch (error) {
+    console.error("Error in fetching leaderboards:", error);
+  }
 };

@@ -8,6 +8,7 @@ router.post("/login", authController.login);
 router.post("/forgotPassword", authController.forgotPassword);
 
 router.route("/").get(userController.getAllUsers);
+router.route("/leaderboards").get(userController.getLeaderboards);
 
 router
   .route("/:id")

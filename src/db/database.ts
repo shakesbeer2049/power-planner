@@ -1,18 +1,28 @@
 import catchAsync from "../utils/catchAsync";
 import { IGetUserAuthInfoRequest } from "../types/userTypes";
 import express, { NextFunction } from "express";
-
+require("dotenv").config();
 const mysql = require("mysql2");
 
 const pool = mysql
   .createPool({
-    host: "127.0.0.1",
-    user: "root",
-    password: "sql123",
-    database: "consistent_db",
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PWD,
+    database: process.env.MYSQL_DB,
     timezone: "Z",
   })
   .promise();
+export const isConnectedToDB = async () => {
+  try {
+    await pool.getConnection();
+    console.log("Connected to database");
+    return true;
+  } catch (error) {
+    console.error("Error connecting to database:", error);
+    return false;
+  }
+};
 
 export const getAllTasksFromDB: any = catchAsync(
   async (

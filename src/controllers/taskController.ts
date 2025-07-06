@@ -324,6 +324,13 @@ export const addTask = catchAsync(
         message: "Missing required fields in request body",
       });
     }
+
+    // check if user has already reached the limit of tasks
+    const [user] = await pool.query(
+      `SELECT * FROM user_base WHERE userId = ?`,
+      [relatedUserId]
+    );
+
     const taskId = uuid();
     await pool.query(
       `INSERT INTO task_base (taskId, taskName, taskCategory, taskRepeatsOn, relatedUserId) VALUES(?,?,?,?,?)`,

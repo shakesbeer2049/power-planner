@@ -38,3 +38,14 @@ export interface IUser extends Document {
   changedPasswordAfter(iat: number): Promise<boolean>;
   createPasswordResetToken(): any;
 }
+
+export interface UserLeaderBoard {
+  userId: string;
+  username: string;
+  totalXp: number;
+  lvl: number;
+  wp: number;
+  hp: number;
+  kp: number;
+  score: number;
+}
