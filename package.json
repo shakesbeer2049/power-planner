@@ -1,12 +1,13 @@
 {
   "name": "power-planner",
   "version": "1.0.0",
-  "description": "an app to manage you life and level up",
+  "description": "A minimalist app to manage your life and level up",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server:dev": "kill-port 3003 && nodemon",
-    "server:prod": "cross-env NODE_ENV=production nodemon"
+    "server:prod": "cross-env NODE_ENV=production nodemon",
+    "start": "ts-node src/index.ts"
   },
   "author": "",
   "license": "ISC",
