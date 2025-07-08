@@ -1,5 +1,5 @@
 import express from "express";
-import { getUserByEmail } from "./userController";
+import { getUserByEmail, getUserByUsername } from "./userController";
 import catchAsync from "../utils/catchAsync";
 import jwt from "jsonwebtoken";
 import AppError from "../utils/appError";
@@ -15,12 +15,22 @@ export const register = catchAsync(
     const { email, password, confirmPassword, username } = req.body;
 
     const userExists = await getUserByEmail(email);
+    const userExistsByUsername = await getUserByUsername(username);
 
     if (userExists)
       return res.status(400).json({
         status: "fail",
-        message: "User already exists",
+        message: "Email already exists",
       });
+
+    console.log("usss");
+
+    if (userExistsByUsername)
+      return res.status(400).json({
+        status: "fail",
+        message: "Username already exists",
+      });
+    console.log("usss2");
 
     // Check if password and confirmPassword are the same
     if (password !== confirmPassword) {

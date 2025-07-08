@@ -18,7 +18,7 @@ class Gamify {
   hp = 0;
   kp = 0;
   wp = 0;
-  nextXp = 6;
+  nextXp = 15;
   lastXp = 0;
   ranked = "Recruit";
 
@@ -58,8 +58,12 @@ class Gamify {
   }
 
   updateNextXp() {
-    // this.nextXp = Math.floor(10 + this.lvl * 10 + Math.pow(1.2, this.lvl) * 5);
-    this.nextXp = this.lvl * 5;
+    this.nextXp = Math.floor(10 * Math.pow(this.lvl, 1.5) + this.lvl * 5);
+    // 1	15
+    // 2	28
+    // 3	46
+    // 4	69
+    // 5	97
   }
 
   updateRank() {
