@@ -14,13 +14,7 @@ if (process.env.NODE_ENV === "development") {
     timezone: "Z",
   };
 } else {
-  mysqlOptions = {
-    host: process.env.MYSQLHOST,
-    user: process.env.MYSQLUSER,
-    password: process.env.MYSQLPASSWORD,
-    database: process.env.MYSQLDATABASE,
-    timezone: "Z",
-  };
+  mysqlOptions = `mysql://${process.env.MYSQLUSER}:${process.env.MYSQLPASSWORD}@${process.env.MYSQLHOST}/${process.env.MYSQLDATABASE}`;
 }
 console.log(mysqlOptions, "mysqlOptions");
 const pool = mysql.createPool(mysqlOptions).promise();
