@@ -4,15 +4,28 @@ import express, { NextFunction } from "express";
 require("dotenv").config();
 const mysql = require("mysql2");
 
-const pool = mysql
-  .createPool({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PWD,
-    database: process.env.MYSQL_DB,
+let mysqlOptions;
+if (process.env.NODE_ENV === "development") {
+  mysqlOptions = {
+    host: process.env.MYSQLHOSTDEV,
+    user: process.env.MYSQLUSERDEV,
+    password: process.env.MYSQLPASSWORDDEV,
+    database: process.env.MYSQLDATABASEDEV,
+    port: process.env.MYSQLPORTDEV,
     timezone: "Z",
-  })
-  .promise();
+  };
+} else {
+  mysqlOptions = {
+    host: process.env.MYSQLHOST,
+    user: process.env.MYSQLUSER,
+    password: process.env.MYSQLPASSWORD,
+    database: process.env.MYSQLDATABASE,
+    port: process.env.MYSQLPORT,
+    timezone: "Z",
+  };
+}
+
+const pool = mysql.createPool(mysqlOptions).promise();
 export const isConnectedToDB = async () => {
   try {
     await pool.getConnection();
