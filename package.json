@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "server:dev": "kill-port 3003 && nodemon",
     "server:prod": "cross-env NODE_ENV=production nodemon",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "freePort": "kill-port 3003"
   },
   "author": "",
   "license": "ISC",

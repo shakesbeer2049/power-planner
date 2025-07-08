@@ -11,7 +11,6 @@ if (process.env.NODE_ENV === "development") {
     user: process.env.MYSQLUSERDEV,
     password: process.env.MYSQLPASSWORDDEV,
     database: process.env.MYSQLDATABASEDEV,
-    port: process.env.MYSQLPORTDEV,
     timezone: "Z",
   };
 } else {
@@ -20,11 +19,10 @@ if (process.env.NODE_ENV === "development") {
     user: process.env.MYSQLUSER,
     password: process.env.MYSQLPASSWORD,
     database: process.env.MYSQLDATABASE,
-    port: process.env.MYSQLPORT,
     timezone: "Z",
   };
 }
-
+console.log(mysqlOptions, "mysqlOptions");
 const pool = mysql.createPool(mysqlOptions).promise();
 export const isConnectedToDB = async () => {
   try {
