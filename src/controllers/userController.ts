@@ -1,7 +1,7 @@
 import catchAsync from "../utils/catchAsync";
 import express from "express";
 import { pool } from "../db/database";
-import { UserLeaderBoard } from "types/userTypes";
+import { UserLeaderBoard } from "../types/userTypes";
 
 export const getAllUsers = catchAsync(
   async (

@@ -1,7 +1,7 @@
 import express, { NextFunction } from "express";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/appError";
-import { IGetUserAuthInfoRequest } from "types/userTypes";
+import { IGetUserAuthInfoRequest } from "../types/userTypes";
 import Gamify from "../utils/gamify";
 import { pool } from "../db/database";
 import { v4 as uuid } from "uuid";

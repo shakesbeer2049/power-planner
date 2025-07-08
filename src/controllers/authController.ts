@@ -4,7 +4,7 @@ import catchAsync from "../utils/catchAsync";
 import jwt from "jsonwebtoken";
 import AppError from "../utils/appError";
 import { generateJWT } from "../utils/helper";
-import { IGetUserAuthInfoRequest } from "types/userTypes";
+import { IGetUserAuthInfoRequest } from "../types/userTypes";
 import { pool } from "../db/database";
 import bcrypt from "bcryptjs";
 const { promisify } = require("util");

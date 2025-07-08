@@ -1,6 +1,6 @@
 import { NextFunction } from "express";
-import { IGetUserAuthInfoRequest } from "types/userTypes";
-import Gamify from "utils/gamify";
+import { IGetUserAuthInfoRequest } from "../types/userTypes";
+import Gamify from "../utils/gamify";
 
 export const attachGamify = async (
   req: IGetUserAuthInfoRequest,

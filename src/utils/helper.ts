@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import crypto from "crypto";
+import crypto, { BinaryLike } from "crypto";
 import { v4 as uuid } from "uuid";
 import { pool } from "../db/database";
 import { format, addDays, startOfDay } from "date-fns";
@@ -20,7 +20,7 @@ export const getDayOfWeek = function () {
 
 // Generate JWT
 export const generateJWT = (id: string) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+  return jwt.sign({ id }, process.env.JWT_SECRET as jwt.Secret, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
@@ -30,7 +30,7 @@ export const random = () => crypto.randomBytes(128).toString("base64");
 export const authentication = (salt: string, password: string) => {
   return crypto
     .createHmac("sha256", [salt, password].join("/"))
-    .update(process.env.JWT_SECRET)
+    .update(process.env.JWT_SECRET as BinaryLike)
     .digest("hex");
 };
 
