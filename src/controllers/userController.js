@@ -1,30 +1,23 @@
-import catchAsync from "../utils/catchAsync";
+import catchAsync from "../utils/catchAsync.js";
 import express from "express";
-import { pool } from "../db/database";
-import { UserLeaderBoard } from "../types/userTypes";
+import { pool } from "../db/database.js";
 
-export const getAllUsers = catchAsync(
-  async (
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) => {
-    const userQueryRes = await pool.query("SELECT * FROM user_base");
-    const users = userQueryRes[0];
-    res
-      .status(200)
-      .json({ status: "success", data: { users }, count: users.length });
-  }
-);
+export const getAllUsers = catchAsync(async (req, res, next) => {
+  const userQueryRes = await pool.query("SELECT * FROM user_base");
+  const users = userQueryRes[0];
+  res
+    .status(200)
+    .json({ status: "success", data: { users }, count: users.length });
+});
 
-export const getUserByEmail = async (email: string) => {
+export const getUserByEmail = async (email) => {
   const [rows] = await pool.query("SELECT * FROM user_base WHERE email = ?", [
     email,
   ]);
   return rows[0];
 };
 
-export const getUserByUsername = async (username: string) => {
+export const getUserByUsername = async (username) => {
   const [rows] = await pool.query(
     "SELECT * FROM user_base WHERE username = ?",
     [username]
@@ -32,14 +25,14 @@ export const getUserByUsername = async (username: string) => {
   return rows[0];
 };
 
-export const getUserById = async (id: string) => {
+export const getUserById = async (id) => {
   const [rows] = await pool.query("SELECT * FROM user_base WHERE userId = ?", [
     id,
   ]);
   return rows[0];
 };
 
-export const getUserBySessionToken = async (sessionToken: string) => {
+export const getUserBySessionToken = async (sessionToken) => {
   const [rows] = await pool.query(
     "SELECT * FROM user_base WHERE sessionToken = ?",
     [sessionToken]
@@ -55,22 +48,15 @@ export const getUserBySessionToken = async (sessionToken: string) => {
 //   return newUser[0];
 // };
 
-export const deleteUserById = async (id: string) => {
+export const deleteUserById = async (id) => {
   await pool.query("DELETE FROM user_base WHERE id = ?", [id]);
 };
 
-export const updateUserById = async (
-  id: string,
-  values: Record<string, any>
-) => {
+export const updateUserById = async (id, values) => {
   await pool.query("UPDATE user_base SET ? WHERE userId = ?", [values, id]);
 };
 
-export const getLeaderboards = async (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) => {
+export const getLeaderboards = async (req, res, next) => {
   try {
     const result = await pool.query(`
       SELECT 

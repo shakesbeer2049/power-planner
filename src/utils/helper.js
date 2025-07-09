@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import crypto, { BinaryLike } from "crypto";
+import crypto from "crypto";
 import { v4 as uuid } from "uuid";
-import { pool } from "../db/database";
+import { pool } from "../db/database.js";
 import { format, addDays, startOfDay } from "date-fns";
 
 export const getDayOfWeek = function () {
@@ -19,28 +19,28 @@ export const getDayOfWeek = function () {
 };
 
 // Generate JWT
-export const generateJWT = (id: string) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET as jwt.Secret, {
+export const generateJWT = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
 
 export const random = () => crypto.randomBytes(128).toString("base64");
 
-export const authentication = (salt: string, password: string) => {
+export const authentication = (salt, password) => {
   return crypto
     .createHmac("sha256", [salt, password].join("/"))
-    .update(process.env.JWT_SECRET as BinaryLike)
+    .update(process.env.JWT_SECRET)
     .digest("hex");
 };
 
 // Helper function to schedule tasks
 
 export const scheduleTasks = async (
-  taskId: string,
-  relatedUserId: string,
-  taskRepeatsOn: string[],
-  createdOn: Date
+  taskId,
+  relatedUserId,
+  taskRepeatsOn,
+  createdOn
 ) => {
   try {
     const today = startOfDay(new Date()); // Start from the beginning of today (midnight)

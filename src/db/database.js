@@ -1,8 +1,7 @@
-import catchAsync from "../utils/catchAsync";
-import { IGetUserAuthInfoRequest } from "../types/userTypes";
-import express, { NextFunction } from "express";
-require("dotenv").config();
-const mysql = require("mysql2");
+import catchAsync from "../utils/catchAsync.js";
+import dotenv from "dotenv";
+dotenv.config();
+import mysql from "mysql2";
 
 let mysqlOptions;
 if (process.env.NODE_ENV === "development") {
@@ -29,16 +28,10 @@ export const isConnectedToDB = async () => {
   }
 };
 
-export const getAllTasksFromDB: any = catchAsync(
-  async (
-    req: IGetUserAuthInfoRequest,
-    res: express.Response,
-    next: NextFunction
-  ) => {
-    const result = await pool.query("Select * FROM task_base");
-    console.log(result[0], "query result");
-    return result[0];
-  }
-);
+export const getAllTasksFromDB = catchAsync(async (req, res, next) => {
+  const result = await pool.query("Select * FROM task_base");
+  console.log(result[0], "query result");
+  return result[0];
+});
 
 export { pool };

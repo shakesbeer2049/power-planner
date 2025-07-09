@@ -1,18 +1,19 @@
-import express, { NextFunction } from "express";
+import express from "express";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import cors from "cors";
 import compression from "compression";
 import http from "http";
-import taskRouter from "./routes/taskRoutes";
-import userRouter from "./routes/userRoutes";
-import AppError from "./utils/appError";
-import globalErrorHandler from "./controllers/globalErrorHandler";
-import * as authController from "./controllers/authController";
-import { isConnectedToDB } from "./db/database";
-const morgan = require("morgan");
+import taskRouter from "./routes/taskRoutes.js";
+import userRouter from "./routes/userRoutes.js";
+import AppError from "./utils/appError.js";
+import globalErrorHandler from "./controllers/globalErrorHandler.js";
+import * as authController from "./controllers/authController.js";
+import { isConnectedToDB } from "./db/database.js";
+import morgan from "morgan";
 
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
@@ -31,7 +32,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 //? ROUTES
-app.get("/api/v1/home", authController.protect, (req: any, res) => {
+app.get("/api/v1/home", authController.protect, (req, res) => {
   res.status(200).json({
     status: "success",
     data: req.user,
@@ -41,7 +42,7 @@ app.use("/api/v1/tasks", authController.protect, taskRouter);
 app.use("/api/v1/users", userRouter);
 
 // Unhandled routes
-app.all("*", (req: express.Request, res: express.Response, next: any) => {
+app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 

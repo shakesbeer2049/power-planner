@@ -1,15 +1,3 @@
-interface GameUser {
-  totalXp: number;
-  nextXp: number;
-  lastXp: number;
-  ranked: string;
-  xp: number;
-  lvl: number;
-  hp: number;
-  kp: number;
-  wp: number;
-}
-
 class Gamify {
   xp = 0;
   // total xp is the xp of the user since the beginning
@@ -45,7 +33,7 @@ class Gamify {
     "Super Saiyan",
   ];
 
-  constructor(user: GameUser) {
+  constructor(user) {
     this.xp = user.xp;
     this.totalXp = user.totalXp;
     this.lvl = user.lvl;

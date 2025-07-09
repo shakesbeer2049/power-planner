@@ -1,7 +1,6 @@
-import express, { NextFunction } from "express";
-import AppError from "../utils/appError";
+import AppError from "../utils/appError.js";
 
-const sendDevError = (err: any, res: express.Response) => {
+const sendDevError = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
     error: err,
@@ -10,8 +9,7 @@ const sendDevError = (err: any, res: express.Response) => {
   });
 };
 
-const sendProductionError = (err: any, res: express.Response) => {
- 
+const sendProductionError = (err, res) => {
   if (err.isOperational) {
     res.status(err.statusCode).json({
       status: err.status,
@@ -22,23 +20,17 @@ const sendProductionError = (err: any, res: express.Response) => {
   }
 };
 
-const handleJWTError = (error:any) => {
-  return new AppError("Invalid Token, Please login again", 401)
-}
+const handleJWTError = (error) => {
+  return new AppError("Invalid Token, Please login again", 401);
+};
 
-const globalErrorHandler = (
-  err: any,
-  req: express.Request,
-  res: express.Response,
-  next: NextFunction
-) => {
+const globalErrorHandler = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
   if (process.env.NODE_ENV === "production") {
+    let error = { ...err };
 
-    let error = {...err};
-
-    if(error.name === "JsonWebTokenError"){
+    if (error.name === "JsonWebTokenError") {
       error = handleJWTError(error);
     }
     sendProductionError(error, res);
